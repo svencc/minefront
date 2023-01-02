@@ -42,6 +42,8 @@ public class GameEngine extends Canvas implements Runnable {
     private final TickerService tickerService;
     @NonNull
     private final RenderPipeline renderPipeline;
+    @NonNull
+    private StopWatch stopWatch;
     @Nullable
     private BufferedImage bufferedImage;
     private int[] bufferedImagePixelRaster;
@@ -49,13 +51,11 @@ public class GameEngine extends Canvas implements Runnable {
     private Thread gameLoopThread;
     @Nullable
     private SetJFrameTitleStrategy setJFrameTitleStrategy;
-    @Nullable
-    private StopWatch stopWatch;
     private boolean running = false;
 
 
-    @Setter
-    private AbstractGame game;
+    @NonNull
+    private  final AbstractGame game;
 
 
     @PostConstruct
@@ -95,7 +95,6 @@ public class GameEngine extends Canvas implements Runnable {
     @Override
     public void run() {
         requestFocus();
-        stopWatch = new StopWatch();
         final Profiler loopProfiler = profilerProvider.provide("Loop");
         final FPSCounter fpsCounter = fpsCounterProvider.provide();
         final TPSCounter tpsCounter = tpsCounterProvider.provide();
