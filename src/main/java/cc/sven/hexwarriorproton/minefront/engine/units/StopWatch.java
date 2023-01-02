@@ -2,7 +2,7 @@ package cc.sven.hexwarriorproton.minefront.engine.units;
 
 import lombok.Getter;
 
-public class TimeTick {
+public class StopWatch {
 
     @Getter
     private int time;

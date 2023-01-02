@@ -1,12 +1,12 @@
-package cc.sven.hexwarriorproton.minefront.engine.graphics;
+package cc.sven.hexwarriorproton.minefront.engine.graphics.xthreeD;
 
-import cc.sven.hexwarriorproton.minefront.engine.units.TimeTick;
+import cc.sven.hexwarriorproton.minefront.engine.units.StopWatch;
 import cc.sven.hexwarriorproton.minefront.property.ResolutionProperties;
 import lombok.NonNull;
 
-public class Renderer3D extends Renderer {
+public class Renderer3D extends Renderer3DBase {
 
-    private Renderer test;
+    private Renderer3DBase test;
 
     public Renderer3D(@NonNull ResolutionProperties resolution) {
         super(resolution);
@@ -18,7 +18,7 @@ public class Renderer3D extends Renderer {
      *
      * @param tick
      */
-    public void renderFloor(TimeTick tick) {
+    public void renderFloor(StopWatch tick) {
 
         double floorPosition = 8;
         double ceilingPosition = 8;

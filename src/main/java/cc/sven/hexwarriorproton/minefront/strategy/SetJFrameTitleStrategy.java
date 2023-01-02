@@ -4,14 +4,14 @@ import lombok.Builder;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
-import javax.swing.*;
+import java.awt.*;
 
 @Builder
 @RequiredArgsConstructor
 public class SetJFrameTitleStrategy {
 
     @NonNull
-    private final JFrame frame;
+    private final Frame frame;
 
     public void execute(@NonNull String newTitle) {
         frame.setTitle(newTitle);

@@ -1,11 +1,14 @@
 package cc.sven.hexwarriorproton.minefront.engine;
 
-import cc.sven.hexwarriorproton.minefront.engine.graphics.ScreenRasterizer;
-import cc.sven.hexwarriorproton.minefront.engine.units.TimeTick;
+import cc.sven.hexwarriorproton.minefront.engine.graphics.Screen;
+import cc.sven.hexwarriorproton.minefront.engine.ticker.Ticker;
+import cc.sven.hexwarriorproton.minefront.engine.units.StopWatch;
 import cc.sven.hexwarriorproton.minefront.property.MetaProperties;
 import cc.sven.hexwarriorproton.minefront.property.ResolutionProperties;
 import cc.sven.hexwarriorproton.minefront.service.profiler.*;
+import cc.sven.hexwarriorproton.minefront.service.tick.TickCalculator;
 import cc.sven.hexwarriorproton.minefront.strategy.SetJFrameTitleStrategy;
+import jakarta.annotation.PostConstruct;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.Nullable;
@@ -18,12 +21,10 @@ import java.awt.image.DataBufferInt;
 
 @Component
 @RequiredArgsConstructor
-public class Game extends Canvas implements Runnable {
+public class GameEngine extends Canvas implements Runnable {
 
     @NonNull
     public static String GAMELOOP_THREAD_NAME = "GLoop";
-
-
     @NonNull
     private final ResolutionProperties resolutionProperties;
     @NonNull
@@ -35,11 +36,11 @@ public class Game extends Canvas implements Runnable {
     @NonNull
     private final TPSCounterProvider tpsCounterProvider;
     @NonNull
+    private final TickCalculator tickCalculator;
+    @NonNull
     private final Ticker ticker;
     @NonNull
-    private final ScreenRasterizer screenRasterizer;
-
-
+    private final Screen screen;
     @Nullable
     private BufferedImage bufferedImage;
     private int[] bufferedImagePixelRaster;
@@ -48,9 +49,20 @@ public class Game extends Canvas implements Runnable {
     @Nullable
     private SetJFrameTitleStrategy setJFrameTitleStrategy;
     @Nullable
-    private TimeTick timeTick;
+    private StopWatch stopWatch;
     private boolean running = false;
 
+    @PostConstruct
+    public void init() {
+        final Dimension canvasSize = new Dimension(
+                resolutionProperties.getScaledWidth(),
+                resolutionProperties.getScaledHeight()
+        );
+        setSize(canvasSize);
+        setPreferredSize(canvasSize);
+        setMinimumSize(canvasSize);
+        setIgnoreRepaint(true);
+    }
 
     public synchronized void start(@NonNull SetJFrameTitleStrategy setJFrameTitleStrategy) {
         this.setJFrameTitleStrategy = setJFrameTitleStrategy;
@@ -69,14 +81,15 @@ public class Game extends Canvas implements Runnable {
             gameLoopThread.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
-            System.exit(0);
+            System.exit(1);
         }
+        System.exit(0);
     }
 
     @Override
     public void run() {
         requestFocus();
-        timeTick = new TimeTick();
+        stopWatch = new StopWatch();
         final Profiler loopProfiler = profilerProvider.provide("Loop");
         final FPSCounter fpsCounter = fpsCounterProvider.provide();
         final TPSCounter tpsCounter = tpsCounterProvider.provide();
@@ -85,15 +98,15 @@ public class Game extends Canvas implements Runnable {
 
         while (running) {
             loopProfiler.startNextMeasurement();
-            tickThresholdRatio += loopProfiler.getProfiledNanos() / TPSTimer.getMinNanosBeforeNewTick();
+            tickThresholdRatio += tickCalculator.calculateTickThresholdRatio(loopProfiler.getProfiledNanos());
 
             while (tickThresholdRatio >= 1.0) {
-                ticker.tick(timeTick);
+                ticker.tick(stopWatch);
                 tpsCounter.countTick();
                 tickThresholdRatio--;
             }
 
-            this.renderRasterToCanvas(timeTick);
+            this.renderRasterToCanvas(stopWatch);
             fpsCounter.countFrame();
 
             loopProfiler.measure();
@@ -104,25 +117,25 @@ public class Game extends Canvas implements Runnable {
         }
     }
 
-    private void renderRasterToCanvas(@NonNull TimeTick timeTick) {
+    private void renderRasterToCanvas(@NonNull StopWatch stopWatch) {
         final BufferStrategy bufferStrategy = this.getBufferStrategy();
         if (bufferStrategy == null) {
             createBufferStrategy(3);
             return;
         }
 
-        screenRasterizer.rasterize(timeTick);
+        screen.rasterize(stopWatch);
         copyBufferFromRendererToCanvas();
 
         final Graphics graphicsContext = bufferStrategy.getDrawGraphics();
-        graphicsContext.drawImage(bufferedImage, 0, 0, resolutionProperties.getWidth(), resolutionProperties.getHeight(), null);
+        graphicsContext.drawImage(bufferedImage, 0, 0, resolutionProperties.getScaledWidth(), resolutionProperties.getScaledWidth(), null);
         graphicsContext.dispose();
         bufferStrategy.show();
     }
 
     private void copyBufferFromRendererToCanvas() {
         for (int i = 0; i < resolutionProperties.getWidth() * resolutionProperties.getHeight(); i++) {
-            bufferedImagePixelRaster[i] = screenRasterizer.getPixelAtIndex(i);
+            bufferedImagePixelRaster[i] = screen.getPixelAtIndex(i);
         }
     }
 

@@ -13,7 +13,24 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties("resolution")
 public class ResolutionProperties {
 
-    private int height;
     private int width;
+    private int height;
+    private int scale;
+
+    public int getWidth() {
+        return width / scale;
+    }
+
+    public int getScaledWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height / scale;
+    }
+
+    public int getScaledHeight() {
+        return height;
+    }
 
 }
