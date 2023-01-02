@@ -1,16 +1,17 @@
 package cc.sven.hexwarriorproton.minefront.engine.graphics.drawable;
 
-import cc.sven.hexwarriorproton.minefront.engine.graphics.drawable.BaseDrawable;
 import cc.sven.hexwarriorproton.minefront.engine.units.PixelDimension;
+import lombok.NonNull;
 
 import java.util.Random;
 
-public class NoiseDrawable extends BaseDrawable {
+public class DrawableNoise extends BaseDrawable {
 
-    private final Random random = new Random();
+    private final Random random;
 
-    public NoiseDrawable(int width, int height) {
-        super(width, height);
+    public DrawableNoise(@NonNull PixelDimension dimension) {
+        super(dimension);
+        random = new Random();
         initialize();
     }
 
@@ -19,11 +20,6 @@ public class NoiseDrawable extends BaseDrawable {
         for (int i = 0; i < dimension.getWidth() * dimension.getHeight(); i++) {
             pixelRaster[i] = random.nextInt() * (random.nextInt(5) / 4);
         }
-    }
-
-    public NoiseDrawable(PixelDimension dimension) {
-        super(dimension);
-        initialize();
     }
 
     public int getPixelAt(int x, int y, int width) {

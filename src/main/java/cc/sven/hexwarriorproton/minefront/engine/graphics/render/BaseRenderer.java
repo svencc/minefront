@@ -1,26 +1,22 @@
 package cc.sven.hexwarriorproton.minefront.engine.graphics.render;
 
 import cc.sven.hexwarriorproton.minefront.engine.graphics.drawable.BaseDrawable;
-import cc.sven.hexwarriorproton.minefront.engine.graphics.drawable.Drawable;
 import cc.sven.hexwarriorproton.minefront.property.ResolutionProperties;
+import lombok.Getter;
 import lombok.NonNull;
 
-public class BaseRenderer implements Drawable, Renderable {
+public abstract class BaseRenderer implements Renderable {
 
+    @Getter
     @NonNull
-    protected final ResolutionProperties resolution;
-    public int[] pixelRaster;
+    private final ResolutionProperties resolution;
 
     public BaseRenderer(@NonNull ResolutionProperties resolution) {
         this.resolution = resolution;
-        initialize();
     }
 
-    public void initialize() {
-        pixelRaster = new int[resolution.getWidth() * resolution.getHeight()];
-    }
-
-    public void draw(@NonNull BaseDrawable drawable, int xOffset, int yOffset) {
+    @Override
+    public void draw(@NonNull BaseDrawable drawable, @NonNull Renderable renderTo, int xOffset, int yOffset) {
         for (int y = 0; y < drawable.getDimension().getHeight(); y++) {
             int yPixel = y + yOffset;
             if (yPixel < 0 || yPixel >= resolution.getHeight()) continue;
@@ -32,6 +28,7 @@ public class BaseRenderer implements Drawable, Renderable {
                 int colorValue = drawable.getPixelAt(x, y, drawable.getDimension().getWidth());
                 if (colorValue > 0) {
                     setPixelAt(
+                            renderTo,
                             xPixel, yPixel, resolution.getWidth(),
                             drawable.getPixelAt(x, y, drawable.getDimension().getWidth())
                     );
@@ -40,16 +37,8 @@ public class BaseRenderer implements Drawable, Renderable {
         }
     }
 
-    private void setPixelAt(int x, int y, int width, int newPixelValue) {
-        this.pixelRaster[x + y * width] = newPixelValue;
-    }
-
-    public int getPixelAt(int x, int y, int width) {
-        return pixelRaster[x + y * width];
-    }
-
-    public int getPixelAtIndex(int nr) {
-        return pixelRaster[nr];
+    public void setPixelAt(@NonNull Renderable renderTo, int x, int y, int width, int newPixelValue) {
+        renderTo.setPixelAt(renderTo, x, y, width, newPixelValue);
     }
 
 }

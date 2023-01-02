@@ -1,16 +1,17 @@
 package cc.sven.hexwarriorproton.minefront.engine;
 
-import cc.sven.hexwarriorproton.minefront.engine.graphics.Screen;
-import cc.sven.hexwarriorproton.minefront.engine.ticker.Ticker;
+import cc.sven.hexwarriorproton.minefront.engine.graphics.RenderPipeline;
 import cc.sven.hexwarriorproton.minefront.engine.units.StopWatch;
 import cc.sven.hexwarriorproton.minefront.property.MetaProperties;
 import cc.sven.hexwarriorproton.minefront.property.ResolutionProperties;
 import cc.sven.hexwarriorproton.minefront.service.profiler.*;
 import cc.sven.hexwarriorproton.minefront.service.tick.TickCalculator;
+import cc.sven.hexwarriorproton.minefront.service.tick.TickerService;
 import cc.sven.hexwarriorproton.minefront.strategy.SetJFrameTitleStrategy;
 import jakarta.annotation.PostConstruct;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
@@ -38,9 +39,9 @@ public class GameEngine extends Canvas implements Runnable {
     @NonNull
     private final TickCalculator tickCalculator;
     @NonNull
-    private final Ticker ticker;
+    private final TickerService tickerService;
     @NonNull
-    private final Screen screen;
+    private final RenderPipeline renderPipeline;
     @Nullable
     private BufferedImage bufferedImage;
     private int[] bufferedImagePixelRaster;
@@ -51,6 +52,11 @@ public class GameEngine extends Canvas implements Runnable {
     @Nullable
     private StopWatch stopWatch;
     private boolean running = false;
+
+
+    @Setter
+    private AbstractGame game;
+
 
     @PostConstruct
     public void init() {
@@ -101,7 +107,7 @@ public class GameEngine extends Canvas implements Runnable {
             tickThresholdRatio += tickCalculator.calculateTickThresholdRatio(loopProfiler.getProfiledNanos());
 
             while (tickThresholdRatio >= 1.0) {
-                ticker.tick(stopWatch);
+                tickerService.tick(stopWatch);
                 tpsCounter.countTick();
                 tickThresholdRatio--;
             }
@@ -124,7 +130,7 @@ public class GameEngine extends Canvas implements Runnable {
             return;
         }
 
-        screen.rasterize(stopWatch);
+        renderPipeline.rasterize(stopWatch);
         copyBufferFromRendererToCanvas();
 
         final Graphics graphicsContext = bufferStrategy.getDrawGraphics();
@@ -135,7 +141,7 @@ public class GameEngine extends Canvas implements Runnable {
 
     private void copyBufferFromRendererToCanvas() {
         for (int i = 0; i < resolutionProperties.getWidth() * resolutionProperties.getHeight(); i++) {
-            bufferedImagePixelRaster[i] = screen.getPixelAtIndex(i);
+            bufferedImagePixelRaster[i] = renderPipeline.getPixelAtIndex(i);
         }
     }
 

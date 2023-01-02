@@ -23,10 +23,10 @@ import java.awt.event.WindowEvent;
         TickProperties.class
 })
 @SpringBootApplication
-public class MinefrontApplication {
+public class Application {
 
     public static void main(String[] args) {
-        final ConfigurableApplicationContext ctx = new SpringApplicationBuilder(MinefrontApplication.class)
+        final ConfigurableApplicationContext ctx = new SpringApplicationBuilder(Application.class)
                 .headless(false)
                 .run(args);
         ctx.start();

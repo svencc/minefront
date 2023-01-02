@@ -5,6 +5,8 @@ import lombok.NonNull;
 
 public interface Renderable {
 
-    void draw(@NonNull BaseDrawable drawable, int xOffset, int yOffset);
+    void draw(@NonNull BaseDrawable drawable, @NonNull Renderable renderTo, int xOffset, int yOffset);
+
+    void setPixelAt(@NonNull Renderable renderTo, int x, int y, int width, int newPixelValue);
 
 }

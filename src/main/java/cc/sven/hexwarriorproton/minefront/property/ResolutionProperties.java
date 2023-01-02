@@ -1,5 +1,6 @@
 package cc.sven.hexwarriorproton.minefront.property;
 
+import cc.sven.hexwarriorproton.minefront.engine.units.PixelDimension;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,6 +32,13 @@ public class ResolutionProperties {
 
     public int getScaledHeight() {
         return height;
+    }
+
+    public PixelDimension toDimension() {
+        return PixelDimension.builder()
+                .width(height)
+                .height(height)
+                .build();
     }
 
 }
