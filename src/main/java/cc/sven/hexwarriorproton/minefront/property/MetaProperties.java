@@ -10,7 +10,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ConfigurationProperties(prefix = "message")
+@ConfigurationProperties(prefix = "meta")
 public class MetaProperties {
 
     private String name;

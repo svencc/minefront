@@ -1,9 +1,10 @@
 package cc.sven.hexwarriorproton.minefront.engine;
 
-import cc.sven.hexwarriorproton.minefront.engine.graphics.ScreenRaster;
+import cc.sven.hexwarriorproton.minefront.engine.graphics.ScreenRasterizer;
+import cc.sven.hexwarriorproton.minefront.engine.units.TimeTick;
+import cc.sven.hexwarriorproton.minefront.property.MetaProperties;
 import cc.sven.hexwarriorproton.minefront.property.ResolutionProperties;
-import cc.sven.hexwarriorproton.minefront.service.profiler.Profiler;
-import cc.sven.hexwarriorproton.minefront.service.profiler.ProfilerProvider;
+import cc.sven.hexwarriorproton.minefront.service.profiler.*;
 import cc.sven.hexwarriorproton.minefront.strategy.SetJFrameTitleStrategy;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -26,11 +27,17 @@ public class Game extends Canvas implements Runnable {
     @NonNull
     private final ResolutionProperties resolutionProperties;
     @NonNull
+    private final MetaProperties metaProperties;
+    @NonNull
     private final ProfilerProvider profilerProvider;
+    @NonNull
+    private final FPSCounterProvider fpsCounterProvider;
+    @NonNull
+    private final TPSCounterProvider tpsCounterProvider;
     @NonNull
     private final Ticker ticker;
     @NonNull
-    private final ScreenRaster screenRaster;
+    private final ScreenRasterizer screenRasterizer;
 
 
     @Nullable
@@ -40,6 +47,8 @@ public class Game extends Canvas implements Runnable {
     private Thread gameLoopThread;
     @Nullable
     private SetJFrameTitleStrategy setJFrameTitleStrategy;
+    @Nullable
+    private TimeTick timeTick;
     private boolean running = false;
 
 
@@ -67,28 +76,42 @@ public class Game extends Canvas implements Runnable {
     @Override
     public void run() {
         requestFocus();
-        final Profiler profiler = profilerProvider.provide("Loop");
+        timeTick = new TimeTick();
+        final Profiler loopProfiler = profilerProvider.provide("Loop");
+        final FPSCounter fpsCounter = fpsCounterProvider.provide();
+        final TPSCounter tpsCounter = tpsCounterProvider.provide();
+        fpsCounter.startProfiling();
+        double tickThresholdRatio = 0;
+
         while (running) {
-            profiler.startNextMeasurement();
+            loopProfiler.startNextMeasurement();
+            tickThresholdRatio += loopProfiler.getProfiledNanos() / TPSTimer.getMinNanosBeforeNewTick();
 
-            ticker.tick();
-            this.RenderRasterToCanvas();
+            while (tickThresholdRatio >= 1.0) {
+                ticker.tick(timeTick);
+                tpsCounter.countTick();
+                tickThresholdRatio--;
+            }
 
-            profiler.measure();
+            this.renderRasterToCanvas(timeTick);
+            fpsCounter.countFrame();
 
-//            setJFrameTitleStrategy.execute(metaProperties.getName() + " " + profiler.stringifyResult());
+            loopProfiler.measure();
+
+            if (fpsCounter.oneSecondPassed()) {
+                setJFrameTitleStrategy.execute(metaProperties.getName() + " | " + tpsCounter.profileTicksPerSecond() + " | " + fpsCounter.profileFramesPerSecond() + " | " + loopProfiler.stringifyResult());
+            }
         }
     }
 
-    private void RenderRasterToCanvas() {
+    private void renderRasterToCanvas(@NonNull TimeTick timeTick) {
         final BufferStrategy bufferStrategy = this.getBufferStrategy();
         if (bufferStrategy == null) {
             createBufferStrategy(3);
             return;
         }
 
-//        ScreenRaster.clear();
-        screenRaster.rasterize();
+        screenRasterizer.rasterize(timeTick);
         copyBufferFromRendererToCanvas();
 
         final Graphics graphicsContext = bufferStrategy.getDrawGraphics();
@@ -99,7 +122,7 @@ public class Game extends Canvas implements Runnable {
 
     private void copyBufferFromRendererToCanvas() {
         for (int i = 0; i < resolutionProperties.getWidth() * resolutionProperties.getHeight(); i++) {
-            bufferedImagePixelRaster[i] = screenRaster.getPixel(i);
+            bufferedImagePixelRaster[i] = screenRasterizer.getPixelAtIndex(i);
         }
     }
 

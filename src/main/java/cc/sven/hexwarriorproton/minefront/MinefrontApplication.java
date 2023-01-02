@@ -9,10 +9,12 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 
 import javax.swing.*;
+import java.lang.reflect.Field;
+import java.util.Map;
 
 @EnableConfigurationProperties({
         MetaProperties.class,
@@ -21,10 +23,39 @@ import javax.swing.*;
 @SpringBootApplication
 public class MinefrontApplication {
 
+    JFrame applicationFrame;
+
     public static void main(String[] args) {
-        ApplicationContext ctx = new SpringApplicationBuilder(MinefrontApplication.class)
+        final ConfigurableApplicationContext ctx = new SpringApplicationBuilder(MinefrontApplication.class)
                 .headless(false)
                 .run(args);
+        ctx.start();
+    }
+
+    public static void setEnv(String key, String value) {
+        try {
+            Map<String, String> env = System.getenv();
+            Class<?> cl = env.getClass();
+            Field field = cl.getDeclaredField("m");
+            field.setAccessible(true);
+            Map<String, String> writableEnv = (Map<String, String>) field.get(env);
+            writableEnv.put(key, value);
+        } catch (Exception e) {
+            throw new IllegalStateException("Failed to set environment variable", e);
+        }
+    }
+
+    public static void getEnv(String key, String value) {
+        try {
+            Map<String, String> env = System.getenv();
+            Class<?> cl = env.getClass();
+            Field field = cl.getDeclaredField("m");
+            field.setAccessible(true);
+            Map<String, String> writableEnv = (Map<String, String>) field.get(env);
+            writableEnv.put(key, value);
+        } catch (Exception e) {
+            throw new IllegalStateException("Failed to set environment variable", e);
+        }
     }
 
     @Bean
@@ -34,7 +65,13 @@ public class MinefrontApplication {
             @NonNull ResolutionProperties resolutionProperties
     ) {
         return args -> {
+//            boolean GAMERUN = Boolean.valueOf(System.getProperty("GAMERUN", "false"));
+//            if (!GAMERUN) {
+//                System.setProperty("GAMERUN", "true");
+//            }
+
             final JFrame frame = new JFrame();
+            applicationFrame = frame;
             frame.setTitle(metaProperties.getName());
             frame.add(game);
             frame.pack();

@@ -1,5 +1,6 @@
 package cc.sven.hexwarriorproton.minefront.service.profiler;
 
+import cc.sven.hexwarriorproton.minefront.engine.units.TimeUnits;
 import lombok.Getter;
 import lombok.NonNull;
 
@@ -23,7 +24,7 @@ public class Profiler {
 
     public void measure() {
         profiledNanos = System.nanoTime() - nanotimeStart;
-        profiledMilliseconds = profiledNanos / TimeUnit.SECOND_IN_NANOS;
+        profiledMilliseconds = profiledNanos / TimeUnits.SECOND_IN_NANOS;
     }
 
     public void printResult() {
