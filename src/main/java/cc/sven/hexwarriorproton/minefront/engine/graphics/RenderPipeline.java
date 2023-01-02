@@ -12,29 +12,30 @@ import lombok.Getter;
 import lombok.NonNull;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.LinkedList;
 
 @Component
 public class RenderPipeline extends BaseRenderer implements Renderable, Rasterizable, Drawable {
 
+    @Getter
     @NonNull
-    private final List<LayerableRenderer> layer;
+    private final LinkedList<LayerableRenderer> pipelineLayer;
     @Getter
     protected int[] pixelRaster;
 
     public RenderPipeline(@NonNull ResolutionProperties resolution, @NonNull ResolutionProperties resolutionProperties) {
         super(resolution);
-        this.layer = new ArrayList<>();
+//        this.layer = new ArrayList<>();
+        this.pipelineLayer = new LinkedList<>();
         pixelRaster = new int[getResolution().getWidth() * getResolution().getHeight()];
-        layer.add(new NoiseLayer(resolutionProperties, new DefaultRenderer(resolutionProperties)));
+        pipelineLayer.add(new NoiseLayer(resolutionProperties, new DefaultRenderer(resolutionProperties)));
     }
 
     @Override
     public void rasterize(@NonNull StopWatch stopWatch) {
         clearScreen();
-        layer.forEach(layer -> layer.render(this, 0, 0));
+        pipelineLayer.forEach(layer -> layer.render(this, 0, 0));
     }
 
     private void clearScreen() {

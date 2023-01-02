@@ -1,18 +1,28 @@
 package cc.sven.hexwarriorproton.minefront.game;
 
 import cc.sven.hexwarriorproton.minefront.engine.AbstractGame;
+import cc.sven.hexwarriorproton.minefront.engine.graphics.RenderPipeline;
 import cc.sven.hexwarriorproton.minefront.game.hexgrid.HexMap;
 import cc.sven.hexwarriorproton.minefront.game.hexgrid.HexMapFactory;
 import cc.sven.hexwarriorproton.minefront.game.hexgrid.HexMapProperties;
 import cc.sven.hexwarriorproton.minefront.game.hexgrid.enums.MapShape;
+import cc.sven.hexwarriorproton.minefront.game.renderer.MapLayer;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
 @Profile("hexgame")
+@RequiredArgsConstructor
 public class HexGame extends AbstractGame {
 
+    @NonNull
+    private final RenderPipeline renderPipeline;
+
     public void init() {
+        renderPipeline.getPipelineLayer().clear();
+        renderPipeline.getPipelineLayer().add(new MapLayer());
     }
 
     public void startGame() {

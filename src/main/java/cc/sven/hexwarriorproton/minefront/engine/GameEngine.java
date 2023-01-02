@@ -78,6 +78,7 @@ public class GameEngine extends Canvas implements Runnable {
 
         running = true;
         gameLoopThread = new Thread(this, GAMELOOP_THREAD_NAME);
+        game.run();
         gameLoopThread.start();
     }
 

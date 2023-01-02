@@ -2,7 +2,7 @@ package cc.sven.hexwarriorproton.minefront.engine;
 
 public abstract class AbstractGame {
 
-    void run() {
+    public void run() {
         init();
         startGame();
     }
