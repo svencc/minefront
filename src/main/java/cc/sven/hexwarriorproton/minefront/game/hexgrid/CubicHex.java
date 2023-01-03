@@ -1,6 +1,6 @@
 package cc.sven.hexwarriorproton.minefront.game.hexgrid;
 
-import cc.sven.hexwarriorproton.minefront.engine.graphics.drawable.Drawable;
+import cc.sven.hexwarriorproton.minefront.engine.graphics.Scannable;
 import cc.sven.hexwarriorproton.minefront.engine.units.PixelDimension;
 import lombok.Builder;
 import lombok.Data;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class CubicHex implements Drawable {
+public class CubicHex implements Scannable {
 
     private final long layoutNumeration;
     private final long q;
@@ -111,19 +111,19 @@ public class CubicHex implements Drawable {
     }
 
     @Override
-    public int getPixelAt(int x, int y, int width) {
+    public int scanPixelAt(int x, int y) {
         return 0;
     }
 
     @Override
-    public int getPixelAtIndex(int nr) {
+    public int scanPixelAtIndex(int index) {
         return 0;
     }
 
-
-
-
-
+    @Override
+    public int[] accessPixelBuffer() {
+        return new int[0];
+    }
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

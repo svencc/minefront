@@ -1,29 +1,27 @@
 package cc.sven.hexwarriorproton.minefront.engine.graphics.layer;
 
-import cc.sven.hexwarriorproton.minefront.engine.graphics.drawable.DrawableNoise;
-import cc.sven.hexwarriorproton.minefront.engine.graphics.render.DefaultRenderer;
-import cc.sven.hexwarriorproton.minefront.engine.graphics.render.Renderable;
-import cc.sven.hexwarriorproton.minefront.property.ResolutionProperties;
+import cc.sven.hexwarriorproton.minefront.engine.graphics.Bufferable;
+import cc.sven.hexwarriorproton.minefront.engine.graphics.renderer.DefaultRenderer;
+import cc.sven.hexwarriorproton.minefront.engine.graphics.scannable.ScannableNoise;
+import cc.sven.hexwarriorproton.minefront.engine.units.PixelDimension;
 import lombok.NonNull;
 
-public class NoiseLayer extends LayerRendererBase {
+public class NoiseLayer extends RenderableLayerBase {
 
-    @NonNull
-    private final ResolutionProperties resolutionProperties;
     @NonNull
     private final DefaultRenderer defaultRenderer;
     @NonNull
-    private final DrawableNoise drawableNoise;
+    private final ScannableNoise scannableNoise;
 
-    public NoiseLayer(@NonNull ResolutionProperties resolutionProperties, @NonNull DefaultRenderer defaultRenderer) {
-        this.resolutionProperties = resolutionProperties;
+    public NoiseLayer(@NonNull PixelDimension dimension, @NonNull DefaultRenderer defaultRenderer) {
+        super(dimension);
         this.defaultRenderer = defaultRenderer;
-        this.drawableNoise = new DrawableNoise(resolutionProperties.toDimension());
+        this.scannableNoise = new ScannableNoise(dimension);
     }
 
     @Override
-    public void render(@NonNull Renderable renderTo, int xOffset, int yOffset) {
-        defaultRenderer.draw(drawableNoise, renderTo, xOffset, yOffset);
+    public void renderLayer(@NonNull Bufferable renderTo, int xOffset, int yOffset) {
+        defaultRenderer.render(scannableNoise, renderTo, xOffset, yOffset);
     }
 
 }

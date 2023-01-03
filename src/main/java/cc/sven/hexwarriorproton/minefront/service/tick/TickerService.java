@@ -1,6 +1,7 @@
 package cc.sven.hexwarriorproton.minefront.service.tick;
 
 import cc.sven.hexwarriorproton.minefront.engine.units.StopWatch;
+import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -9,7 +10,11 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class TickerService {
 
-    public void tick(@NonNull StopWatch stopWatch) {
+    @Getter
+    @NonNull
+    private final StopWatch stopWatch;
+
+    public void tick() {
         stopWatch.tick();
     }
 

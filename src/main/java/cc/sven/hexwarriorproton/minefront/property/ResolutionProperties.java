@@ -35,11 +35,11 @@ public class ResolutionProperties {
         return height;
     }
 
-    public PixelDimension toDimension() {
+    public PixelDimension toRenderDimension() {
         if (singleton == null) {
             singleton = PixelDimension.builder()
-                    .width(width)
-                    .height(height)
+                    .widthX(getWidth())
+                    .heightY(getWidth())
                     .build();
         }
 

@@ -7,7 +7,7 @@ import lombok.Getter;
 @Builder
 public class PixelDimension {
 
-    private int width;
-    private int height;
+    private int widthX;
+    private int heightY;
 
 }

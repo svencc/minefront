@@ -1,7 +1,6 @@
 package cc.sven.hexwarriorproton.minefront.engine;
 
-import cc.sven.hexwarriorproton.minefront.engine.graphics.ScreenRenderer;
-import cc.sven.hexwarriorproton.minefront.engine.units.StopWatch;
+import cc.sven.hexwarriorproton.minefront.engine.graphics.ScreenRasterizer;
 import cc.sven.hexwarriorproton.minefront.property.MetaProperties;
 import cc.sven.hexwarriorproton.minefront.property.ResolutionProperties;
 import cc.sven.hexwarriorproton.minefront.service.profiler.*;
@@ -40,15 +39,12 @@ public class GameEngine extends Canvas implements Runnable {
     @NonNull
     private final TickerService tickerService;
     @NonNull
-    private final ScreenRenderer screenRenderer;
+    private final ScreenRasterizer screenRasterizer;
     @NonNull
     private final AbstractGame game;
-    @NonNull
-    private StopWatch stopWatch;
     @Nullable
     private BufferedImage bufferedImage;
     private int[] bufferedImagePixelRaster;
-    private int[] blurRaster;
     @Nullable
     private Thread gameLoopThread;
     @Nullable
@@ -72,7 +68,6 @@ public class GameEngine extends Canvas implements Runnable {
 
         this.bufferedImage = new BufferedImage(resolutionProperties.getWidth(), resolutionProperties.getHeight(), BufferedImage.TYPE_INT_RGB);
         this.bufferedImagePixelRaster = ((DataBufferInt) bufferedImage.getRaster().getDataBuffer()).getData();
-        this.blurRaster = new int[bufferedImagePixelRaster.length];
 
         running = true;
         gameLoopThread = new Thread(this, GAMELOOP_THREAD_NAME);
@@ -105,12 +100,12 @@ public class GameEngine extends Canvas implements Runnable {
             tickThresholdRatio += tickCalculator.calculateTickThresholdRatio(loopProfiler.getProfiledNanos());
 
             while (tickThresholdRatio >= 1.0) {
-                tickerService.tick(stopWatch);
+                tickerService.tick();
                 tpsCounter.countTick();
                 tickThresholdRatio--;
             }
 
-            this.renderRasterToCanvas(stopWatch);
+            this.renderRasterToCanvas();
             fpsCounter.countFrame();
 
             loopProfiler.measure();
@@ -121,25 +116,26 @@ public class GameEngine extends Canvas implements Runnable {
         }
     }
 
-    private void renderRasterToCanvas(@NonNull StopWatch stopWatch) {
+    private void renderRasterToCanvas() {
         final BufferStrategy bufferStrategy = this.getBufferStrategy();
         if (bufferStrategy == null) {
             createBufferStrategy(3);
             return;
         }
 
-        screenRenderer.rasterize(stopWatch);
+        screenRasterizer.rasterize();
         copyBufferFromRendererToCanvas();
 
         final Graphics graphicsContext = bufferStrategy.getDrawGraphics();
-        graphicsContext.drawImage(bufferedImage, 0, 0, resolutionProperties.getScaledWidth(), resolutionProperties.getScaledWidth(),null);
+        graphicsContext.drawImage(bufferedImage, 0, 0, resolutionProperties.getScaledWidth(), resolutionProperties.getScaledWidth(), null);
         graphicsContext.dispose();
         bufferStrategy.show();
     }
 
     private void copyBufferFromRendererToCanvas() {
         for (int i = 0; i < resolutionProperties.getWidth() * resolutionProperties.getHeight(); i++) {
-            bufferedImagePixelRaster[i] = screenRenderer.getPixelAtIndex(i);
+            bufferedImagePixelRaster[i] = screenRasterizer.scanPixelAtIndex(i);
+//            bufferedImagePixelRaster[i] = screenRasterizer.accessPixelBuffer()[i];
         }
     }
 
