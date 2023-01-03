@@ -23,7 +23,7 @@ public class NoiseLayer extends LayerRendererBase {
 
     @Override
     public void render(@NonNull Renderable renderTo, int xOffset, int yOffset) {
-        defaultRenderer.draw(drawableNoise, renderTo, 0, 0);
+        defaultRenderer.draw(drawableNoise, renderTo, xOffset, yOffset);
     }
 
 }

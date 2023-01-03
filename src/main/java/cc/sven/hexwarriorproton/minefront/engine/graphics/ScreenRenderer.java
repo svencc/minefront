@@ -25,8 +25,7 @@ public class ScreenRenderer implements Renderable, Rasterizable, Drawable {
     @Getter
     @NonNull
     private final LinkedList<LayerableRenderer> layerPipeline;
-    @Getter
-    protected int[] pixelRaster;
+    private int[] pixelRaster;
 
     public ScreenRenderer(@NonNull ResolutionProperties resolutionProperties) {
         resolution = resolutionProperties;
