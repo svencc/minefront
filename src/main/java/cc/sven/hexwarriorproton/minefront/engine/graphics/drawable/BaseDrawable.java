@@ -4,17 +4,12 @@ import cc.sven.hexwarriorproton.minefront.engine.units.PixelDimension;
 import lombok.Getter;
 import lombok.NonNull;
 
-public abstract class BaseDrawable {
+public abstract class BaseDrawable implements Drawable {
 
     @Getter
     @NonNull
-    protected final PixelDimension dimension;
+    private final PixelDimension dimension;
     protected int[] pixelRaster;
-
-    public BaseDrawable(int width, int height) {
-        this.dimension = PixelDimension.builder().width(width).height(height).build();
-        this.pixelRaster = new int[width * height];
-    }
 
     public BaseDrawable(PixelDimension dimension) {
         this.dimension = dimension;

@@ -17,6 +17,7 @@ public class ResolutionProperties {
     private int width;
     private int height;
     private int scale;
+    private PixelDimension singleton = null;
 
     public int getWidth() {
         return width / scale;
@@ -35,10 +36,14 @@ public class ResolutionProperties {
     }
 
     public PixelDimension toDimension() {
-        return PixelDimension.builder()
-                .width(height)
-                .height(height)
-                .build();
+        if (singleton == null) {
+            singleton = PixelDimension.builder()
+                    .width(width)
+                    .height(height)
+                    .build();
+        }
+
+        return singleton;
     }
 
 }

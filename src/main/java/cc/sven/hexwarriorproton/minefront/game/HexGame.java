@@ -1,7 +1,8 @@
 package cc.sven.hexwarriorproton.minefront.game;
 
 import cc.sven.hexwarriorproton.minefront.engine.AbstractGame;
-import cc.sven.hexwarriorproton.minefront.engine.graphics.RenderPipeline;
+import cc.sven.hexwarriorproton.minefront.engine.graphics.ScreenRenderer;
+import cc.sven.hexwarriorproton.minefront.game.hexgrid.HexCanvasFactory;
 import cc.sven.hexwarriorproton.minefront.game.hexgrid.HexMap;
 import cc.sven.hexwarriorproton.minefront.game.hexgrid.HexMapFactory;
 import cc.sven.hexwarriorproton.minefront.game.hexgrid.HexMapProperties;
@@ -12,17 +13,21 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+import java.awt.*;
+
 @Component
 @Profile("hexgame")
 @RequiredArgsConstructor
 public class HexGame extends AbstractGame {
 
     @NonNull
-    private final RenderPipeline renderPipeline;
+    private final ScreenRenderer screenRenderer;
+    @NonNull
+    private final MapLayer mapLayer;
 
     public void init() {
-        renderPipeline.getPipelineLayer().clear();
-        renderPipeline.getPipelineLayer().add(new MapLayer());
+        screenRenderer.getLayerPipeline().clear();
+        screenRenderer.getLayerPipeline().add(mapLayer);
     }
 
     public void startGame() {
@@ -37,8 +42,8 @@ public class HexGame extends AbstractGame {
         final HexMap map = hexMapFactory.layout(mapProperties);
 
         // CANVAS & HEX-RENDERING
-//        final HexCanvasFactory hexCanvasFactory = new HexCanvasFactory();
-//        final Canvas canvas = hexCanvasFactory.fabricate(map);
+        final HexCanvasFactory hexCanvasFactory = new HexCanvasFactory();
+        final Canvas canvas = hexCanvasFactory.create(map);
 
 
     }

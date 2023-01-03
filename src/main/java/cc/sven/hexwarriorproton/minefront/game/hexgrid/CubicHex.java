@@ -1,5 +1,7 @@
 package cc.sven.hexwarriorproton.minefront.game.hexgrid;
 
+import cc.sven.hexwarriorproton.minefront.engine.graphics.drawable.Drawable;
+import cc.sven.hexwarriorproton.minefront.engine.units.PixelDimension;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
@@ -8,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class CubicHex {
+public class CubicHex implements Drawable {
 
     private final long layoutNumeration;
     private final long q;
@@ -102,6 +104,27 @@ public class CubicHex {
                 .y((center.getY() + size * Math.sin(angleRadian)))
                 .build();
     }
+
+    @Override
+    public PixelDimension getDimension() {
+        return null;
+    }
+
+    @Override
+    public int getPixelAt(int x, int y, int width) {
+        return 0;
+    }
+
+    @Override
+    public int getPixelAtIndex(int nr) {
+        return 0;
+    }
+
+
+
+
+
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /*

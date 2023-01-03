@@ -1,6 +1,6 @@
 package cc.sven.hexwarriorproton.minefront.engine.graphics.render;
 
-import cc.sven.hexwarriorproton.minefront.engine.graphics.drawable.BaseDrawable;
+import cc.sven.hexwarriorproton.minefront.engine.graphics.drawable.Drawable;
 import cc.sven.hexwarriorproton.minefront.property.ResolutionProperties;
 import lombok.Getter;
 import lombok.NonNull;
@@ -15,8 +15,7 @@ public abstract class BaseRenderer implements Renderable {
         this.resolution = resolution;
     }
 
-    @Override
-    public void draw(@NonNull BaseDrawable drawable, @NonNull Renderable renderTo, int xOffset, int yOffset) {
+    public void draw(@NonNull Drawable drawable, @NonNull Renderable renderTo, int xOffset, int yOffset) {
         for (int y = 0; y < drawable.getDimension().getHeight(); y++) {
             int yPixel = y + yOffset;
             if (yPixel < 0 || yPixel >= resolution.getHeight()) continue;

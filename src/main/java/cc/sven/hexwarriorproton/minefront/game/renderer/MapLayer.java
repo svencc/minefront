@@ -8,6 +8,8 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 @RequiredArgsConstructor
 public class MapLayer extends LayerRendererBase {
@@ -17,14 +19,16 @@ public class MapLayer extends LayerRendererBase {
     @NonNull
     private final MapRenderer mapRenderer;
     @NonNull
-    private final HexMap hexMap;
+    private Optional<HexMap> hexMap = Optional.empty();
 
 
     @Override
     public void render(@NonNull Renderable renderTo, int xOffset, int yOffset) {
-        hexMap.getCubicHexList().forEach(cubicHex -> {
-            mapRenderer.draw(cubicHex, renderTo, 0, 0);
-        });
+        if (hexMap.isPresent()) {
+            hexMap.get().getCubicHexList().forEach(cubicHex -> {
+                mapRenderer.draw(cubicHex, renderTo, 0, 0);
+            });
+        }
     }
 
 }

@@ -16,8 +16,8 @@ public class DrawableNoise extends BaseDrawable {
     }
 
     public void initialize() {
-        pixelRaster = new int[dimension.getWidth() * dimension.getHeight()];
-        for (int i = 0; i < dimension.getWidth() * dimension.getHeight(); i++) {
+        pixelRaster = new int[getDimension().getWidth() * getDimension().getHeight()];
+        for (int i = 0; i < getDimension().getWidth() * getDimension().getHeight(); i++) {
             pixelRaster[i] = random.nextInt() * (random.nextInt(5) / 4);
         }
     }

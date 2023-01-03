@@ -1,19 +1,17 @@
-//package cc.sven.hexwarriorproton.minefront.game.hexgrid;
-//
-//import lombok.NonNull;
-//import lombok.extern.java.Log;
-//
-//import java.awt.*;
-//import java.util.Optional;
-//import java.util.concurrent.atomic.AtomicReference;
-//
-//@Log
-//public class HexCanvasFactory {
-//
-//    @NonNull
-//    public Canvas fabricate(@NonNull final HexMap map) {
-//        // CANVAS & HEX-RENDERING
-//        final Canvas canvas = new Canvas();
+package cc.sven.hexwarriorproton.minefront.game.hexgrid;
+
+import lombok.NonNull;
+import lombok.extern.java.Log;
+
+import java.awt.*;
+
+@Log
+public class HexCanvasFactory {
+    //
+    @NonNull
+    public Canvas create(@NonNull final HexMap map) {
+        // CANVAS & HEX-RENDERING
+        final Canvas canvas = new Canvas();
 //        canvas.getGraphicsContext2D().stroke();
 //        final GraphicsContext graphicsContext2D = canvas.getGraphicsContext2D();
 //        final ScreenDimensions screenDimensions = determineCanvasSizeWithHexCenter(map);
@@ -22,9 +20,10 @@
 //        renderHexgridToCanvas(graphicsContext2D, map);
 //
 //        addSimpleMouseEventListener(map, canvas);
-//
-//        return canvas;
-//    }
+
+        return canvas;
+    }
+}
 //
 //    private static void addSimpleMouseEventListener(@NonNull HexMap map, @NonNull Canvas canvas) {
 //        canvas.setOnMouseClicked(new EventHandler<MouseEvent>() {

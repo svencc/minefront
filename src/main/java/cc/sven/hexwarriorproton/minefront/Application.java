@@ -53,6 +53,10 @@ public class Application {
             frame.add(gameEngine);
             frame.setVisible(true);
 
+            int verticalInset = frame.getInsets().top + frame.getInsets().bottom;
+            int horizontalInset = frame.getInsets().left + frame.getInsets().right;
+            frame.setSize(resolutionProperties.getScaledWidth() + horizontalInset, resolutionProperties.getScaledHeight() + verticalInset);
+
             gameEngine.start(SetJFrameTitleStrategy.builder().frame(frame).build());
         };
     }

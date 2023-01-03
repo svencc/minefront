@@ -1,6 +1,6 @@
 package cc.sven.hexwarriorproton.minefront.engine;
 
-import cc.sven.hexwarriorproton.minefront.engine.graphics.RenderPipeline;
+import cc.sven.hexwarriorproton.minefront.engine.graphics.ScreenRenderer;
 import cc.sven.hexwarriorproton.minefront.engine.units.StopWatch;
 import cc.sven.hexwarriorproton.minefront.property.MetaProperties;
 import cc.sven.hexwarriorproton.minefront.property.ResolutionProperties;
@@ -11,7 +11,6 @@ import cc.sven.hexwarriorproton.minefront.strategy.SetJFrameTitleStrategy;
 import jakarta.annotation.PostConstruct;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
@@ -41,22 +40,20 @@ public class GameEngine extends Canvas implements Runnable {
     @NonNull
     private final TickerService tickerService;
     @NonNull
-    private final RenderPipeline renderPipeline;
+    private final ScreenRenderer screenRenderer;
+    @NonNull
+    private final AbstractGame game;
     @NonNull
     private StopWatch stopWatch;
     @Nullable
     private BufferedImage bufferedImage;
     private int[] bufferedImagePixelRaster;
+    private int[] blurRaster;
     @Nullable
     private Thread gameLoopThread;
     @Nullable
     private SetJFrameTitleStrategy setJFrameTitleStrategy;
     private boolean running = false;
-
-
-    @NonNull
-    private  final AbstractGame game;
-
 
     @PostConstruct
     public void init() {
@@ -75,6 +72,7 @@ public class GameEngine extends Canvas implements Runnable {
 
         this.bufferedImage = new BufferedImage(resolutionProperties.getWidth(), resolutionProperties.getHeight(), BufferedImage.TYPE_INT_RGB);
         this.bufferedImagePixelRaster = ((DataBufferInt) bufferedImage.getRaster().getDataBuffer()).getData();
+        this.blurRaster = new int[bufferedImagePixelRaster.length];
 
         running = true;
         gameLoopThread = new Thread(this, GAMELOOP_THREAD_NAME);
@@ -130,18 +128,18 @@ public class GameEngine extends Canvas implements Runnable {
             return;
         }
 
-        renderPipeline.rasterize(stopWatch);
+        screenRenderer.rasterize(stopWatch);
         copyBufferFromRendererToCanvas();
 
         final Graphics graphicsContext = bufferStrategy.getDrawGraphics();
-        graphicsContext.drawImage(bufferedImage, 0, 0, resolutionProperties.getScaledWidth(), resolutionProperties.getScaledWidth(), null);
+        graphicsContext.drawImage(bufferedImage, 0, 0, resolutionProperties.getScaledWidth(), resolutionProperties.getScaledWidth(),null);
         graphicsContext.dispose();
         bufferStrategy.show();
     }
 
     private void copyBufferFromRendererToCanvas() {
         for (int i = 0; i < resolutionProperties.getWidth() * resolutionProperties.getHeight(); i++) {
-            bufferedImagePixelRaster[i] = renderPipeline.getPixelAtIndex(i);
+            bufferedImagePixelRaster[i] = screenRenderer.getPixelAtIndex(i);
         }
     }
 
