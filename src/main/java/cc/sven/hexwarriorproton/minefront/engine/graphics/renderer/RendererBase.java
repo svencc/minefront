@@ -20,19 +20,19 @@ public abstract class RendererBase implements Renderable {
         PixelBuffer.copyWithOffset(scannable, renderTo, xOffset, yOffset);
     }
 
-    public void render(@NonNull Scannable scannable, @NonNull Bufferable renderTo, int xOffset, int yOffset) {
-        for (int y = 0; y < scannable.getDimension().getHeightY(); y++) {
+    public void render(@NonNull Scannable sourceScannable, @NonNull Bufferable targetBuffer, int xOffset, int yOffset) {
+        for (int y = 0; y < sourceScannable.getDimension().getHeightY(); y++) {
             int yPixel = y + yOffset;
             if (yPixel < 0 || yPixel >= dimension.getHeightY()) continue;
 
-            for (int x = 0; x < scannable.getDimension().getWidthX(); x++) {
+            for (int x = 0; x < sourceScannable.getDimension().getWidthX(); x++) {
                 int xPixel = x + xOffset;
                 if (xPixel < 0 || xPixel >= dimension.getHeightY()) continue;
 
-                int colorValue = scannable.scanPixelAt(x, y);
+                int colorValue = sourceScannable.scanPixelAt(x, y);
                 if (colorValue > 0) {
                     setPixelAt(
-                            renderTo,
+                            targetBuffer,
                             xPixel, yPixel,
                             colorValue
                     );
@@ -42,8 +42,8 @@ public abstract class RendererBase implements Renderable {
     }
 
     @Override
-    public void setPixelAt(@NonNull Bufferable renderTo, int x, int y, int newPixelValue) {
-        renderTo.bufferPixelAt(x, y, newPixelValue);
+    public void setPixelAt(@NonNull Bufferable target, int x, int y, int newPixelValue) {
+        target.bufferPixelAt(x, y, newPixelValue);
     }
 
 }

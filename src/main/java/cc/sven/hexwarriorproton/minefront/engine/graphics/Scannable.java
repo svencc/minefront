@@ -10,6 +10,4 @@ public interface Scannable {
 
     int scanPixelAtIndex(int index);
 
-//    int[] accessPixelBuffer();
-
 }

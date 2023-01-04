@@ -2,7 +2,7 @@ package cc.sven.hexwarriorproton.minefront;
 
 import cc.sven.hexwarriorproton.minefront.engine.GameEngine;
 import cc.sven.hexwarriorproton.minefront.property.MetaProperties;
-import cc.sven.hexwarriorproton.minefront.property.ResolutionProperties;
+import cc.sven.hexwarriorproton.minefront.property.RendererResolutionProperties;
 import cc.sven.hexwarriorproton.minefront.property.TickProperties;
 import cc.sven.hexwarriorproton.minefront.strategy.SetJFrameTitleStrategy;
 import lombok.NonNull;
@@ -19,7 +19,7 @@ import java.awt.event.WindowEvent;
 
 @EnableConfigurationProperties({
         MetaProperties.class,
-        ResolutionProperties.class,
+        RendererResolutionProperties.class,
         TickProperties.class
 })
 @SpringBootApplication
@@ -36,7 +36,7 @@ public class Application {
     public CommandLineRunner provideCommandLineRunnerBean(
             @NonNull GameEngine gameEngine,
             @NonNull MetaProperties metaProperties,
-            @NonNull ResolutionProperties resolutionProperties
+            @NonNull RendererResolutionProperties rendererResolutionProperties
     ) {
         return args -> {
             final Frame frame = new Frame();
@@ -48,14 +48,14 @@ public class Application {
                 }
             });
             frame.setLocationByPlatform(true);
-            frame.setSize(resolutionProperties.getScaledWidth(), resolutionProperties.getScaledHeight());
+            frame.setSize(rendererResolutionProperties.getScaledWidth(), rendererResolutionProperties.getScaledHeight());
             frame.setResizable(false);
             frame.add(gameEngine);
             frame.setVisible(true);
 
             int verticalInset = frame.getInsets().top + frame.getInsets().bottom;
             int horizontalInset = frame.getInsets().left + frame.getInsets().right;
-            frame.setSize(resolutionProperties.getScaledWidth() + horizontalInset, resolutionProperties.getScaledHeight() + verticalInset);
+            frame.setSize(rendererResolutionProperties.getScaledWidth() + horizontalInset, rendererResolutionProperties.getScaledHeight() + verticalInset);
 
             gameEngine.start(SetJFrameTitleStrategy.builder().frame(frame).build());
         };

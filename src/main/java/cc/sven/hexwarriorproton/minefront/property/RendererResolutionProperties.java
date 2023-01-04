@@ -11,17 +11,13 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ConfigurationProperties("resolution")
-public class ResolutionProperties {
+@ConfigurationProperties("renderer.resolution")
+public class RendererResolutionProperties {
 
+    private static PixelDimension singletonPixelDimension = null;
     private int width;
     private int height;
     private int scale;
-    private PixelDimension singleton = null;
-
-    public int getWidth() {
-        return width / scale;
-    }
 
     public int getScaledWidth() {
         return width;
@@ -35,15 +31,19 @@ public class ResolutionProperties {
         return height;
     }
 
-    public PixelDimension toRenderDimension() {
-        if (singleton == null) {
-            singleton = PixelDimension.builder()
+    public PixelDimension toRendererDimension() {
+        if (singletonPixelDimension == null) {
+            singletonPixelDimension = PixelDimension.builder()
                     .widthX(getWidth())
                     .heightY(getWidth())
                     .build();
         }
 
-        return singleton;
+        return singletonPixelDimension;
+    }
+
+    public int getWidth() {
+        return width / scale;
     }
 
 }

@@ -37,11 +37,6 @@ public class PixelBuffer implements Scannable, Bufferable {
         }
     }
 
-//    @Override
-//    public int[] accessPixelBuffer() {
-//        return pixelBuffer;
-//    }
-
     public void resizeBuffer(@NonNull PixelDimension newDimension) {
         if (dimension.getWidthX() == newDimension.getWidthX() && dimension.getHeightY() == newDimension.getHeightY()) {
             return;

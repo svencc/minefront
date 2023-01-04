@@ -1,8 +1,8 @@
 package cc.sven.hexwarriorproton.minefront.engine;
 
-import cc.sven.hexwarriorproton.minefront.engine.graphics.ScreenRasterizer;
+import cc.sven.hexwarriorproton.minefront.engine.graphics.ScreenComposer;
 import cc.sven.hexwarriorproton.minefront.property.MetaProperties;
-import cc.sven.hexwarriorproton.minefront.property.ResolutionProperties;
+import cc.sven.hexwarriorproton.minefront.property.RendererResolutionProperties;
 import cc.sven.hexwarriorproton.minefront.service.profiler.*;
 import cc.sven.hexwarriorproton.minefront.service.tick.TickCalculator;
 import cc.sven.hexwarriorproton.minefront.service.tick.TickerService;
@@ -25,7 +25,7 @@ public class GameEngine extends Canvas implements Runnable {
     @NonNull
     public static String GAMELOOP_THREAD_NAME = "GLoop";
     @NonNull
-    private final ResolutionProperties resolutionProperties;
+    private final RendererResolutionProperties rendererResolutionProperties;
     @NonNull
     private final MetaProperties metaProperties;
     @NonNull
@@ -39,7 +39,7 @@ public class GameEngine extends Canvas implements Runnable {
     @NonNull
     private final TickerService tickerService;
     @NonNull
-    private final ScreenRasterizer screenRasterizer;
+    private final ScreenComposer screenComposer;
     @NonNull
     private final AbstractGame game;
     @Nullable
@@ -54,8 +54,8 @@ public class GameEngine extends Canvas implements Runnable {
     @PostConstruct
     public void init() {
         final Dimension canvasSize = new Dimension(
-                resolutionProperties.getScaledWidth(),
-                resolutionProperties.getScaledHeight()
+                rendererResolutionProperties.getScaledWidth(),
+                rendererResolutionProperties.getScaledHeight()
         );
         setSize(canvasSize);
         setPreferredSize(canvasSize);
@@ -66,7 +66,7 @@ public class GameEngine extends Canvas implements Runnable {
     public synchronized void start(@NonNull SetJFrameTitleStrategy setJFrameTitleStrategy) {
         this.setJFrameTitleStrategy = setJFrameTitleStrategy;
 
-        this.bufferedImage = new BufferedImage(resolutionProperties.getWidth(), resolutionProperties.getHeight(), BufferedImage.TYPE_INT_RGB);
+        this.bufferedImage = new BufferedImage(rendererResolutionProperties.getWidth(), rendererResolutionProperties.getHeight(), BufferedImage.TYPE_INT_RGB);
         this.bufferedImagePixelRaster = ((DataBufferInt) bufferedImage.getRaster().getDataBuffer()).getData();
 
         running = true;
@@ -123,18 +123,18 @@ public class GameEngine extends Canvas implements Runnable {
             return;
         }
 
-        screenRasterizer.rasterize();
+        screenComposer.compose();
         copyBufferFromRendererToCanvas();
 
         final Graphics graphicsContext = bufferStrategy.getDrawGraphics();
-        graphicsContext.drawImage(bufferedImage, 0, 0, resolutionProperties.getScaledWidth(), resolutionProperties.getScaledWidth(), null);
+        graphicsContext.drawImage(bufferedImage, 0, 0, rendererResolutionProperties.getScaledWidth(), rendererResolutionProperties.getScaledWidth(), null);
         graphicsContext.dispose();
         bufferStrategy.show();
     }
 
     private void copyBufferFromRendererToCanvas() {
-        for (int i = 0; i < resolutionProperties.getWidth() * resolutionProperties.getHeight(); i++) {
-            bufferedImagePixelRaster[i] = screenRasterizer.scanPixelAtIndex(i);
+        for (int i = 0; i < rendererResolutionProperties.getWidth() * rendererResolutionProperties.getHeight(); i++) {
+            bufferedImagePixelRaster[i] = screenComposer.scanPixelAtIndex(i);
 //            bufferedImagePixelRaster[i] = screenRasterizer.accessPixelBuffer()[i];
         }
     }

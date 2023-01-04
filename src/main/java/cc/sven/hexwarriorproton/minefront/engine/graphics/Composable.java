@@ -1,7 +1,7 @@
 package cc.sven.hexwarriorproton.minefront.engine.graphics;
 
-public interface Rasterizable {
+public interface Composable {
 
-    void rasterize();
+    void compose();
 
 }

@@ -1,31 +1,35 @@
 package cc.sven.hexwarriorproton.minefront.game;
 
 import cc.sven.hexwarriorproton.minefront.engine.AbstractGame;
-import cc.sven.hexwarriorproton.minefront.engine.graphics.ScreenRasterizer;
+import cc.sven.hexwarriorproton.minefront.engine.graphics.ScreenComposer;
 import cc.sven.hexwarriorproton.minefront.game.hexgrid.HexMap;
 import cc.sven.hexwarriorproton.minefront.game.hexgrid.HexMapFactory;
 import cc.sven.hexwarriorproton.minefront.game.hexgrid.HexMapProperties;
 import cc.sven.hexwarriorproton.minefront.game.hexgrid.enums.MapShape;
-import cc.sven.hexwarriorproton.minefront.game.renderer.map.HexMapLayer;
+import cc.sven.hexwarriorproton.minefront.game.renderer.map.HexMapMergeable;
+import cc.sven.hexwarriorproton.minefront.property.RendererResolutionProperties;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
 @Component
 @Profile("hexgame")
 @RequiredArgsConstructor
 public class HexGame extends AbstractGame {
-
     @NonNull
-    private final ScreenRasterizer screenRasterizer;
+    private final RendererResolutionProperties rendererResolution;
     @NonNull
-    private final HexMapLayer layeredMapRenderer;
+    private final ScreenComposer screenComposer;
+    @Nullable
+    private HexMapMergeable hexMapMergeable;
 
     public void init() {
-        layeredMapRenderer.setHexMap(generateAMap());
-        screenRasterizer.getLayerPipeline().clear();
-        screenRasterizer.getLayerPipeline().add(layeredMapRenderer);
+        hexMapMergeable = new HexMapMergeable(rendererResolution.toRendererDimension());
+        hexMapMergeable.setHexMap(generateAMap());
+        screenComposer.getLayerPipeline().clear();
+        screenComposer.getLayerPipeline().add(hexMapMergeable);
     }
 
     public void startGame() {

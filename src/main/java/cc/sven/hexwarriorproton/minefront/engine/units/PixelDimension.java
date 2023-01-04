@@ -1,10 +1,10 @@
 package cc.sven.hexwarriorproton.minefront.engine.units;
 
-import lombok.Builder;
 import lombok.Getter;
+import lombok.experimental.SuperBuilder;
 
 @Getter
-@Builder
+@SuperBuilder
 public class PixelDimension {
 
     private int widthX;

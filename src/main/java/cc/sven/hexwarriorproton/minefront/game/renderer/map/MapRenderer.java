@@ -13,8 +13,8 @@ public class MapRenderer extends RendererBase {
     }
 
     @Override
-    public void render(@NonNull Scannable scannable, @NonNull Bufferable renderTo, int xOffset, int yOffset) {
-        super.render(scannable, renderTo, xOffset, yOffset);
+    public void render(@NonNull Scannable sourceScannable, @NonNull Bufferable targetBuffer, int xOffset, int yOffset) {
+        super.render(sourceScannable, targetBuffer, xOffset, yOffset);
     }
 
 }
