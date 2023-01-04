@@ -10,16 +10,21 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public abstract class RendererBase implements Renderable {
+public abstract class RendererTemplate implements Renderable {
 
+    // @TODO der Renderer braucht keine eigene dimension!
+    // @TODO Der Renderer kann dann eine Component sein!
+    // @TODO Die Dimension kann vom sourceScannable abgefragt werden? -> test!
     @Getter
     @NonNull
     private final PixelDimension dimension;
+
 
     public void render(@NonNull PixelBuffer scannable, @NonNull PixelBuffer renderTo, int xOffset, int yOffset) {
         PixelBuffer.copyWithOffset(scannable, renderTo, xOffset, yOffset);
     }
 
+    //@TODO
     public void render(@NonNull Scannable sourceScannable, @NonNull Bufferable targetBuffer, int xOffset, int yOffset) {
         for (int y = 0; y < sourceScannable.getDimension().getHeightY(); y++) {
             int yPixel = y + yOffset;

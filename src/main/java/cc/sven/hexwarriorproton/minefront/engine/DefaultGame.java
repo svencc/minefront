@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Profile("default")
 @RequiredArgsConstructor
-public class DefaultGame extends AbstractGame {
+public class DefaultGame extends GameTemplate {
 
     @NonNull
     private final RendererResolutionProperties rendererResolution;

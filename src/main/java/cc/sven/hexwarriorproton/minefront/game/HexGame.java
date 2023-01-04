@@ -1,6 +1,6 @@
 package cc.sven.hexwarriorproton.minefront.game;
 
-import cc.sven.hexwarriorproton.minefront.engine.AbstractGame;
+import cc.sven.hexwarriorproton.minefront.engine.GameTemplate;
 import cc.sven.hexwarriorproton.minefront.engine.graphics.ScreenComposer;
 import cc.sven.hexwarriorproton.minefront.game.hexgrid.HexMap;
 import cc.sven.hexwarriorproton.minefront.game.hexgrid.HexMapFactory;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Profile("hexgame")
 @RequiredArgsConstructor
-public class HexGame extends AbstractGame {
+public class HexGame extends GameTemplate {
     @NonNull
     private final RendererResolutionProperties rendererResolution;
     @NonNull

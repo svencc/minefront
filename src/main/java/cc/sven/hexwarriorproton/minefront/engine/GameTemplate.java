@@ -1,6 +1,6 @@
 package cc.sven.hexwarriorproton.minefront.engine;
 
-public abstract class AbstractGame {
+public abstract class GameTemplate {
 
     public void run() {
         init();

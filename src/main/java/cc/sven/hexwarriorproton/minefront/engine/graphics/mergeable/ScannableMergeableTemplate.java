@@ -8,7 +8,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public abstract class ScannableMergeable implements Scannable, Mergeable {
+public abstract class ScannableMergeableTemplate implements Scannable, Mergeable {
 
     @Getter
     @NonNull

@@ -8,7 +8,7 @@ import cc.sven.hexwarriorproton.minefront.engine.units.PixelDimension;
 import cc.sven.hexwarriorproton.minefront.service.RandomProvider;
 import lombok.NonNull;
 
-public class ScannableNoiseMergeable extends ScannableMergeable {
+public class ScannableNoiseMergeable extends ScannableMergeableTemplate {
 
     @NonNull
     private final DefaultRenderer renderer;
@@ -38,6 +38,7 @@ public class ScannableNoiseMergeable extends ScannableMergeable {
 
     @Override
     public int scanPixelAtIndex(int index) {
-        return scanPixelAtIndex(index);
+        return scannableNoiseDelegate.scanPixelAtIndex(index);
     }
+
 }

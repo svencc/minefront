@@ -41,7 +41,7 @@ public class GameEngine extends Canvas implements Runnable {
     @NonNull
     private final ScreenComposer screenComposer;
     @NonNull
-    private final AbstractGame game;
+    private final GameTemplate game;
     @Nullable
     private BufferedImage bufferedImage;
     private int[] bufferedImagePixelRaster;
