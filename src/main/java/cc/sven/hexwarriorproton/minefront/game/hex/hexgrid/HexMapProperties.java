@@ -1,7 +1,7 @@
-package cc.sven.hexwarriorproton.minefront.game.hexgrid;
+package cc.sven.hexwarriorproton.minefront.game.hex.hexgrid;
 
-import cc.sven.hexwarriorproton.minefront.game.hexgrid.enums.HexOrientation;
-import cc.sven.hexwarriorproton.minefront.game.hexgrid.enums.MapShape;
+import cc.sven.hexwarriorproton.minefront.game.hex.hexgrid.enums.HexOrientation;
+import cc.sven.hexwarriorproton.minefront.game.hex.hexgrid.enums.MapShape;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
@@ -27,25 +27,14 @@ public class HexMapProperties {
     private int outerRadius = 4 * 10;
 
     @Builder.Default
-    private double mapOffsetFactor = 2;
+    private int mapOffsetFactor = 2;
 
-    public double getMapOffsetX() {
+    public int getMapOffsetX() {
         switch (getHexOrientation()) {
             case FLAT_TOP:
                 return mapOffsetFactor * outerRadius;
             case POINTY_TOP:
-                return (outerRadius * Math.sqrt(3)) / 2 * mapOffsetFactor;
-            default:
-                throw new IllegalStateException("Undefined orientation!");
-        }
-    }
-
-    public double getMapOffsetY() {
-        switch (getHexOrientation()) {
-            case FLAT_TOP:
-                return (outerRadius * Math.sqrt(3)) / 2 * mapOffsetFactor;
-            case POINTY_TOP:
-                return mapOffsetFactor * outerRadius;
+                return (int) Math.ceil((outerRadius * Math.sqrt(3)) / 2 * mapOffsetFactor);
             default:
                 throw new IllegalStateException("Undefined orientation!");
         }
@@ -60,6 +49,17 @@ public class HexMapProperties {
             case ODD_R:
             case EQUAL_R:
                 return HexOrientation.POINTY_TOP;
+            default:
+                throw new IllegalStateException("Undefined orientation!");
+        }
+    }
+
+    public double getMapOffsetY() {
+        switch (getHexOrientation()) {
+            case FLAT_TOP:
+                return (outerRadius * Math.sqrt(3)) / 2 * mapOffsetFactor;
+            case POINTY_TOP:
+                return mapOffsetFactor * outerRadius;
             default:
                 throw new IllegalStateException("Undefined orientation!");
         }

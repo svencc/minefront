@@ -5,19 +5,20 @@ import cc.sven.hexwarriorproton.minefront.engine.graphics.buffer.PixelBuffer;
 import cc.sven.hexwarriorproton.minefront.engine.units.PixelDimension;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @RequiredArgsConstructor
-class DefaultRendererTest {
+class SoftwareRendererTest {
 
-    private DefaultRenderer rendererToTest;
+    private SoftwareRenderer rendererToTest;
     private PixelBuffer targetBuffer;
 
     @BeforeEach
     void setUp() {
-        rendererToTest = new DefaultRenderer();
+        rendererToTest = new SoftwareRenderer();
     }
 
     @Test
@@ -120,6 +121,16 @@ class DefaultRendererTest {
         assertEquals(0, targetBuffer.scanPixelAt(1, 0));
         assertEquals(0, targetBuffer.scanPixelAt(0, 1));
         assertEquals(0, targetBuffer.scanPixelAt(1, 1));
+    }
+
+    @Test
+    @Disabled
+    void renderMergeable() {
+    }
+
+    @Test
+    @Disabled
+    void testRenderMergeable() {
     }
 
 }

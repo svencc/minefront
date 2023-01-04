@@ -5,6 +5,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class DefaultRenderer extends RendererTemplate {
+public class SoftwareRenderer extends RendererTemplate {
 
 }

@@ -1,6 +1,7 @@
 package cc.sven.hexwarriorproton.minefront.engine.graphics.renderer;
 
 import cc.sven.hexwarriorproton.minefront.engine.graphics.Bufferable;
+import cc.sven.hexwarriorproton.minefront.engine.graphics.Mergeable;
 import cc.sven.hexwarriorproton.minefront.engine.graphics.Renderable;
 import cc.sven.hexwarriorproton.minefront.engine.graphics.Scanable;
 import cc.sven.hexwarriorproton.minefront.engine.graphics.buffer.PixelBuffer;
@@ -12,25 +13,35 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public abstract class RendererTemplate implements Renderable {
 
-    public void render(@NonNull PixelBuffer scanable, @NonNull PixelBuffer renderTo, int xOffset, int yOffset) {
-        PixelBuffer.copyWithOffset(scanable, renderTo, xOffset, yOffset);
+    public void render(@NonNull PixelBuffer sourceBuffer, @NonNull PixelBuffer targetBuffer, int xOffset, int yOffset) {
+        PixelBuffer.copyWithOffset(sourceBuffer, targetBuffer, xOffset, yOffset);
     }
 
-    public void render(@NonNull Scanable sourceScanable, @NonNull Bufferable targetBuffer, int xOffset, int yOffset) {
-        for (int y = 0; y < sourceScanable.getDimension().getHeightY(); y++) {
-            int yPixel = y + yOffset;
-            if (yPixel < 0 || yPixel >= targetBuffer.getDimension().getHeightY()) continue;
+    public void render(@NonNull Scanable source, @NonNull Bufferable target, int xOffset, int yOffset) {
+        for (int y = 0; y < source.getDimension().getHeightY(); y++) {
+            int copyToY = y + yOffset;
+            if (copyToY < 0 || copyToY >= target.getDimension().getHeightY()) continue;
 
-            for (int x = 0; x < sourceScanable.getDimension().getWidthX(); x++) {
-                int xPixel = x + xOffset;
-                if (xPixel < 0 || xPixel >= targetBuffer.getDimension().getHeightY()) continue;
+            for (int x = 0; x < source.getDimension().getWidthX(); x++) {
+                int copyToX = x + xOffset;
+                if (copyToX < 0 || copyToX >= target.getDimension().getHeightY()) continue;
 
-                int colorValue = sourceScanable.scanPixelAt(x, y);
+                int colorValue = source.scanPixelAt(x, y);
                 if (colorValue > 0) {
-                    targetBuffer.bufferPixelAt(xPixel, yPixel, colorValue);
+                    target.bufferPixelAt(copyToX, copyToY, colorValue);
                 }
             }
         }
+    }
+
+    @Override
+    public void renderMergeable(@NonNull Mergeable source, @NonNull PixelBuffer targetBuffer, int xOffset, int yOffset) {
+        source.mergeWith(targetBuffer, xOffset, yOffset);
+    }
+
+    @Override
+    public void renderMergeable(@NonNull Mergeable source, @NonNull Bufferable target, int xOffset, int yOffset) {
+        source.mergeWith(target, xOffset, yOffset);
     }
 
     @Override

@@ -1,6 +1,6 @@
-package cc.sven.hexwarriorproton.minefront.game.hexgrid;
+package cc.sven.hexwarriorproton.minefront.game.hex.hexgrid;
 
-import cc.sven.hexwarriorproton.minefront.game.hexgrid.strategy.RectangularFlatToppedEqualUpLayoutStrategy;
+import cc.sven.hexwarriorproton.minefront.game.hex.hexgrid.strategy.RectangularFlatToppedEqualUpLayoutStrategy;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 

@@ -1,5 +1,6 @@
-package cc.sven.hexwarriorproton.minefront.game.hexgrid;
+package cc.sven.hexwarriorproton.minefront.game.hex.hexgrid;
 
+import cc.sven.hexwarriorproton.minefront.engine.units.PixelDimension;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
@@ -7,6 +8,7 @@ import lombok.NonNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Data
 @Builder
@@ -43,4 +45,5 @@ public class HexMap {
         hexMapProperties.setOuterRadius(hexMapProperties.getOuterRadius() + 10);
 //        hexMapProperties.setMapOffsetFactor(hexMapProperties.getMapOffsetFactor() + 0.5);
     }
+
 }

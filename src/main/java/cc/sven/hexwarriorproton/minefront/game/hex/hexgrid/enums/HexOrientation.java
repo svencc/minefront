@@ -1,4 +1,4 @@
-package cc.sven.hexwarriorproton.minefront.game.hexgrid.enums;
+package cc.sven.hexwarriorproton.minefront.game.hex.hexgrid.enums;
 
 import lombok.NonNull;
 

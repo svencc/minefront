@@ -1,8 +1,8 @@
-package cc.sven.hexwarriorproton.minefront.game.hexgrid.strategy;
+package cc.sven.hexwarriorproton.minefront.game.hex.hexgrid.strategy;
 
-import cc.sven.hexwarriorproton.minefront.game.hexgrid.CubicHex;
-import cc.sven.hexwarriorproton.minefront.game.hexgrid.HexMap;
-import cc.sven.hexwarriorproton.minefront.game.hexgrid.HexMapProperties;
+import cc.sven.hexwarriorproton.minefront.game.hex.hexgrid.CubicHex;
+import cc.sven.hexwarriorproton.minefront.game.hex.hexgrid.HexMap;
+import cc.sven.hexwarriorproton.minefront.game.hex.hexgrid.HexMapProperties;
 import lombok.NonNull;
 
 import java.util.ArrayList;

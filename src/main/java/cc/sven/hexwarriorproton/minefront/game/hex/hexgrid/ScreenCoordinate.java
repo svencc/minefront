@@ -1,4 +1,4 @@
-package cc.sven.hexwarriorproton.minefront.game.hexgrid;
+package cc.sven.hexwarriorproton.minefront.game.hex.hexgrid;
 
 import lombok.Builder;
 import lombok.Data;

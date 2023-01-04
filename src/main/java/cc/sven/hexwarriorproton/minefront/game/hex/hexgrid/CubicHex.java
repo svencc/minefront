@@ -1,4 +1,4 @@
-package cc.sven.hexwarriorproton.minefront.game.hexgrid;
+package cc.sven.hexwarriorproton.minefront.game.hex.hexgrid;
 
 import cc.sven.hexwarriorproton.minefront.engine.graphics.Scanable;
 import cc.sven.hexwarriorproton.minefront.engine.units.PixelDimension;

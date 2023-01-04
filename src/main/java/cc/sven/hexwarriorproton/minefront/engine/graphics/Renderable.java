@@ -9,6 +9,10 @@ public interface Renderable {
 
     void render(@NonNull Scanable sourceScanable, @NonNull Bufferable targetBuffer, int xOffset, int yOffset);
 
+    void renderMergeable(@NonNull Mergeable source, @NonNull PixelBuffer targetBuffer, int xOffset, int yOffset);
+
+    void renderMergeable(@NonNull Mergeable source, @NonNull Bufferable target, int xOffset, int yOffset);
+
     void setPixelAt(@NonNull Bufferable target, int x, int y, int newPixelValue);
 
 

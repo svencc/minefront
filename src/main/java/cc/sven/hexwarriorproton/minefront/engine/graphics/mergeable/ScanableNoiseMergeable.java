@@ -2,7 +2,7 @@ package cc.sven.hexwarriorproton.minefront.engine.graphics.mergeable;
 
 import cc.sven.hexwarriorproton.minefront.engine.graphics.Bufferable;
 import cc.sven.hexwarriorproton.minefront.engine.graphics.buffer.PixelBuffer;
-import cc.sven.hexwarriorproton.minefront.engine.graphics.renderer.DefaultRenderer;
+import cc.sven.hexwarriorproton.minefront.engine.graphics.renderer.SoftwareRenderer;
 import cc.sven.hexwarriorproton.minefront.engine.graphics.scanable.ScanableNoise;
 import cc.sven.hexwarriorproton.minefront.engine.units.PixelDimension;
 import cc.sven.hexwarriorproton.minefront.service.RandomProvider;
@@ -11,13 +11,13 @@ import lombok.NonNull;
 public class ScanableNoiseMergeable extends ScanableMergeableTemplate {
 
     @NonNull
-    private final DefaultRenderer renderer;
+    private final SoftwareRenderer renderer;
     @NonNull
     private final ScanableNoise scanableNoiseDelegate;
 
-    public ScanableNoiseMergeable(@NonNull PixelDimension dimension, @NonNull RandomProvider randomProvider) {
+    public ScanableNoiseMergeable(@NonNull PixelDimension dimension, @NonNull RandomProvider randomProvider, @NonNull SoftwareRenderer softwareRenderer) {
         super(dimension);
-        this.renderer = new DefaultRenderer();
+        this.renderer = softwareRenderer;
         this.scanableNoiseDelegate = new ScanableNoise(randomProvider, dimension);
     }
 

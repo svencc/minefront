@@ -1,34 +1,35 @@
-package cc.sven.hexwarriorproton.minefront.game;
+package cc.sven.hexwarriorproton.minefront.game.hex;
 
 import cc.sven.hexwarriorproton.minefront.engine.GameTemplate;
 import cc.sven.hexwarriorproton.minefront.engine.graphics.ScreenComposer;
-import cc.sven.hexwarriorproton.minefront.game.hexgrid.HexMap;
-import cc.sven.hexwarriorproton.minefront.game.hexgrid.HexMapFactory;
-import cc.sven.hexwarriorproton.minefront.game.hexgrid.HexMapProperties;
-import cc.sven.hexwarriorproton.minefront.game.hexgrid.enums.MapShape;
-import cc.sven.hexwarriorproton.minefront.game.renderer.map.HexMapMergeable;
+import cc.sven.hexwarriorproton.minefront.engine.graphics.renderer.SoftwareRenderer;
+import cc.sven.hexwarriorproton.minefront.game.hex.graphics.map.HexMapMergeable;
+import cc.sven.hexwarriorproton.minefront.game.hex.hexgrid.HexMap;
+import cc.sven.hexwarriorproton.minefront.game.hex.hexgrid.HexMapFactory;
+import cc.sven.hexwarriorproton.minefront.game.hex.hexgrid.HexMapProperties;
+import cc.sven.hexwarriorproton.minefront.game.hex.hexgrid.enums.MapShape;
 import cc.sven.hexwarriorproton.minefront.property.RendererResolutionProperties;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
 @Component
 @Profile("hexgame")
 @RequiredArgsConstructor
 public class HexGame extends GameTemplate {
+
     @NonNull
     private final RendererResolutionProperties rendererResolution;
     @NonNull
     private final ScreenComposer screenComposer;
-    @Nullable
-    private HexMapMergeable hexMapMergeable;
+    @NonNull
+    private final HexMapMergeable hexMapMergeable;
 
     public void init() {
-        hexMapMergeable = new HexMapMergeable(rendererResolution.toRendererDimension());
-        hexMapMergeable.setHexMap(generateAMap());
         screenComposer.getLayerPipeline().clear();
+        hexMapMergeable.setHexMap(generateAMap());
+
         screenComposer.getLayerPipeline().add(hexMapMergeable);
     }
 
