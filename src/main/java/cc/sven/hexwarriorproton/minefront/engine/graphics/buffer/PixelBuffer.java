@@ -19,19 +19,11 @@ public class PixelBuffer implements Scannable, Bufferable {
         pixelBuffer = new int[dimension.getWidthX() * dimension.getHeightY()];
     }
 
-    public int[] accessPixelBuffer() {
-        return pixelBuffer;
-    }
-
     public static void copy(@NonNull PixelBuffer sourcePixelBuffer, @NonNull PixelBuffer targetPixelBuffer) {
         copyWithOffset(sourcePixelBuffer, targetPixelBuffer, 0, 0);
     }
 
-    public static void copyWithOffset(
-            @NonNull PixelBuffer sourcePixelBuffer,
-            @NonNull PixelBuffer targetPixelBuffer,
-            int offsetX, int offsetY
-    ) {
+    public static void copyWithOffset(@NonNull PixelBuffer sourcePixelBuffer, @NonNull PixelBuffer targetPixelBuffer, int offsetX, int offsetY) {
         for (int y = 0; (y < targetPixelBuffer.dimension.getHeightY() && y < sourcePixelBuffer.dimension.getHeightY()); y++) {
             int copyToY = y + offsetY;
             if (copyToY >= targetPixelBuffer.dimension.getHeightY()) break;
@@ -44,6 +36,11 @@ public class PixelBuffer implements Scannable, Bufferable {
             }
         }
     }
+
+//    @Override
+//    public int[] accessPixelBuffer() {
+//        return pixelBuffer;
+//    }
 
     public void resizeBuffer(@NonNull PixelDimension newDimension) {
         if (dimension.getWidthX() == newDimension.getWidthX() && dimension.getHeightY() == newDimension.getHeightY()) {
@@ -60,14 +57,9 @@ public class PixelBuffer implements Scannable, Bufferable {
         dimension = newDimension;
     }
 
-    public static void copy(
-            @NonNull PixelDimension sourceDimension, int[] sourceBuffer,
-            @NonNull PixelDimension targetDimension, int[] targetBuffer
-    ) {
+    public static void copy(@NonNull PixelDimension sourceDimension, int[] sourceBuffer, @NonNull PixelDimension targetDimension, int[] targetBuffer) {
         for (int y = 0; (y < targetDimension.getHeightY() && y < sourceDimension.getHeightY()); y++) {
-            if (y >= sourceDimension.getHeightY()) continue;
             for (int x = 0; x < targetDimension.getWidthX() && x < sourceDimension.getWidthX(); x++) {
-                if (x >= sourceDimension.getWidthX()) continue;
                 targetBuffer[x + y * targetDimension.getWidthX()] = sourceBuffer[x + y * sourceDimension.getWidthX()];
             }
         }

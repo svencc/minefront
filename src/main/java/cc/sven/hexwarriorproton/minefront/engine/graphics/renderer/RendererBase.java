@@ -3,6 +3,7 @@ package cc.sven.hexwarriorproton.minefront.engine.graphics.renderer;
 import cc.sven.hexwarriorproton.minefront.engine.graphics.Bufferable;
 import cc.sven.hexwarriorproton.minefront.engine.graphics.Renderable;
 import cc.sven.hexwarriorproton.minefront.engine.graphics.Scannable;
+import cc.sven.hexwarriorproton.minefront.engine.graphics.buffer.PixelBuffer;
 import cc.sven.hexwarriorproton.minefront.engine.units.PixelDimension;
 import lombok.Getter;
 import lombok.NonNull;
@@ -15,9 +16,10 @@ public abstract class RendererBase implements Renderable {
     @NonNull
     private final PixelDimension dimension;
 
-    //    public void render(@NonNull Scannable scannable, @NonNull Bufferable renderTo, int xOffset, int yOffset) {
-    //        PixelBuffer.copy(scannable.getDimension(), scannable.accessPixelBuffer(), renderTo.getDimension(), renderTo.accessPixelBuffer());
-    //    }
+    public void render(@NonNull PixelBuffer scannable, @NonNull PixelBuffer renderTo, int xOffset, int yOffset) {
+        PixelBuffer.copyWithOffset(scannable, renderTo, xOffset, yOffset);
+    }
+
     public void render(@NonNull Scannable scannable, @NonNull Bufferable renderTo, int xOffset, int yOffset) {
         for (int y = 0; y < scannable.getDimension().getHeightY(); y++) {
             int yPixel = y + yOffset;

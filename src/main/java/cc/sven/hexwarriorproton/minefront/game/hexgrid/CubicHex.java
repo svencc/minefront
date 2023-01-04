@@ -120,10 +120,10 @@ public class CubicHex implements Scannable {
         return 0;
     }
 
-    @Override
-    public int[] accessPixelBuffer() {
-        return new int[0];
-    }
+//    @Override
+//    public int[] accessPixelBuffer() {
+//        return new int[0];
+//    }
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
