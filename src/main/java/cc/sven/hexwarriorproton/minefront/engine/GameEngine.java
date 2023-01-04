@@ -52,7 +52,7 @@ public class GameEngine extends Canvas implements Runnable {
     private boolean running = false;
 
     @PostConstruct
-    public void init() {
+    public void postConstruct() {
         final Dimension canvasSize = new Dimension(
                 rendererResolutionProperties.getScaledWidth(),
                 rendererResolutionProperties.getScaledHeight()
@@ -135,7 +135,6 @@ public class GameEngine extends Canvas implements Runnable {
     private void copyBufferFromRendererToCanvas() {
         for (int i = 0; i < rendererResolutionProperties.getWidth() * rendererResolutionProperties.getHeight(); i++) {
             bufferedImagePixelRaster[i] = screenComposer.scanPixelAtIndex(i);
-//            bufferedImagePixelRaster[i] = screenRasterizer.accessPixelBuffer()[i];
         }
     }
 
