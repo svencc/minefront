@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import java.util.LinkedList;
 
 @Component
-public class ScreenComposer extends PixelBuffer implements Composable, Scannable, Bufferable {
+public class ScreenComposer extends PixelBuffer implements Composable, Scanable, Bufferable {
 
     @NonNull
     private final RendererResolutionProperties rendererResolution;

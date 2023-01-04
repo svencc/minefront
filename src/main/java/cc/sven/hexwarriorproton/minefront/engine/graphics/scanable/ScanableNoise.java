@@ -1,6 +1,6 @@
-package cc.sven.hexwarriorproton.minefront.engine.graphics.scannable;
+package cc.sven.hexwarriorproton.minefront.engine.graphics.scanable;
 
-import cc.sven.hexwarriorproton.minefront.engine.graphics.Scannable;
+import cc.sven.hexwarriorproton.minefront.engine.graphics.Scanable;
 import cc.sven.hexwarriorproton.minefront.engine.units.PixelDimension;
 import cc.sven.hexwarriorproton.minefront.service.RandomProvider;
 import lombok.Getter;
@@ -8,7 +8,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class ScannableNoise implements Scannable {
+public class ScanableNoise implements Scanable {
 
     @NonNull
     private final RandomProvider randomProvider;

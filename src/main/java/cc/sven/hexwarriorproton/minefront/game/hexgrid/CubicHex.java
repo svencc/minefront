@@ -1,6 +1,6 @@
 package cc.sven.hexwarriorproton.minefront.game.hexgrid;
 
-import cc.sven.hexwarriorproton.minefront.engine.graphics.Scannable;
+import cc.sven.hexwarriorproton.minefront.engine.graphics.Scanable;
 import cc.sven.hexwarriorproton.minefront.engine.units.PixelDimension;
 import lombok.Builder;
 import lombok.Data;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class CubicHex implements Scannable {
+public class CubicHex implements Scanable {
 
     private final long layoutNumeration;
     private final long q;

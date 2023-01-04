@@ -3,42 +3,42 @@ package cc.sven.hexwarriorproton.minefront.engine.graphics.mergeable;
 import cc.sven.hexwarriorproton.minefront.engine.graphics.Bufferable;
 import cc.sven.hexwarriorproton.minefront.engine.graphics.buffer.PixelBuffer;
 import cc.sven.hexwarriorproton.minefront.engine.graphics.renderer.DefaultRenderer;
-import cc.sven.hexwarriorproton.minefront.engine.graphics.scannable.ScannableNoise;
+import cc.sven.hexwarriorproton.minefront.engine.graphics.scanable.ScanableNoise;
 import cc.sven.hexwarriorproton.minefront.engine.units.PixelDimension;
 import cc.sven.hexwarriorproton.minefront.service.RandomProvider;
 import lombok.NonNull;
 
-public class ScannableNoiseMergeable extends ScannableMergeableTemplate {
+public class ScanableNoiseMergeable extends ScanableMergeableTemplate {
 
     @NonNull
     private final DefaultRenderer renderer;
     @NonNull
-    private final ScannableNoise scannableNoiseDelegate;
+    private final ScanableNoise scanableNoiseDelegate;
 
-    public ScannableNoiseMergeable(@NonNull PixelDimension dimension, @NonNull RandomProvider randomProvider) {
+    public ScanableNoiseMergeable(@NonNull PixelDimension dimension, @NonNull RandomProvider randomProvider) {
         super(dimension);
-        this.renderer = new DefaultRenderer(dimension);
-        this.scannableNoiseDelegate = new ScannableNoise(randomProvider, dimension);
+        this.renderer = new DefaultRenderer();
+        this.scanableNoiseDelegate = new ScanableNoise(randomProvider, dimension);
     }
 
     @Override
     public void mergeWith(@NonNull PixelBuffer target, int offsetX, int offsetY) {
-        renderer.render(scannableNoiseDelegate, target, offsetX, offsetY);
+        renderer.render(scanableNoiseDelegate, target, offsetX, offsetY);
     }
 
     @Override
     public void mergeWith(@NonNull Bufferable target, int offsetX, int offsetY) {
-        renderer.render(scannableNoiseDelegate, target, offsetX, offsetY);
+        renderer.render(scanableNoiseDelegate, target, offsetX, offsetY);
     }
 
     @Override
     public int scanPixelAt(int x, int y) {
-        return scannableNoiseDelegate.scanPixelAt(x, y);
+        return scanableNoiseDelegate.scanPixelAt(x, y);
     }
 
     @Override
     public int scanPixelAtIndex(int index) {
-        return scannableNoiseDelegate.scanPixelAtIndex(index);
+        return scanableNoiseDelegate.scanPixelAtIndex(index);
     }
 
 }

@@ -2,7 +2,7 @@ package cc.sven.hexwarriorproton.minefront.engine.graphics;
 
 import cc.sven.hexwarriorproton.minefront.engine.units.PixelDimension;
 
-public interface Scannable {
+public interface Scanable {
 
     PixelDimension getDimension();
 

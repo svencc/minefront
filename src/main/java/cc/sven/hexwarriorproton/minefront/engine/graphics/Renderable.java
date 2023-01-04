@@ -7,7 +7,7 @@ public interface Renderable {
 
     void render(@NonNull PixelBuffer sourceBuffer, @NonNull PixelBuffer targetBuffer, int xOffset, int yOffset);
 
-    void render(@NonNull Scannable sourceScannable, @NonNull Bufferable targetBuffer, int xOffset, int yOffset);
+    void render(@NonNull Scanable sourceScanable, @NonNull Bufferable targetBuffer, int xOffset, int yOffset);
 
     void setPixelAt(@NonNull Bufferable target, int x, int y, int newPixelValue);
 

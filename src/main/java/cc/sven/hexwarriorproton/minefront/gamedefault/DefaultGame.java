@@ -1,7 +1,8 @@
-package cc.sven.hexwarriorproton.minefront.engine;
+package cc.sven.hexwarriorproton.minefront.gamedefault;
 
+import cc.sven.hexwarriorproton.minefront.engine.GameTemplate;
 import cc.sven.hexwarriorproton.minefront.engine.graphics.ScreenComposer;
-import cc.sven.hexwarriorproton.minefront.engine.graphics.mergeable.ScannableNoiseMergeable;
+import cc.sven.hexwarriorproton.minefront.engine.graphics.mergeable.ScanableNoiseMergeable;
 import cc.sven.hexwarriorproton.minefront.property.RendererResolutionProperties;
 import cc.sven.hexwarriorproton.minefront.service.RandomProvider;
 import lombok.NonNull;
@@ -22,9 +23,9 @@ public class DefaultGame extends GameTemplate {
     private final RandomProvider randomProvider;
 
     public void init() {
-        final ScannableNoiseMergeable scannableNoiseLayer = new ScannableNoiseMergeable(rendererResolution.toRendererDimension(), randomProvider);
+        final ScanableNoiseMergeable scanableNoiseLayer = new ScanableNoiseMergeable(rendererResolution.toRendererDimension(), randomProvider);
         screenComposer.getLayerPipeline().clear();
-        screenComposer.getLayerPipeline().add(scannableNoiseLayer);
+        screenComposer.getLayerPipeline().add(scanableNoiseLayer);
     }
 
     public void startGame() {

@@ -12,14 +12,10 @@ import java.util.Optional;
 public class HexMapMergeable extends BufferedMergeable {
 
     @NonNull
-    private final MapRenderer mapRenderer;
-
-    @NonNull
     private Optional<HexMap> hexMap = Optional.empty();
 
     public HexMapMergeable(@NonNull PixelDimension dimension) {
-        super(dimension, new DefaultRenderer(dimension));
-        this.mapRenderer = new MapRenderer(dimension);
+        super(dimension, new DefaultRenderer());
     }
 
     public void setHexMap(@NonNull HexMap newHexMap) {

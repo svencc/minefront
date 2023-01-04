@@ -3,13 +3,13 @@ package cc.sven.hexwarriorproton.minefront.engine.graphics.mergeable;
 import cc.sven.hexwarriorproton.minefront.engine.graphics.Bufferable;
 import cc.sven.hexwarriorproton.minefront.engine.graphics.Mergeable;
 import cc.sven.hexwarriorproton.minefront.engine.graphics.Renderable;
-import cc.sven.hexwarriorproton.minefront.engine.graphics.Scannable;
+import cc.sven.hexwarriorproton.minefront.engine.graphics.Scanable;
 import cc.sven.hexwarriorproton.minefront.engine.graphics.buffer.PixelBuffer;
 import cc.sven.hexwarriorproton.minefront.engine.units.PixelDimension;
 import lombok.NonNull;
 
 
-public class BufferedMergeable extends PixelBuffer implements Bufferable, Scannable, Mergeable {
+public class BufferedMergeable extends PixelBuffer implements Bufferable, Scanable, Mergeable {
 
     @NonNull
     private final Renderable renderer;

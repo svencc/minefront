@@ -1,12 +1,10 @@
 package cc.sven.hexwarriorproton.minefront.engine.graphics.renderer;
 
-import cc.sven.hexwarriorproton.minefront.engine.units.PixelDimension;
-import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
+@Component
+@RequiredArgsConstructor
 public class DefaultRenderer extends RendererTemplate {
-
-    public DefaultRenderer(@NonNull PixelDimension dimension) {
-        super(dimension);
-    }
 
 }
