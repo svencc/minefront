@@ -1,5 +1,6 @@
 package cc.sven.hexwarriorproton.minefront.engine.graphics.mergeable;
 
+import cc.sven.hexwarriorproton.minefront.engine.graphics.Bufferable;
 import cc.sven.hexwarriorproton.minefront.engine.graphics.buffer.PixelBuffer;
 import cc.sven.hexwarriorproton.minefront.engine.graphics.renderer.DefaultRenderer;
 import cc.sven.hexwarriorproton.minefront.engine.graphics.scannable.ScannableNoise;
@@ -10,22 +11,24 @@ import lombok.NonNull;
 public class ScannableNoiseMergeable extends ScannableMergeable {
 
     @NonNull
-    private final DefaultRenderer defaultRenderer;
+    private final DefaultRenderer renderer;
     @NonNull
     private final ScannableNoise scannableNoiseDelegate;
-    @NonNull
-    private final RandomProvider randomProvider;
 
     public ScannableNoiseMergeable(@NonNull PixelDimension dimension, @NonNull RandomProvider randomProvider) {
         super(dimension);
-        this.defaultRenderer = new DefaultRenderer(dimension);
-        this.randomProvider = randomProvider;
+        this.renderer = new DefaultRenderer(dimension);
         this.scannableNoiseDelegate = new ScannableNoise(randomProvider, dimension);
     }
 
     @Override
-    public void mergeWith(@NonNull PixelBuffer pixelBuffer, int offsetX, int offsetY) {
-        defaultRenderer.render(scannableNoiseDelegate, pixelBuffer, offsetX, offsetY);
+    public void mergeWith(@NonNull PixelBuffer target, int offsetX, int offsetY) {
+        renderer.render(scannableNoiseDelegate, target, offsetX, offsetY);
+    }
+
+    @Override
+    public void mergeWith(@NonNull Bufferable target, int offsetX, int offsetY) {
+        renderer.render(scannableNoiseDelegate, target, offsetX, offsetY);
     }
 
     @Override

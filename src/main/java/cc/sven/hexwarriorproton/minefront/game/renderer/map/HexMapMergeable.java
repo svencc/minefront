@@ -2,6 +2,7 @@ package cc.sven.hexwarriorproton.minefront.game.renderer.map;
 
 import cc.sven.hexwarriorproton.minefront.engine.graphics.buffer.PixelBuffer;
 import cc.sven.hexwarriorproton.minefront.engine.graphics.mergeable.BufferedMergeable;
+import cc.sven.hexwarriorproton.minefront.engine.graphics.renderer.DefaultRenderer;
 import cc.sven.hexwarriorproton.minefront.engine.units.PixelDimension;
 import cc.sven.hexwarriorproton.minefront.game.hexgrid.HexMap;
 import lombok.NonNull;
@@ -17,7 +18,7 @@ public class HexMapMergeable extends BufferedMergeable {
     private Optional<HexMap> hexMap = Optional.empty();
 
     public HexMapMergeable(@NonNull PixelDimension dimension) {
-        super(dimension);
+        super(dimension, new DefaultRenderer(dimension));
         this.mapRenderer = new MapRenderer(dimension);
     }
 
@@ -37,7 +38,7 @@ public class HexMapMergeable extends BufferedMergeable {
     }
 
     @Override
-    public void mergeWith(@NonNull PixelBuffer pixelBuffer, int offsetX, int offsetY) {
+    public void mergeWith(@NonNull PixelBuffer target, int offsetX, int offsetY) {
 
     }
 }
