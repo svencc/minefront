@@ -2,7 +2,6 @@ package cc.sven.hexwarriorproton.minefront.game.hex;
 
 import cc.sven.hexwarriorproton.minefront.engine.GameTemplate;
 import cc.sven.hexwarriorproton.minefront.engine.graphics.ScreenComposer;
-import cc.sven.hexwarriorproton.minefront.engine.graphics.renderer.SoftwareRenderer;
 import cc.sven.hexwarriorproton.minefront.game.hex.graphics.map.HexMapMergeable;
 import cc.sven.hexwarriorproton.minefront.game.hex.hexgrid.HexMap;
 import cc.sven.hexwarriorproton.minefront.game.hex.hexgrid.HexMapFactory;

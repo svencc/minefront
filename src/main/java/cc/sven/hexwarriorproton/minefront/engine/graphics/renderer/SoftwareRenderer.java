@@ -1,10 +1,11 @@
 package cc.sven.hexwarriorproton.minefront.engine.graphics.renderer;
 
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
-@RequiredArgsConstructor
-public class SoftwareRenderer extends RendererTemplate {
+@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
+class SoftwareRenderer extends RendererTemplate {
 
 }

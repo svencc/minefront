@@ -5,7 +5,8 @@ import lombok.NonNull;
 
 public interface Mergeable {
 
-    void mergeWith(@NonNull PixelBuffer target, int offsetX, int offsetY);
-    void mergeWith(@NonNull Bufferable target, int offsetX, int offsetY);
+    void mergeWith(@NonNull PixelBuffer targetBuffer, int offsetX, int offsetY);
+
+    void mergeWith(@NonNull Bufferable targetBuffer, int offsetX, int offsetY);
 
 }

@@ -22,7 +22,6 @@ public class ScreenComposer extends PixelBuffer implements Composable, Scanable,
         this.rendererResolution = rendererResolution;
     }
 
-
     @Override
     public void compose() {
         clearBuffer();

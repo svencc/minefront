@@ -15,5 +15,4 @@ public interface Renderable {
 
     void setPixelAt(@NonNull Bufferable target, int x, int y, int newPixelValue);
 
-
 }

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public abstract class RendererTemplate implements Renderable {
+abstract class RendererTemplate implements Renderable {
 
     public void render(@NonNull PixelBuffer sourceBuffer, @NonNull PixelBuffer targetBuffer, int xOffset, int yOffset) {
         PixelBuffer.copyWithOffset(sourceBuffer, targetBuffer, xOffset, yOffset);

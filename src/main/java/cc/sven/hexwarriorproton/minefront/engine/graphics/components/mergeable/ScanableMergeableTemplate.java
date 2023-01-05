@@ -1,4 +1,4 @@
-package cc.sven.hexwarriorproton.minefront.engine.graphics.mergeable;
+package cc.sven.hexwarriorproton.minefront.engine.graphics.components.mergeable;
 
 import cc.sven.hexwarriorproton.minefront.engine.graphics.Mergeable;
 import cc.sven.hexwarriorproton.minefront.engine.graphics.Scanable;

@@ -3,7 +3,7 @@ package cc.sven.hexwarriorproton.minefront.game.hex.graphics.map;
 import cc.sven.hexwarriorproton.minefront.engine.graphics.Bufferable;
 import cc.sven.hexwarriorproton.minefront.engine.graphics.Mergeable;
 import cc.sven.hexwarriorproton.minefront.engine.graphics.buffer.PixelBuffer;
-import cc.sven.hexwarriorproton.minefront.engine.graphics.renderer.SoftwareRenderer;
+import cc.sven.hexwarriorproton.minefront.engine.graphics.renderer.RenderProvider;
 import cc.sven.hexwarriorproton.minefront.game.hex.hexgrid.HexMap;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -17,11 +17,11 @@ import java.util.Optional;
 public class HexMapMergeable implements Mergeable {
 
     @NonNull
-    private final SoftwareRenderer renderer;
+    private final RenderProvider renderProvider;
     @Nullable
     private final HexGridSpriteGenerator hexGridSpriteGenerator;
-    @Nullable
-    private PixelBuffer pixelBuffer;
+    @NonNull
+    private final PixelBuffer pixelBuffer;
     @NonNull
     private Optional<HexMap> hexMap = Optional.empty();
 
@@ -36,13 +36,13 @@ public class HexMapMergeable implements Mergeable {
     }
 
     @Override
-    public void mergeWith(@NonNull PixelBuffer target, int offsetX, int offsetY) {
-        renderer.render(pixelBuffer, target, offsetY, offsetY);
+    public void mergeWith(@NonNull PixelBuffer targetBuffer, int offsetX, int offsetY) {
+        renderProvider.provide().render(pixelBuffer, targetBuffer, offsetY, offsetY);
     }
 
     @Override
-    public void mergeWith(@NonNull Bufferable target, int offsetX, int offsetY) {
-        renderer.render(pixelBuffer, target, offsetY, offsetY);
+    public void mergeWith(@NonNull Bufferable targetBuffer, int offsetX, int offsetY) {
+        renderProvider.provide().render(pixelBuffer, targetBuffer, offsetY, offsetY);
     }
 
 }

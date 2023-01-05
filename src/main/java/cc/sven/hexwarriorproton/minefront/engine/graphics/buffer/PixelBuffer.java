@@ -12,16 +12,12 @@ public class PixelBuffer implements Scanable, Bufferable {
 
     @Getter
     protected PixelDimension dimension;
+
     protected int[] pixelBuffer;
 
     public PixelBuffer(@NonNull PixelDimension dimension) {
         this.dimension = dimension;
         pixelBuffer = new int[dimension.getWidthX() * dimension.getHeightY()];
-    }
-
-    @Override
-    public int[] accessPixelBuffer() {
-        return pixelBuffer;
     }
 
     public static void copy(@NonNull PixelBuffer sourcePixelBuffer, @NonNull PixelBuffer targetPixelBuffer) {
