@@ -14,5 +14,4 @@ public interface Bufferable {
 
     void fillBuffer(int value);
 
-
 }

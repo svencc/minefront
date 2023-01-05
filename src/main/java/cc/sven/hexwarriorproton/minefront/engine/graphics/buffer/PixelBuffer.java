@@ -20,6 +20,11 @@ public class PixelBuffer implements Scanable, Bufferable {
         pixelBuffer = new int[dimension.getWidthX() * dimension.getHeightY()];
     }
 
+    public PixelBuffer(@NonNull PixelDimension dimension, int[] useBuffer) {
+        this.dimension = dimension;
+        pixelBuffer = useBuffer;
+    }
+
     public static void copy(@NonNull PixelBuffer sourcePixelBuffer, @NonNull PixelBuffer targetPixelBuffer) {
         copyWithOffset(sourcePixelBuffer, targetPixelBuffer, 0, 0);
     }
