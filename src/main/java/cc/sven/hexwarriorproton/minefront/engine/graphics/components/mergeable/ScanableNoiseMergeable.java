@@ -22,13 +22,23 @@ public class ScanableNoiseMergeable extends ScanableMergeableTemplate {
     }
 
     @Override
-    public void mergeWith(@NonNull PixelBuffer targetBuffer, int offsetX, int offsetY) {
+    public void mergeBufferWith(@NonNull PixelBuffer targetBuffer, int offsetX, int offsetY) {
         renderProvider.provide().render(scanableNoiseDelegate, targetBuffer, offsetX, offsetY);
     }
 
     @Override
-    public void mergeWith(@NonNull Bufferable targetBuffer, int offsetX, int offsetY) {
+    public void mergeBufferWith(@NonNull Bufferable targetBuffer, int offsetX, int offsetY) {
         renderProvider.provide().render(scanableNoiseDelegate, targetBuffer, offsetX, offsetY);
+    }
+
+    @Override
+    public void prepareBuffer() {
+        // nothing to render here, as wie have no buffer and the scanned pixel is generated randomly while scanning it
+    }
+
+    @Override
+    public void disposeBuffer() {
+
     }
 
     @Override

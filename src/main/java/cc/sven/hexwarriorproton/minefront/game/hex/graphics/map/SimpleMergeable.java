@@ -21,13 +21,23 @@ public class SimpleMergeable implements Mergeable, HasPixelBuffer {
     private final PixelBuffer pixelBuffer;
 
     @Override
-    public void mergeWith(@NonNull PixelBuffer targetBuffer, int offsetX, int offsetY) {
+    public void mergeBufferWith(@NonNull PixelBuffer targetBuffer, int offsetX, int offsetY) {
         renderProvider.provide().render(pixelBuffer, targetBuffer, offsetY, offsetY);
     }
 
     @Override
-    public void mergeWith(@NonNull Bufferable targetBuffer, int offsetX, int offsetY) {
+    public void mergeBufferWith(@NonNull Bufferable targetBuffer, int offsetX, int offsetY) {
         renderProvider.provide().render(pixelBuffer, targetBuffer, offsetY, offsetY);
+    }
+
+    @Override
+    public void prepareBuffer() {
+
+    }
+
+    @Override
+    public void disposeBuffer() {
+
     }
 
 }

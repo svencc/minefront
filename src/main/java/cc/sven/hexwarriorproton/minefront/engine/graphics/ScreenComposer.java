@@ -25,7 +25,11 @@ public class ScreenComposer extends PixelBuffer implements Composable, Scanable,
     @Override
     public void compose() {
         clearBuffer();
-        layerPipeline.forEach(layer -> layer.mergeWith(this, 0, 0));
+        layerPipeline.forEach(layer -> {
+            layer.prepareBuffer();
+            layer.mergeBufferWith(this, 0, 0);
+            layer.disposeBuffer();
+        });
     }
 
 }

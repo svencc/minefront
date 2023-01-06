@@ -36,12 +36,12 @@ abstract class RendererTemplate implements Renderable {
 
     @Override
     public void renderMergeable(@NonNull Mergeable source, @NonNull PixelBuffer targetBuffer, int xOffset, int yOffset) {
-        source.mergeWith(targetBuffer, xOffset, yOffset);
+        source.mergeBufferWith(targetBuffer, xOffset, yOffset);
     }
 
     @Override
     public void renderMergeable(@NonNull Mergeable source, @NonNull Bufferable target, int xOffset, int yOffset) {
-        source.mergeWith(target, xOffset, yOffset);
+        source.mergeBufferWith(target, xOffset, yOffset);
     }
 
     @Override
