@@ -48,13 +48,26 @@ public class TestMergeable implements Mergeable, HasPixelBuffer {
     }
 
     private void preloadBuffer() {
-        for (int y = 0; y < pixelBuffer.getDimension().getHeightY() / hexSprite.getPixelBuffer().getDimension().getHeightY(); y++) {
-            for (int x = 0; x < pixelBuffer.getDimension().getWidthX() / hexSprite.getPixelBuffer().getDimension().getWidthX(); x++) {
-                int offsetX = x * hexSprite.getPixelBuffer().getDimension().getWidthX();
-                int offsetY = y * hexSprite.getPixelBuffer().getDimension().getHeightY();
+        pixelBuffer.fillBuffer(0xFF04A804);
+
+        for (int y = 0; y <= Math.ceil(pixelBuffer.getDimension().getHeightY() / hexSprite.getPixelBuffer().getDimension().getHeightY()); y++) {
+            for (int x = 0; x <= Math.ceil(pixelBuffer.getDimension().getWidthX() / hexSprite.getPixelBuffer().getDimension().getWidthX()); x++) {
+                int offsetX;
+                int offsetY;
+                if (!isOdd(x)) {
+                    offsetX = x * hexSprite.getPixelBuffer().getDimension().getWidthX() - (15 * x);
+                    offsetY = y * hexSprite.getPixelBuffer().getDimension().getHeightY();
+                } else {
+                    offsetX = x * hexSprite.getPixelBuffer().getDimension().getWidthX() - (15 * x);
+                    offsetY = y * hexSprite.getPixelBuffer().getDimension().getHeightY() - 16;
+                }
                 renderProvider.provide().render(hexSprite.getPixelBuffer(), pixelBuffer, offsetX, offsetY);
             }
         }
+    }
+
+    private boolean isOdd(int number) {
+        return ((number & 0x1) == 1);
     }
 
     @Override
