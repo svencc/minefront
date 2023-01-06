@@ -5,7 +5,7 @@ import cc.sven.hexwarriorproton.minefront.engine.graphics.ScreenComposer;
 import cc.sven.hexwarriorproton.minefront.engine.graphics.components.sprite.Sprite;
 import cc.sven.hexwarriorproton.minefront.engine.graphics.components.sprite.SpriteAtlas;
 import cc.sven.hexwarriorproton.minefront.game.hex.graphics.map.TestMergeable;
-import cc.sven.hexwarriorproton.minefront.property.RendererResolutionProperties;
+import cc.sven.hexwarriorproton.minefront.property.RendererProperties;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
@@ -19,7 +19,7 @@ import java.io.IOException;
 public class HexGame extends GameTemplate {
 
     @NonNull
-    private final RendererResolutionProperties rendererResolution;
+    private final RendererProperties rendererResolution;
     @NonNull
     private final ScreenComposer screenComposer;
     @NonNull
@@ -28,7 +28,7 @@ public class HexGame extends GameTemplate {
     @Override
     public void init() {
         try {
-            final SpriteAtlas spriteAtlas = new SpriteAtlas("/assets/hex62x32.png");
+            final SpriteAtlas spriteAtlas = new SpriteAtlas("/assets/hex62x32alpha.png");
             final Sprite hexSprite = spriteAtlas.createSprite(spriteAtlas.getPixelBuffer().getDimension(), 0, 0);
             testMergeable.setHexSprite(hexSprite);
             screenComposer.getLayerPipeline().clear();

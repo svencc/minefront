@@ -5,6 +5,7 @@ import cc.sven.hexwarriorproton.minefront.engine.graphics.Mergeable;
 import cc.sven.hexwarriorproton.minefront.engine.graphics.Renderable;
 import cc.sven.hexwarriorproton.minefront.engine.graphics.Scanable;
 import cc.sven.hexwarriorproton.minefront.engine.graphics.buffer.PixelBuffer;
+import cc.sven.hexwarriorproton.minefront.service.argb.ARGBUtilities;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -23,8 +24,15 @@ abstract class RendererTemplate implements Renderable {
                 if (copyToX < 0 || copyToX >= target.getDimension().getWidthX()) continue;
 
                 final int colorValue = source.scanPixelAt(x, y);
-                if (colorValue == 0xffff00ff) continue;
-                target.bufferPixelAt(copyToX, copyToY, colorValue);
+                if (colorValue == 0xFFff00ff) continue;
+                int alphaComponent = ARGBUtilities.getAlphaComponent(colorValue);
+                if (alphaComponent < 0xFF) {
+                    // set color blending (alpha channel)
+                    target.bufferPixelAt(copyToX, copyToY, ARGBUtilities.blend(colorValue, target.scanPixelAt(copyToX, copyToY)));
+                } else {
+                    // set color without blending
+                    target.bufferPixelAt(copyToX, copyToY, colorValue);
+                }
             }
         }
     }

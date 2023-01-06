@@ -44,6 +44,7 @@ public class TestMergeable implements Mergeable, HasPixelBuffer {
     public void prepareBuffer() {
         if (!isBufferPreloaded) {
             preloadBuffer();
+            isBufferPreloaded = true;
         }
     }
 

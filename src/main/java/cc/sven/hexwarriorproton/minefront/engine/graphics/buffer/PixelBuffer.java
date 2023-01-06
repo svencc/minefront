@@ -1,14 +1,13 @@
 package cc.sven.hexwarriorproton.minefront.engine.graphics.buffer;
 
 import cc.sven.hexwarriorproton.minefront.engine.graphics.Bufferable;
-import cc.sven.hexwarriorproton.minefront.engine.graphics.Scanable;
 import cc.sven.hexwarriorproton.minefront.engine.units.PixelDimension;
 import lombok.Getter;
 import lombok.NonNull;
 
 import java.util.Arrays;
 
-public class PixelBuffer implements Scanable, Bufferable {
+public class PixelBuffer implements Bufferable {
 
     @Getter
     protected PixelDimension dimension;
@@ -72,18 +71,13 @@ public class PixelBuffer implements Scanable, Bufferable {
     }
 
     @Override
-    public int scanPixelAtIndex(int index) {
-        return pixelBuffer[index];
-    }
-
-    @Override
     public void bufferPixelAt(int x, int y, int newPixelValue) {
         pixelBuffer[x + y * dimension.getWidthX()] = newPixelValue;
     }
 
     @Override
-    public void bufferPixelAtIndex(int index, int newPixelValue) {
-        pixelBuffer[index] = newPixelValue;
+    public int scanPixelAtIndex(int index) {
+        return pixelBuffer[index];
     }
 
     public void clearBuffer() {
@@ -92,6 +86,11 @@ public class PixelBuffer implements Scanable, Bufferable {
 
     public void fillBuffer(int value) {
         Arrays.fill(pixelBuffer, value);
+    }
+
+    @Override
+    public void bufferPixelAtIndex(int index, int newPixelValue) {
+        pixelBuffer[index] = newPixelValue;
     }
 
     public int getBufferSize() {

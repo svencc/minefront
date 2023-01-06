@@ -11,8 +11,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ConfigurationProperties("renderer.resolution")
-public class RendererResolutionProperties {
+@ConfigurationProperties("renderer")
+public class RendererProperties {
 
     private static PixelDimension singletonPixelDimension = null;
     private int width;

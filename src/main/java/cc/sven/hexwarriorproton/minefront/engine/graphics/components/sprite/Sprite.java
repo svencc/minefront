@@ -21,6 +21,7 @@ public class Sprite implements HasPixelBuffer {
         loadSpriteFromAtlas(spriteAtlas, atlasOffsetX, atlasOffsetY, false, false);
     }
 
+    // @TODO: Put the invert options into the PixelBuffer copy function and use it here?
     private void loadSpriteFromAtlas(@NonNull final SpriteAtlas spriteAtlas, final int atlasOffsetX, final int atlasOffsetY, final boolean invertX, final boolean invertY) {
         for (int y = 0; y < pixelBuffer.getDimension().getHeightY(); y++) {
             int pickY = y;

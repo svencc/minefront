@@ -2,7 +2,7 @@ package cc.sven.hexwarriorproton.minefront;
 
 import cc.sven.hexwarriorproton.minefront.engine.GameEngine;
 import cc.sven.hexwarriorproton.minefront.property.MetaProperties;
-import cc.sven.hexwarriorproton.minefront.property.RendererResolutionProperties;
+import cc.sven.hexwarriorproton.minefront.property.RendererProperties;
 import cc.sven.hexwarriorproton.minefront.property.TickProperties;
 import cc.sven.hexwarriorproton.minefront.strategy.SetJFrameTitleStrategy;
 import lombok.NonNull;
@@ -19,7 +19,7 @@ import java.awt.event.WindowEvent;
 
 @EnableConfigurationProperties({
         MetaProperties.class,
-        RendererResolutionProperties.class,
+        RendererProperties.class,
         TickProperties.class
 })
 @SpringBootApplication
@@ -36,7 +36,7 @@ public class Application {
     public CommandLineRunner provideCommandLineRunnerBean(
             @NonNull final GameEngine gameEngine,
             @NonNull final MetaProperties metaProperties,
-            @NonNull final RendererResolutionProperties rendererResolutionProperties
+            @NonNull final RendererProperties rendererProperties
     ) {
         return args -> {
             final Frame frame = new Frame();
@@ -48,13 +48,13 @@ public class Application {
                 }
             });
             frame.setLocationByPlatform(true);
-            frame.setSize(rendererResolutionProperties.getScaledWidth(), rendererResolutionProperties.getScaledHeight());
+            frame.setSize(rendererProperties.getScaledWidth(), rendererProperties.getScaledHeight());
             frame.add(gameEngine);
             frame.setVisible(true);
 
             final int verticalInset = frame.getInsets().top + frame.getInsets().bottom;
             final int horizontalInset = frame.getInsets().left + frame.getInsets().right;
-            frame.setSize(rendererResolutionProperties.getScaledWidth() + horizontalInset, rendererResolutionProperties.getScaledHeight() + verticalInset);
+            frame.setSize(rendererProperties.getScaledWidth() + horizontalInset, rendererProperties.getScaledHeight() + verticalInset);
             frame.setResizable(false);
             frame.pack();
 

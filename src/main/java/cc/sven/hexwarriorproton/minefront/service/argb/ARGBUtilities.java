@@ -6,14 +6,14 @@ import lombok.experimental.UtilityClass;
 public class ARGBUtilities {
 
 
-    public static int blend(final int color, final int background) {
-        final double alpha = getAlphaComponent(color) / 255.0;
+    public static int blend(final int foregroundColor, final int backgroundColour) {
+        final double alpha = getAlphaComponent(foregroundColor) / 255.0;
         final double oneMinusAlpha = 1 - alpha;
 
-        final double newRed = ((getRedComponent(color) * alpha) + (oneMinusAlpha * getRedComponent(background)));
-        final double newGreen = ((getGreenComponent(color) * alpha) + (oneMinusAlpha * getRedComponent(background)));
-        final double newBlue = ((getBlueComponent(color) * alpha) + (oneMinusAlpha * getRedComponent(background)));
-        final int newAlpha = getAlphaComponent(background);
+        final double newRed = ((getRedComponent(foregroundColor) * alpha) + (oneMinusAlpha * getRedComponent(backgroundColour)));
+        final double newGreen = ((getGreenComponent(foregroundColor) * alpha) + (oneMinusAlpha * getGreenComponent(backgroundColour)));
+        final double newBlue = ((getBlueComponent(foregroundColor) * alpha) + (oneMinusAlpha * getBlueComponent(backgroundColour)));
+        final int newAlpha = getAlphaComponent(backgroundColour);
 
         return compose(newAlpha, (int) newRed, (int) newGreen, (int) newBlue);
     }

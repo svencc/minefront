@@ -4,7 +4,7 @@ import cc.sven.hexwarriorproton.minefront.engine.GameTemplate;
 import cc.sven.hexwarriorproton.minefront.engine.graphics.ScreenComposer;
 import cc.sven.hexwarriorproton.minefront.engine.graphics.components.mergeable.ScanableNoiseMergeable;
 import cc.sven.hexwarriorproton.minefront.engine.graphics.renderer.RenderProvider;
-import cc.sven.hexwarriorproton.minefront.property.RendererResolutionProperties;
+import cc.sven.hexwarriorproton.minefront.property.RendererProperties;
 import cc.sven.hexwarriorproton.minefront.service.RandomProvider;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 public class DefaultGame extends GameTemplate {
 
     @NonNull
-    private final RendererResolutionProperties rendererResolution;
+    private final RendererProperties rendererResolution;
     @NonNull
     private final ScreenComposer screenComposer;
     @NonNull

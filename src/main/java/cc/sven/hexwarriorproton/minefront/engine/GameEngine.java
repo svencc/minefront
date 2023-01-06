@@ -2,7 +2,7 @@ package cc.sven.hexwarriorproton.minefront.engine;
 
 import cc.sven.hexwarriorproton.minefront.engine.graphics.ScreenComposer;
 import cc.sven.hexwarriorproton.minefront.property.MetaProperties;
-import cc.sven.hexwarriorproton.minefront.property.RendererResolutionProperties;
+import cc.sven.hexwarriorproton.minefront.property.RendererProperties;
 import cc.sven.hexwarriorproton.minefront.service.profiler.*;
 import cc.sven.hexwarriorproton.minefront.service.tick.TickCalculator;
 import cc.sven.hexwarriorproton.minefront.service.tick.TickerService;
@@ -25,7 +25,7 @@ public class GameEngine extends Canvas implements Runnable {
     @NonNull
     public static String GAMELOOP_THREAD_NAME = "GLoop";
     @NonNull
-    private final RendererResolutionProperties rendererResolutionProperties;
+    private final RendererProperties rendererProperties;
     @NonNull
     private final MetaProperties metaProperties;
     @NonNull
@@ -54,8 +54,8 @@ public class GameEngine extends Canvas implements Runnable {
     @PostConstruct
     public void postConstruct() {
         final Dimension canvasSize = new Dimension(
-                rendererResolutionProperties.getScaledWidth(),
-                rendererResolutionProperties.getScaledHeight()
+                rendererProperties.getScaledWidth(),
+                rendererProperties.getScaledHeight()
         );
         setSize(canvasSize);
         setPreferredSize(canvasSize);
@@ -67,7 +67,7 @@ public class GameEngine extends Canvas implements Runnable {
     public synchronized void start(@NonNull final SetJFrameTitleStrategy setJFrameTitleStrategy) {
         this.setJFrameTitleStrategy = setJFrameTitleStrategy;
 
-        bufferedImage = new BufferedImage(rendererResolutionProperties.getWidth(), rendererResolutionProperties.getHeight(), BufferedImage.TYPE_INT_RGB);
+        bufferedImage = new BufferedImage(rendererProperties.getWidth(), rendererProperties.getHeight(), BufferedImage.TYPE_INT_RGB);
         bufferedImagePixelRaster = ((DataBufferInt) bufferedImage.getRaster().getDataBuffer()).getData();
 
         running = true;
@@ -128,13 +128,13 @@ public class GameEngine extends Canvas implements Runnable {
         copyBufferFromRendererToCanvas();
 
         final Graphics graphicsContext = bufferStrategy.getDrawGraphics();
-        graphicsContext.drawImage(bufferedImage, 0, 0, rendererResolutionProperties.getScaledWidth(), rendererResolutionProperties.getScaledHeight(), null);
+        graphicsContext.drawImage(bufferedImage, 0, 0, rendererProperties.getScaledWidth(), rendererProperties.getScaledHeight(), null);
         graphicsContext.dispose();
         bufferStrategy.show();
     }
 
     private void copyBufferFromRendererToCanvas() {
-        for (int i = 0; i < (rendererResolutionProperties.getWidth() * rendererResolutionProperties.getHeight()); i++) {
+        for (int i = 0; i < (rendererProperties.getWidth() * rendererProperties.getHeight()); i++) {
             bufferedImagePixelRaster[i] = screenComposer.scanPixelAtIndex(i);
         }
     }
