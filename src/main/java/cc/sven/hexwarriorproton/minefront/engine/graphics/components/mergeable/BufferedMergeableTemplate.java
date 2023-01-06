@@ -10,7 +10,7 @@ import lombok.Getter;
 import lombok.NonNull;
 
 
-public abstract class BufferedMergeable implements Mergeable, HasPixelBuffer {
+public abstract class BufferedMergeableTemplate implements Mergeable, HasPixelBuffer {
 
     @Getter
     @NonNull
@@ -19,7 +19,7 @@ public abstract class BufferedMergeable implements Mergeable, HasPixelBuffer {
     @NonNull
     private final RenderProvider renderProvider;
 
-    public BufferedMergeable(@NonNull PixelDimension dimension, @NonNull RenderProvider renderProvider) {
+    public BufferedMergeableTemplate(@NonNull PixelDimension dimension, @NonNull RenderProvider renderProvider) {
         this.pixelBuffer = new PixelBuffer(dimension);
         this.renderProvider = new RenderProvider();
     }
