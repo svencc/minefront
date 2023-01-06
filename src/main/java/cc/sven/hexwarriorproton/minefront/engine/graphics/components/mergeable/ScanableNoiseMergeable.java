@@ -33,12 +33,12 @@ public class ScanableNoiseMergeable extends ScanableMergeableTemplate {
 
     @Override
     public void prepareBuffer() {
-        // nothing to render here, as wie have no buffer and the scanned pixel is generated randomly while scanning it
+        // nothing to render here, as wie have no buffer and the scanned pixel is generated randomly while scanning it.
     }
 
     @Override
     public void disposeBuffer() {
-
+        // nothing to dispose here, as we have no buffer and the scanned pixel is generated randomly while scanning it.
     }
 
     @Override
