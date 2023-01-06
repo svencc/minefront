@@ -60,14 +60,15 @@ public class GameEngine extends Canvas implements Runnable {
         setSize(canvasSize);
         setPreferredSize(canvasSize);
         setMinimumSize(canvasSize);
+        setMaximumSize(canvasSize);
         setIgnoreRepaint(true);
     }
 
-    public synchronized void start(@NonNull SetJFrameTitleStrategy setJFrameTitleStrategy) {
+    public synchronized void start(@NonNull final SetJFrameTitleStrategy setJFrameTitleStrategy) {
         this.setJFrameTitleStrategy = setJFrameTitleStrategy;
 
-        this.bufferedImage = new BufferedImage(rendererResolutionProperties.getWidth(), rendererResolutionProperties.getHeight(), BufferedImage.TYPE_INT_RGB);
-        this.bufferedImagePixelRaster = ((DataBufferInt) bufferedImage.getRaster().getDataBuffer()).getData();
+        bufferedImage = new BufferedImage(rendererResolutionProperties.getWidth(), rendererResolutionProperties.getHeight(), BufferedImage.TYPE_INT_RGB);
+        bufferedImagePixelRaster = ((DataBufferInt) bufferedImage.getRaster().getDataBuffer()).getData();
 
         running = true;
         gameLoopThread = new Thread(this, GAMELOOP_THREAD_NAME);

@@ -13,39 +13,34 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 abstract class RendererTemplate implements Renderable {
 
-    public void render(@NonNull PixelBuffer sourceBuffer, @NonNull PixelBuffer targetBuffer, int xOffset, int yOffset) {
-        PixelBuffer.copyWithOffset(sourceBuffer, targetBuffer, xOffset, yOffset);
-    }
-
-    public void render(@NonNull Scanable source, @NonNull Bufferable target, int xOffset, int yOffset) {
+    public void render(@NonNull final Scanable source, @NonNull final Bufferable target, final int xOffset, final int yOffset) {
         for (int y = 0; y < source.getDimension().getHeightY(); y++) {
-            int copyToY = y + yOffset;
+            final int copyToY = y + yOffset;
             if (copyToY < 0 || copyToY >= target.getDimension().getHeightY()) continue;
 
             for (int x = 0; x < source.getDimension().getWidthX(); x++) {
-                int copyToX = x + xOffset;
-                if (copyToX < 0 || copyToX >= target.getDimension().getHeightY()) continue;
+                final int copyToX = x + xOffset;
+                if (copyToX < 0 || copyToX >= target.getDimension().getWidthX()) continue;
 
-                int colorValue = source.scanPixelAt(x, y);
-                if (colorValue > 0) {
-                    target.bufferPixelAt(copyToX, copyToY, colorValue);
-                }
+                final int colorValue = source.scanPixelAt(x, y);
+                if (colorValue == 0xffff00ff) continue;
+                target.bufferPixelAt(copyToX, copyToY, colorValue);
             }
         }
     }
 
     @Override
-    public void renderMergeable(@NonNull Mergeable source, @NonNull PixelBuffer targetBuffer, int xOffset, int yOffset) {
+    public void renderMergeable(@NonNull final Mergeable source, @NonNull final PixelBuffer targetBuffer, final int xOffset, final int yOffset) {
         source.mergeBufferWith(targetBuffer, xOffset, yOffset);
     }
 
     @Override
-    public void renderMergeable(@NonNull Mergeable source, @NonNull Bufferable target, int xOffset, int yOffset) {
+    public void renderMergeable(@NonNull final Mergeable source, @NonNull final Bufferable target, final int xOffset, final int yOffset) {
         source.mergeBufferWith(target, xOffset, yOffset);
     }
 
     @Override
-    public void setPixelAt(@NonNull Bufferable target, int x, int y, int newPixelValue) {
+    public void setPixelAt(@NonNull final Bufferable target, final int x, final int y, final int newPixelValue) {
         if (x < 0 || y < 0) return;
         if (x > target.getDimension().getWidthX() || y > target.getDimension().getHeightY()) return;
 

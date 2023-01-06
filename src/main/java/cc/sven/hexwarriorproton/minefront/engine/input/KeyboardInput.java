@@ -1,5 +1,7 @@
 package cc.sven.hexwarriorproton.minefront.engine.input;
 
+import lombok.NonNull;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -16,16 +18,16 @@ public class KeyboardInput implements KeyListener {
     }
 
     @Override
-    public void keyTyped(KeyEvent e) {
+    public void keyTyped(@NonNull final KeyEvent e) {
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {
+    public void keyPressed(@NonNull final KeyEvent e) {
         keys[e.getKeyCode()] = true;
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {
+    public void keyReleased(@NonNull final KeyEvent e) {
         keys[e.getKeyCode()] = false;
     }
 }

@@ -15,19 +15,19 @@ public class ScanableNoiseMergeable extends ScanableMergeableTemplate {
     @NonNull
     private final ScanableNoise scanableNoiseDelegate;
 
-    public ScanableNoiseMergeable(@NonNull RenderProvider renderProvider, @NonNull PixelDimension dimension, @NonNull RandomProvider randomProvider) {
+    public ScanableNoiseMergeable(@NonNull final RenderProvider renderProvider, @NonNull final PixelDimension dimension, @NonNull final RandomProvider randomProvider) {
         super(dimension);
         this.renderProvider = renderProvider;
         this.scanableNoiseDelegate = new ScanableNoise(randomProvider, dimension);
     }
 
     @Override
-    public void mergeBufferWith(@NonNull PixelBuffer targetBuffer, int offsetX, int offsetY) {
+    public void mergeBufferWith(@NonNull final PixelBuffer targetBuffer, final int offsetX, final int offsetY) {
         renderProvider.provide().render(scanableNoiseDelegate, targetBuffer, offsetX, offsetY);
     }
 
     @Override
-    public void mergeBufferWith(@NonNull Bufferable targetBuffer, int offsetX, int offsetY) {
+    public void mergeBufferWith(@NonNull final Bufferable targetBuffer, final int offsetX, final int offsetY) {
         renderProvider.provide().render(scanableNoiseDelegate, targetBuffer, offsetX, offsetY);
     }
 

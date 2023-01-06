@@ -17,7 +17,7 @@ public class ScreenComposer extends PixelBuffer implements Composable, Scanable,
     @NonNull
     private final LinkedList<Mergeable> layerPipeline = new LinkedList<>();
 
-    public ScreenComposer(@NonNull RendererResolutionProperties rendererResolutionProperties) {
+    public ScreenComposer(@NonNull final RendererResolutionProperties rendererResolutionProperties) {
         super(rendererResolutionProperties.toRendererDimension());
         rendererResolution = rendererResolutionProperties;
     }

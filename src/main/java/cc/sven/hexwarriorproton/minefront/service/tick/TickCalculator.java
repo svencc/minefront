@@ -13,7 +13,7 @@ public class TickCalculator {
     @NonNull
     private final TickProperties tickProperties;
 
-    public double calculateTickThresholdRatio(double profiledNanos) {
+    public double calculateTickThresholdRatio(final double profiledNanos) {
         return profiledNanos / nanosPerTick();
     }
 

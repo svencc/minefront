@@ -12,16 +12,16 @@ public class Sprite implements HasPixelBuffer {
     @NonNull
     private final PixelBuffer pixelBuffer;
 
-    public Sprite(@NonNull PixelDimension dimension) {
+    public Sprite(@NonNull final PixelDimension dimension) {
         pixelBuffer = new PixelBuffer(dimension);
     }
 
-    public Sprite(@NonNull PixelDimension dimension, @NonNull SpriteAtlas spriteAtlas, int atlasOffsetX, int atlasOffsetY) {
+    public Sprite(@NonNull final PixelDimension dimension, @NonNull final SpriteAtlas spriteAtlas, final int atlasOffsetX, final int atlasOffsetY) {
         pixelBuffer = new PixelBuffer(dimension);
         loadSpriteFromAtlas(spriteAtlas, atlasOffsetX, atlasOffsetY, false, false);
     }
 
-    private void loadSpriteFromAtlas(@NonNull SpriteAtlas spriteAtlas, int atlasOffsetX, int atlasOffsetY, boolean invertX, boolean invertY) {
+    private void loadSpriteFromAtlas(@NonNull final SpriteAtlas spriteAtlas, final int atlasOffsetX, final int atlasOffsetY, final boolean invertX, final boolean invertY) {
         for (int y = 0; y < pixelBuffer.getDimension().getHeightY(); y++) {
             int pickY = y;
             if (invertY) {
@@ -38,11 +38,11 @@ public class Sprite implements HasPixelBuffer {
         }
     }
 
-    private static int getPixelAtIndex(@NonNull SpriteAtlas spriteAtlas, int atlasOffsetX, int atlasOffsetY, int pickY, int pickX) {
+    private static int getPixelAtIndex(@NonNull final SpriteAtlas spriteAtlas, final int atlasOffsetX, final int atlasOffsetY, final int pickY, final int pickX) {
         return spriteAtlas.getPixelBuffer().scanPixelAtIndex((pickX + atlasOffsetX) + (pickY + atlasOffsetY) * spriteAtlas.getPixelBuffer().getDimension().getWidthX());
     }
 
-    public Sprite(@NonNull PixelDimension dimension, @NonNull SpriteAtlas spriteAtlas, int offsetX, int offsetY, boolean invertX, boolean invertY) {
+    public Sprite(@NonNull final PixelDimension dimension, @NonNull final SpriteAtlas spriteAtlas, final int offsetX, final int offsetY, final boolean invertX, final boolean invertY) {
         pixelBuffer = new PixelBuffer(dimension);
         loadSpriteFromAtlas(spriteAtlas, offsetX, offsetY, invertX, invertY);
     }

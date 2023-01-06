@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 public class ProfilerProvider {
 
     @NonNull
-    public Profiler provide(@NonNull String profilerName) {
+    public Profiler provide(@NonNull final String profilerName) {
         return new Profiler(profilerName);
     }
 

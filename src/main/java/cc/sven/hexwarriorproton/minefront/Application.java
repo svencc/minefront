@@ -34,11 +34,16 @@ public class Application {
 
     @Bean
     public CommandLineRunner provideCommandLineRunnerBean(
-            @NonNull GameEngine gameEngine,
-            @NonNull MetaProperties metaProperties,
-            @NonNull RendererResolutionProperties rendererResolutionProperties
+            @NonNull final GameEngine gameEngine,
+            @NonNull final MetaProperties metaProperties,
+            @NonNull final RendererResolutionProperties rendererResolutionProperties
     ) {
         return args -> {
+//            final Dimension dimension = new Dimension(rendererResolutionProperties.getScaledWidth(), rendererResolutionProperties.getScaledHeight());
+//            gameEngine.setMinimumSize(dimension);
+//            gameEngine.setMinimumSize(dimension);
+//            gameEngine.setSize(dimension);
+
             final Frame frame = new Frame();
             frame.setTitle(metaProperties.getName());
             frame.addWindowListener(new WindowAdapter() {
@@ -48,14 +53,14 @@ public class Application {
                 }
             });
             frame.setLocationByPlatform(true);
-            frame.setSize(rendererResolutionProperties.getScaledWidth(), rendererResolutionProperties.getScaledHeight());
-            frame.setResizable(false);
+            frame.setSize(rendererResolutionProperties.getScaledWidth(), rendererResolutionProperties.getScaledHeight()*2);
             frame.add(gameEngine);
             frame.setVisible(true);
 
-            int verticalInset = frame.getInsets().top + frame.getInsets().bottom;
-            int horizontalInset = frame.getInsets().left + frame.getInsets().right;
+            final int verticalInset = frame.getInsets().top + frame.getInsets().bottom;
+            final int horizontalInset = frame.getInsets().left + frame.getInsets().right;
             frame.setSize(rendererResolutionProperties.getScaledWidth() + horizontalInset, rendererResolutionProperties.getScaledHeight() + verticalInset);
+            frame.setResizable(false);
 
             gameEngine.start(SetJFrameTitleStrategy.builder().frame(frame).build());
         };

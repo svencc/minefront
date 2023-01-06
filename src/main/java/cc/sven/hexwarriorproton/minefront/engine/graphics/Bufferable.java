@@ -6,12 +6,12 @@ public interface Bufferable {
 
     PixelDimension getDimension();
 
-    void bufferPixelAt(int x, int y, int newPixelValue);
+    void bufferPixelAt(final int x, final int y, final int newPixelValue);
 
-    void bufferPixelAtIndex(int index, int newPixelValue);
+    void bufferPixelAtIndex(final int index, final int newPixelValue);
 
     void clearBuffer();
 
-    void fillBuffer(int value);
+    void fillBuffer(final int value);
 
 }

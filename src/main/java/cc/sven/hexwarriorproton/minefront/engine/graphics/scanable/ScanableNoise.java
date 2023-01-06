@@ -17,12 +17,12 @@ public class ScanableNoise implements Scanable {
     private final PixelDimension dimension;
 
     @Override
-    public int scanPixelAt(int x, int y) {
+    public int scanPixelAt(final int x, final int y) {
         return randomProvider.provide().nextInt() * (randomProvider.provide().nextInt(5) / 4);
     }
 
     @Override
-    public int scanPixelAtIndex(int index) {
+    public int scanPixelAtIndex(final int index) {
         return randomProvider.provide().nextInt() * (randomProvider.provide().nextInt(5) / 4);
     }
 

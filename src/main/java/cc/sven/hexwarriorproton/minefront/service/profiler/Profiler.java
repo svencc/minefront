@@ -14,7 +14,7 @@ public class Profiler {
     @Getter
     private double profiledMilliseconds;
 
-    Profiler(String profilerName) {
+    Profiler(@NonNull final  String profilerName) {
         this.profilerName = profilerName;
     }
 

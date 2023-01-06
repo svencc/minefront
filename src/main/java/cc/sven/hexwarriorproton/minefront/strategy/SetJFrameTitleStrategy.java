@@ -13,7 +13,7 @@ public class SetJFrameTitleStrategy {
     @NonNull
     private final Frame frame;
 
-    public void execute(@NonNull String newTitle) {
+    public void execute(@NonNull final String newTitle) {
         frame.setTitle(newTitle);
     }
 

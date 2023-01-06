@@ -16,7 +16,7 @@ public class SpriteAtlas implements HasPixelBuffer {
     @NonNull
     private final PixelBuffer pixelBuffer;
 
-    public SpriteAtlas(@NonNull String path) throws IOException {
+    public SpriteAtlas(@NonNull final String path) throws IOException {
         final BufferedImage image = ImageIO.read(SpriteAtlas.class.getResource(path));
         final PixelDimension dimension = PixelDimension.builder().widthX(image.getWidth()).heightY(image.getHeight()).build();
 
@@ -24,6 +24,16 @@ public class SpriteAtlas implements HasPixelBuffer {
         image.getRGB(0, 0, dimension.getWidthX(), dimension.getHeightY(), preparedBuffer, 0, dimension.getWidthX());
 
         pixelBuffer = new PixelBuffer(dimension, preparedBuffer);
+    }
+
+    public Sprite createSprite(@NonNull final PixelDimension pixelDimension, final int atlasOffsetX, final int atlasOffsetY) {
+        final PixelDimension dimension = PixelDimension.builder().widthX(pixelDimension.getWidthX()).heightY(pixelDimension.getHeightY()).build();
+        return new Sprite(dimension, this, atlasOffsetX, atlasOffsetY);
+    }
+
+    public Sprite createSprite(@NonNull final PixelDimension pixelDimension, final int atlasOffsetX, final int atlasOffsetY, final boolean invertX, final boolean invertY) {
+        final PixelDimension dimension = PixelDimension.builder().widthX(pixelDimension.getWidthX()).heightY(pixelDimension.getHeightY()).build();
+        return new Sprite(dimension, this, atlasOffsetX, atlasOffsetY, invertX, invertY);
     }
 
 }

@@ -6,8 +6,8 @@ public interface Scanable {
 
     PixelDimension getDimension();
 
-    int scanPixelAt(int x, int y);
+    int scanPixelAt(final int x, final int y);
 
-    int scanPixelAtIndex(int index);
+    int scanPixelAtIndex(final int index);
 
 }

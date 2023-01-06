@@ -2,11 +2,17 @@ package cc.sven.hexwarriorproton.minefront.engine.graphics.renderer;
 
 import cc.sven.hexwarriorproton.minefront.engine.graphics.Scanable;
 import cc.sven.hexwarriorproton.minefront.engine.graphics.buffer.PixelBuffer;
+import cc.sven.hexwarriorproton.minefront.engine.graphics.components.sprite.SpriteAtlas;
 import cc.sven.hexwarriorproton.minefront.engine.units.PixelDimension;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -121,6 +127,37 @@ class SoftwareRendererTest {
         assertEquals(0, targetBuffer.scanPixelAt(1, 0));
         assertEquals(0, targetBuffer.scanPixelAt(0, 1));
         assertEquals(0, targetBuffer.scanPixelAt(1, 1));
+    }
+
+    @Test
+    void renderHexWithTransparentColor() throws IOException {
+        // PREPARE
+        final PixelBuffer bufferWithTestImage = getPixelBufferFromFile("/assets/testHex62x32.png");
+        final PixelBuffer bufferWithExpectedImage = getPixelBufferFromFile("/assets/expectedHex62x32.png");
+
+        final PixelBuffer pixelBufferToRenderIn = new PixelBuffer(PixelDimension.builder().widthX(bufferWithTestImage.getDimension().getWidthX()).heightY(bufferWithTestImage.getDimension().getHeightY()).build());
+        int black = -16777216;
+        pixelBufferToRenderIn.fillBuffer(black);
+
+        // EXECUTE
+        rendererToTest.render(bufferWithTestImage, pixelBufferToRenderIn, 0, 0);
+
+        // ASSERT
+        for (int i = 0; i < bufferWithTestImage.getBufferSize(); i++) {
+            assertEquals(pixelBufferToRenderIn.scanPixelAtIndex(i), bufferWithExpectedImage.scanPixelAtIndex(i));
+        }
+    }
+
+    @NonNull
+    private static PixelBuffer getPixelBufferFromFile(@NonNull String name) throws IOException {
+        final BufferedImage image = ImageIO.read(SpriteAtlas.class.getResource(name));
+        final int[] imageBufferArray = new int[image.getWidth() * image.getHeight()];
+
+        // load image to int[] imageBufferArray
+        image.getRGB(0, 0, image.getWidth(), image.getHeight(), imageBufferArray, 0, image.getWidth());
+
+        // create PixelBuffer from image int[]
+        return new PixelBuffer(PixelDimension.builder().widthX(image.getWidth()).heightY(image.getHeight()).build(), imageBufferArray);
     }
 
     @Test
