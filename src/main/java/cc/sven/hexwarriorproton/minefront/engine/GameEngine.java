@@ -128,13 +128,13 @@ public class GameEngine extends Canvas implements Runnable {
         copyBufferFromRendererToCanvas();
 
         final Graphics graphicsContext = bufferStrategy.getDrawGraphics();
-        graphicsContext.drawImage(bufferedImage, 0, 0, rendererResolutionProperties.getScaledWidth(), rendererResolutionProperties.getScaledWidth(), null);
+        graphicsContext.drawImage(bufferedImage, 0, 0, rendererResolutionProperties.getScaledWidth(), rendererResolutionProperties.getScaledHeight(), null);
         graphicsContext.dispose();
         bufferStrategy.show();
     }
 
     private void copyBufferFromRendererToCanvas() {
-        for (int i = 0; i < rendererResolutionProperties.getWidth() * rendererResolutionProperties.getHeight(); i++) {
+        for (int i = 0; i < (rendererResolutionProperties.getWidth() * rendererResolutionProperties.getHeight()); i++) {
             bufferedImagePixelRaster[i] = screenComposer.scanPixelAtIndex(i);
         }
     }

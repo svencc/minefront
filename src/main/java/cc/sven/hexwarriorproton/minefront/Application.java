@@ -39,11 +39,6 @@ public class Application {
             @NonNull final RendererResolutionProperties rendererResolutionProperties
     ) {
         return args -> {
-//            final Dimension dimension = new Dimension(rendererResolutionProperties.getScaledWidth(), rendererResolutionProperties.getScaledHeight());
-//            gameEngine.setMinimumSize(dimension);
-//            gameEngine.setMinimumSize(dimension);
-//            gameEngine.setSize(dimension);
-
             final Frame frame = new Frame();
             frame.setTitle(metaProperties.getName());
             frame.addWindowListener(new WindowAdapter() {
@@ -53,7 +48,7 @@ public class Application {
                 }
             });
             frame.setLocationByPlatform(true);
-            frame.setSize(rendererResolutionProperties.getScaledWidth(), rendererResolutionProperties.getScaledHeight()*2);
+            frame.setSize(rendererResolutionProperties.getScaledWidth(), rendererResolutionProperties.getScaledHeight());
             frame.add(gameEngine);
             frame.setVisible(true);
 
@@ -61,6 +56,7 @@ public class Application {
             final int horizontalInset = frame.getInsets().left + frame.getInsets().right;
             frame.setSize(rendererResolutionProperties.getScaledWidth() + horizontalInset, rendererResolutionProperties.getScaledHeight() + verticalInset);
             frame.setResizable(false);
+            frame.pack();
 
             gameEngine.start(SetJFrameTitleStrategy.builder().frame(frame).build());
         };

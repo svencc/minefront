@@ -35,7 +35,7 @@ public class RendererResolutionProperties {
         if (singletonPixelDimension == null) {
             singletonPixelDimension = PixelDimension.builder()
                     .widthX(getWidth())
-                    .heightY(getWidth())
+                    .heightY(getHeight())
                     .build();
         }
 
