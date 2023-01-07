@@ -1,17 +1,26 @@
 package cc.sven.hexwarriorproton.minefront.service.argb;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class ARGBUtilitiesTest {
+class ARGBCalculatorTest {
+
+//    private ARGBCalculatorProvider provider;
+    private ARGBCalculator calculatorToTest;
+
+    @BeforeEach
+    public void beforeEach() {
+        calculatorToTest = new ARGBCalculator();
+    }
 
     @Test
     void getAlpha() {
         // PREPARE
         int argb = 0xffaaaaaa;
         // EXECUTE
-        int alphaComponent = ARGBUtilities.getAlphaComponent(argb);
+        int alphaComponent = calculatorToTest.getAlphaComponent(argb);
         // ASSERT
         assertEquals(0xff, alphaComponent);
     }
@@ -21,7 +30,7 @@ class ARGBUtilitiesTest {
         // PREPARE
         int argb = 0x00aaaaaa;
         // EXECUTE
-        int alphaComponent = ARGBUtilities.getAlphaComponent(argb);
+        int alphaComponent = calculatorToTest.getAlphaComponent(argb);
         // ASSERT
         assertEquals(0x00, alphaComponent);
     }
@@ -31,7 +40,7 @@ class ARGBUtilitiesTest {
         // PREPARE
         int argb = 0x99aaaaaa;
         // EXECUTE
-        int alphaComponent = ARGBUtilities.getAlphaComponent(argb);
+        int alphaComponent = calculatorToTest.getAlphaComponent(argb);
         // ASSERT
         assertEquals(0x99, alphaComponent);
     }
@@ -41,7 +50,7 @@ class ARGBUtilitiesTest {
         // PREPARE
         int argb = 0xffaa9999;
         // EXECUTE
-        int alphaComponent = ARGBUtilities.getRedComponent(argb);
+        int alphaComponent = calculatorToTest.getRedComponent(argb);
         // ASSERT
         assertEquals(0xaa, alphaComponent);
     }
@@ -51,7 +60,7 @@ class ARGBUtilitiesTest {
         // PREPARE
         int argb = 0x00ffaaaa;
         // EXECUTE
-        int alphaComponent = ARGBUtilities.getRedComponent(argb);
+        int alphaComponent = calculatorToTest.getRedComponent(argb);
         // ASSERT
         assertEquals(0xff, alphaComponent);
     }
@@ -61,7 +70,7 @@ class ARGBUtilitiesTest {
         // PREPARE
         int argb = 0xff99aa99;
         // EXECUTE
-        int alphaComponent = ARGBUtilities.getGreenComponent(argb);
+        int alphaComponent = calculatorToTest.getGreenComponent(argb);
         // ASSERT
         assertEquals(0xaa, alphaComponent);
     }
@@ -71,7 +80,7 @@ class ARGBUtilitiesTest {
         // PREPARE
         int argb = 0x00aaffaa;
         // EXECUTE
-        int alphaComponent = ARGBUtilities.getGreenComponent(argb);
+        int alphaComponent = calculatorToTest.getGreenComponent(argb);
         // ASSERT
         assertEquals(0xff, alphaComponent);
     }
@@ -81,7 +90,7 @@ class ARGBUtilitiesTest {
         // PREPARE
         int argb = 0xff9999aa;
         // EXECUTE
-        int alphaComponent = ARGBUtilities.getBlueComponent(argb);
+        int alphaComponent = calculatorToTest.getBlueComponent(argb);
         // ASSERT
         assertEquals(0xaa, alphaComponent);
     }
@@ -91,7 +100,7 @@ class ARGBUtilitiesTest {
         // PREPARE
         int argb = 0x00aaaaff;
         // EXECUTE
-        int alphaComponent = ARGBUtilities.getBlueComponent(argb);
+        int alphaComponent = calculatorToTest.getBlueComponent(argb);
         // ASSERT
         assertEquals(0xff, alphaComponent);
     }
@@ -102,7 +111,7 @@ class ARGBUtilitiesTest {
         int solidWhite = 0xffffffff;
         int solidRed = 0xffff0000;
         // EXECUTE
-        int mixedColor1 = ARGBUtilities.blend(solidWhite, solidRed);
+        int mixedColor1 = calculatorToTest.blend(solidWhite, solidRed);
         // ASSERT
         assertEquals(0xffffffff, mixedColor1);
     }
@@ -113,7 +122,7 @@ class ARGBUtilitiesTest {
         int solidWhiteForeground = 0xffffffff;
         int solidBlackBackground = 0xff000000;
         // EXECUTE
-        int mixedColor = ARGBUtilities.blend(solidWhiteForeground, solidBlackBackground);
+        int mixedColor = calculatorToTest.blend(solidWhiteForeground, solidBlackBackground);
         // ASSERT
         assertEquals(solidWhiteForeground, mixedColor);
     }
@@ -124,7 +133,7 @@ class ARGBUtilitiesTest {
         int solidWhiteBackground = 0xffFFFFFF;
         int alphaRedForeground = 0x7dFF0000;
         // EXECUTE
-        int mixedColor1 = ARGBUtilities.blend(alphaRedForeground, solidWhiteBackground);
+        int mixedColor1 = calculatorToTest.blend(alphaRedForeground, solidWhiteBackground);
         // ASSERT
         assertEquals(0xffFF8282, mixedColor1);
     }

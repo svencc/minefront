@@ -1,21 +1,27 @@
 package cc.sven.hexwarriorproton.minefront.engine.graphics.renderer;
 
 import cc.sven.hexwarriorproton.minefront.engine.graphics.Renderable;
+import cc.sven.hexwarriorproton.minefront.service.argb.ARGBCalculatorProvider;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RenderProvider {
+@RequiredArgsConstructor
+public final class RenderProvider {
 
+    @NonNull
+    private final ARGBCalculatorProvider argbCalculatorProvider;
     @Nullable
-    private Renderable rendererSingletonInstance;
+    private Renderable instance;
 
     public Renderable provide() {
-        if (rendererSingletonInstance == null) {
-            rendererSingletonInstance = new SoftwareRenderer();
+        if (instance == null) {
+            instance = new SoftwareRenderer(argbCalculatorProvider);
         }
 
-        return rendererSingletonInstance;
+        return instance;
     }
 
 }

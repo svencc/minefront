@@ -1,12 +1,12 @@
 package cc.sven.hexwarriorproton.minefront.service.argb;
 
-import lombok.experimental.UtilityClass;
+public class ARGBCalculator {
 
-@UtilityClass
-public class ARGBUtilities {
+    ARGBCalculator() {
 
+    }
 
-    public static int blend(final int foregroundColor, final int backgroundColour) {
+    public int blend(final int foregroundColor, final int backgroundColour) {
         final double alpha = getAlphaComponent(foregroundColor) / 255.0;
         final double oneMinusAlpha = 1 - alpha;
 

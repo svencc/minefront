@@ -4,6 +4,7 @@ import cc.sven.hexwarriorproton.minefront.engine.graphics.Scanable;
 import cc.sven.hexwarriorproton.minefront.engine.graphics.buffer.PixelBuffer;
 import cc.sven.hexwarriorproton.minefront.engine.graphics.components.sprite.SpriteAtlas;
 import cc.sven.hexwarriorproton.minefront.engine.units.PixelDimension;
+import cc.sven.hexwarriorproton.minefront.service.argb.ARGBCalculatorProvider;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,12 +20,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @RequiredArgsConstructor
 class SoftwareRendererTest {
 
+    private ARGBCalculatorProvider argbCalculatorProvider;
     private SoftwareRenderer rendererToTest;
     private PixelBuffer targetBuffer;
 
     @BeforeEach
-    void setUp() {
-        rendererToTest = new SoftwareRenderer();
+    void beforeEach() {
+        argbCalculatorProvider = new ARGBCalculatorProvider();
+        rendererToTest = new SoftwareRenderer(argbCalculatorProvider);
     }
 
     @Test
@@ -32,8 +35,8 @@ class SoftwareRendererTest {
         // PREPARE
         targetBuffer = new PixelBuffer(PixelDimension.builder().widthX(1).heightY(1).build());
         final PixelBuffer sourceBuffer = new PixelBuffer(PixelDimension.builder().widthX(1).heightY(1).build());
-        int sourceBufferContent = 0xffffff;
-        sourceBuffer.fillBuffer(0xffffff);
+        int sourceBufferContent = 0xFFffffff;
+        sourceBuffer.fillBuffer(sourceBufferContent);
 
         // EXECUTE
         rendererToTest.render(sourceBuffer, targetBuffer, 0, 0);
@@ -48,8 +51,8 @@ class SoftwareRendererTest {
         // PREPARE
         targetBuffer = new PixelBuffer(PixelDimension.builder().widthX(2).heightY(2).build());
         final PixelBuffer sourceBuffer = new PixelBuffer(PixelDimension.builder().widthX(1).heightY(1).build());
-        int sourceBufferContent = 0xffffff;
-        sourceBuffer.fillBuffer(0xffffff);
+        int sourceBufferContent = 0xFFffffff;
+        sourceBuffer.fillBuffer(sourceBufferContent);
 
         // EXECUTE
         rendererToTest.render((Scanable) sourceBuffer, targetBuffer, 0, 0);
@@ -66,8 +69,8 @@ class SoftwareRendererTest {
         // PREPARE
         targetBuffer = new PixelBuffer(PixelDimension.builder().widthX(2).heightY(2).build());
         final PixelBuffer sourceBuffer = new PixelBuffer(PixelDimension.builder().widthX(2).heightY(2).build());
-        int sourceBufferContent = 0xffffff;
-        sourceBuffer.fillBuffer(0xffffff);
+        int sourceBufferContent = 0xFFffffff;
+        sourceBuffer.fillBuffer(sourceBufferContent);
 
         // EXECUTE
         rendererToTest.render((Scanable) sourceBuffer, targetBuffer, 1, 1);
@@ -84,8 +87,8 @@ class SoftwareRendererTest {
         // PREPARE
         targetBuffer = new PixelBuffer(PixelDimension.builder().widthX(2).heightY(2).build());
         final PixelBuffer sourceBuffer = new PixelBuffer(PixelDimension.builder().widthX(2).heightY(2).build());
-        int sourceBufferContent = 0xffffff;
-        sourceBuffer.fillBuffer(0xffffff);
+        int sourceBufferContent = 0xFFffffff;
+        sourceBuffer.fillBuffer(sourceBufferContent);
 
         // EXECUTE
         rendererToTest.render((Scanable) sourceBuffer, targetBuffer, -1, -1);

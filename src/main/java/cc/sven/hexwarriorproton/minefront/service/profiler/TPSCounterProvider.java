@@ -4,7 +4,7 @@ import lombok.NonNull;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TPSCounterProvider {
+public final class TPSCounterProvider {
 
     @NonNull
     public TPSCounter provide() {

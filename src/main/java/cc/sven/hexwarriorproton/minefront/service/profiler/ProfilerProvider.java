@@ -4,7 +4,7 @@ import lombok.NonNull;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ProfilerProvider {
+public final class ProfilerProvider {
 
     @NonNull
     public Profiler provide(@NonNull final String profilerName) {

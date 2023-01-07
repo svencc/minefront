@@ -21,7 +21,7 @@ public abstract class BufferedMergeableTemplate implements Mergeable, HasPixelBu
 
     public BufferedMergeableTemplate(@NonNull final PixelDimension dimension, @NonNull final RenderProvider renderProvider) {
         this.pixelBuffer = new PixelBuffer(dimension);
-        this.renderProvider = new RenderProvider();
+        this.renderProvider = renderProvider;
     }
 
     @Override

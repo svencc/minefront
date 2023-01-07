@@ -1,20 +1,22 @@
 package cc.sven.hexwarriorproton.minefront.service;
 
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
 
 @Service
-public class RandomProvider {
+public final class RandomProvider {
 
-    private Random singletonInstance;
+    @Nullable
+    private Random instance;
 
     public Random provide() {
-        if (singletonInstance == null) {
-            singletonInstance = new Random();
+        if (instance == null) {
+            instance = new Random();
         }
 
-        return singletonInstance;
+        return instance;
     }
 
 }

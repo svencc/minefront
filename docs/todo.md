@@ -1,11 +1,13 @@
 # TODO
-3. Add Tile
-4. Render Tile (Map)
+1. Render Tile (Map)
 
 
 
 
 # Backlog
+0. Object Pooling für PixelDimension?
+   1. Warum? Constructor Zeit-Komplex
+   2. Object-Pool in PixelDimension Builder einbauen?
 1. Change 2d Software Renderer -> lwjgl OpenGl Renderer
+2. Provider instance creation threadsafe machen?
 
-2. XXX. OpenCL Nutzung um rechenintensive Aufgabe auszulagern?

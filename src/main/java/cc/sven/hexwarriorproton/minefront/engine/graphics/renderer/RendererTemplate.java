@@ -5,7 +5,7 @@ import cc.sven.hexwarriorproton.minefront.engine.graphics.Mergeable;
 import cc.sven.hexwarriorproton.minefront.engine.graphics.Renderable;
 import cc.sven.hexwarriorproton.minefront.engine.graphics.Scanable;
 import cc.sven.hexwarriorproton.minefront.engine.graphics.buffer.PixelBuffer;
-import cc.sven.hexwarriorproton.minefront.service.argb.ARGBUtilities;
+import cc.sven.hexwarriorproton.minefront.service.argb.ARGBCalculatorProvider;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -13,6 +13,9 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 abstract class RendererTemplate implements Renderable {
+
+    @NonNull
+    private final ARGBCalculatorProvider argbCalculatorProvider;
 
     public void render(@NonNull final Scanable source, @NonNull final Bufferable target, final int xOffset, final int yOffset) {
         for (int y = 0; y < source.getDimension().getHeightY(); y++) {
@@ -25,10 +28,10 @@ abstract class RendererTemplate implements Renderable {
 
                 final int colorValue = source.scanPixelAt(x, y);
                 if (colorValue == 0xFFff00ff) continue;
-                int alphaComponent = ARGBUtilities.getAlphaComponent(colorValue);
+                int alphaComponent = argbCalculatorProvider.provide().getAlphaComponent(colorValue);
                 if (alphaComponent < 0xFF) {
                     // set color blending (alpha channel)
-                    target.bufferPixelAt(copyToX, copyToY, ARGBUtilities.blend(colorValue, target.scanPixelAt(copyToX, copyToY)));
+                    target.bufferPixelAt(copyToX, copyToY, argbCalculatorProvider.provide().blend(colorValue, target.scanPixelAt(copyToX, copyToY)));
                 } else {
                     // set color without blending
                     target.bufferPixelAt(copyToX, copyToY, colorValue);

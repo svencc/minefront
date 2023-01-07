@@ -1,11 +1,14 @@
 package cc.sven.hexwarriorproton.minefront.engine.graphics.renderer;
 
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
+import cc.sven.hexwarriorproton.minefront.service.argb.ARGBCalculatorProvider;
+import lombok.NonNull;
 import org.springframework.stereotype.Component;
 
 @Component
-@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 class SoftwareRenderer extends RendererTemplate {
+
+    SoftwareRenderer(@NonNull ARGBCalculatorProvider argbCalculatorProvider) {
+        super(argbCalculatorProvider);
+    }
 
 }
