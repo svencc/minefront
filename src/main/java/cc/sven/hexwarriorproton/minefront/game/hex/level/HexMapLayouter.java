@@ -1,9 +1,13 @@
 package cc.sven.hexwarriorproton.minefront.game.hex.level;
 
+import cc.sven.hexwarriorproton.minefront.engine.components.sprite.Sprite;
+import cc.sven.hexwarriorproton.minefront.engine.components.sprite.SpriteAtlas;
+import cc.sven.hexwarriorproton.minefront.engine.units.PixelCoordinate;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,23 +16,41 @@ import java.util.List;
 public class HexMapLayouter {
 
     @NonNull
+    private Sprite hexSprite;
+
+    @NonNull
     public HexMap layout(@NonNull HexMapConfiguration hexMapConfiguration) {
+        loadSprite();
+
         final HexMap hexMap = HexMap.builder()
                 .HexMapConfiguration(hexMapConfiguration)
                 .build();
-
         final List<HexTile> cubicHexList = new ArrayList<>();
 
-        int top = 0;
-        int left = 0;
-        int bottom = hexMapConfiguration.getGridHeight() - 1;
-        int right = hexMapConfiguration.getGridWidth() - 1;
-
-        long layoutNumeration = 1;
-        for (int q = left; q <= right; q++) {
-            long qOffset = offsetCalculator(q); // or q>>1
-            for (long r = top - qOffset; r <= bottom - qOffset; r++) {
-//                cubicHexList.add(new HexTile(layoutNumeration, q, r, hexMap));
+        int startTop = 0;
+        int startLeft = 0;
+        int endBottom = hexMapConfiguration.getGridHeight();
+        int endRight = hexMapConfiguration.getGridWidth();
+        int layoutNumeration = 1;
+        for (int q = startLeft; q < endRight; q++) {
+            for (int r = startTop; r < endBottom; r++) {
+                int layoutOffsetX = -(15 * q);
+                int layoutOffsetY = 0;
+                if (isOdd(q)) {
+                    layoutOffsetY = (hexSprite.getPixelBuffer().getDimension().getHeightY() / 2);
+                }
+                cubicHexList.add(HexTile.builder()
+                        .layoutNumeration(layoutNumeration)
+                        .position(PixelCoordinate.builder()
+                                .withX(q * hexSprite.getPixelBuffer().getDimension().getWidthX() + layoutOffsetX)
+                                .heightY(r * hexSprite.getPixelBuffer().getDimension().getHeightY() + layoutOffsetY)
+                                .build())
+                        .q(q)
+                        .r(r)
+                        .s(-q - r)
+                        .hexMap(hexMap)
+                        .sprite(hexSprite)
+                        .build());
                 layoutNumeration++;
             }
         }
@@ -38,8 +60,18 @@ public class HexMapLayouter {
         return hexMap;
     }
 
-    private long offsetCalculator(int q) {
-        return (long) Math.floor(q / 2.0);
+    private void loadSprite() {
+        try {
+            final SpriteAtlas spriteAtlas = new SpriteAtlas("/assets/hex62x32alpha.png");
+            hexSprite = spriteAtlas.createSprite(spriteAtlas.getPixelBuffer().getDimension(), 0, 0);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(666);
+        }
+    }
+
+    private boolean isOdd(int q) {
+        return ((q & 0x1) == 1);
     }
 
 }

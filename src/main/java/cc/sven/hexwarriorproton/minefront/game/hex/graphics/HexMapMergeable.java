@@ -27,14 +27,17 @@ public class HexMapMergeable implements Mergeable, HasPixelBuffer, Soilable {
     @Getter
     @NonNull
     private final PixelBuffer pixelBuffer;
-    @Nullable
-    private Sprite hexSprite;
     @Setter
     @NonNull
     private Optional<HexMap> hexMap = Optional.empty();
     @Setter
     @Getter
     private boolean dirty = true;
+
+    @Deprecated
+    @Nullable
+    private Sprite hexSprite;
+    @Deprecated
     private boolean isSpriteInitialized = false;
 
     public HexMapMergeable(@NonNull final RendererProperties rendererResolution, @NonNull final RenderProvider renderProvider) {
@@ -75,11 +78,12 @@ public class HexMapMergeable implements Mergeable, HasPixelBuffer, Soilable {
 
     }
 
+    @Deprecated
     private void initializeSprite() {
         try {
             final SpriteAtlas spriteAtlas = new SpriteAtlas("/assets/hex62x32alpha.png");
             hexSprite = spriteAtlas.createSprite(spriteAtlas.getPixelBuffer().getDimension(), 0, 0);
-            pixelBuffer.fillBuffer(0xFF04A804);
+            pixelBuffer.fillBuffer(0xFF8a6f30);
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(666);
@@ -87,9 +91,11 @@ public class HexMapMergeable implements Mergeable, HasPixelBuffer, Soilable {
     }
 
     private void preRenderMapToBuffer() {
-        if (hexMap.isEmpty()) {
+        if (hexMap.isPresent()) {
             // calculate mapSize => set Buffer size!!!
-
+            hexMap.get().getHexTiles().forEach(hexTile -> {
+                renderProvider.provide().render(hexTile.getPixelBuffer(), pixelBuffer, hexTile.getPosition().getWithX(), hexTile.getPosition().getHeightY());
+            });
 
         } else {
             // Default Map

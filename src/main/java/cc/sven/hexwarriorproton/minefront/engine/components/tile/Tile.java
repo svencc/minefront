@@ -5,23 +5,13 @@ import cc.sven.hexwarriorproton.minefront.engine.components.Positionable;
 import cc.sven.hexwarriorproton.minefront.engine.components.sprite.Sprite;
 import cc.sven.hexwarriorproton.minefront.engine.graphics.buffer.PixelBuffer;
 import cc.sven.hexwarriorproton.minefront.engine.units.PixelCoordinate;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
-public class Tile implements HasPixelBuffer, Positionable {
+public interface Tile extends HasPixelBuffer, Positionable {
 
-    @Getter
-    @NonNull
-    private final PixelCoordinate position;
-    @NonNull
-    private final Sprite sprite;
+    PixelCoordinate getPosition();
 
+    Sprite getSprite();
 
-    @Override
-    public PixelBuffer getPixelBuffer() {
-        return sprite.getPixelBuffer();
-    }
+    PixelBuffer getPixelBuffer();
 
 }
