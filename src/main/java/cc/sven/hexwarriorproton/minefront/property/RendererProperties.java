@@ -19,12 +19,13 @@ public class RendererProperties {
     private int height;
     private int scale;
 
+    @Builder.Default
+    private boolean parallelizeRendering = false;
+    @Builder.Default
+    private int threadPoolSize=8;
+
     public int getScaledWidth() {
         return width;
-    }
-
-    public int getHeight() {
-        return height / scale;
     }
 
     public int getScaledHeight() {
@@ -44,6 +45,10 @@ public class RendererProperties {
 
     public int getWidth() {
         return width / scale;
+    }
+
+    public int getHeight() {
+        return height / scale;
     }
 
 }
