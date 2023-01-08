@@ -35,12 +35,13 @@ abstract class RendererTemplate implements Renderable {
     public void render(@NonNull final Scanable source, @NonNull final Bufferable target, final int xOffset, final int yOffset) {
         final CountDownLatch latch = new CountDownLatch(source.getDimension().getHeightY());
         for (int y = 0; y < source.getDimension().getHeightY(); y++) {
-            final int yFinal = y;
             final int copyToY = y + yOffset;
             if (copyToY < 0 || copyToY >= target.getDimension().getHeightY()) {
                 latch.countDown();
                 continue;
-            };
+            }
+
+            final int yFinal = y;
             executorService.execute(() -> {
                 try {
                     for (int x = 0; x < source.getDimension().getWidthX(); x++) {
@@ -49,7 +50,7 @@ abstract class RendererTemplate implements Renderable {
 
                         final int colorValue = source.scanPixelAt(x, yFinal);
                         if (colorValue == 0xFFff00ff) continue;
-                        int alphaComponent = argbCalculatorProvider.provide().getAlphaComponent(colorValue);
+                        final int alphaComponent = argbCalculatorProvider.provide().getAlphaComponent(colorValue);
                         if (alphaComponent < 0xFF) {
                             // set color blending (alpha channel)
                             target.bufferPixelAt(copyToX, copyToY, argbCalculatorProvider.provide().blend(colorValue, target.scanPixelAt(copyToX, copyToY)));
@@ -67,8 +68,8 @@ abstract class RendererTemplate implements Renderable {
         try {
             latch.await();
         } catch (InterruptedException e) {
-            // handle
             e.printStackTrace();
+//            System.exit(999);
         }
     }
 
