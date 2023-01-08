@@ -22,7 +22,7 @@ public class Profiler {
         nanotimeStart = System.nanoTime();
     }
 
-    public void measure() {
+    public void measureLoop() {
         profiledNanos = System.nanoTime() - nanotimeStart;
         profiledMilliseconds = profiledNanos / TimeUnits.SECOND_IN_NANOS;
     }

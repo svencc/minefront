@@ -8,12 +8,12 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class TickCalculator {
+public class TickThresholdCalculator {
 
     @NonNull
     private final TickProperties tickProperties;
 
-    public double calculateTickThresholdRatio(final double profiledNanos) {
+    public double calculate(final double profiledNanos) {
         return profiledNanos / nanosPerTick();
     }
 

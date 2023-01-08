@@ -7,7 +7,7 @@ import cc.sven.hexwarriorproton.minefront.service.profiler.FPSCounter;
 import cc.sven.hexwarriorproton.minefront.service.profiler.Profiler;
 import cc.sven.hexwarriorproton.minefront.service.profiler.ProfilerProvider;
 import cc.sven.hexwarriorproton.minefront.service.profiler.TPSCounter;
-import cc.sven.hexwarriorproton.minefront.service.tick.TickCalculator;
+import cc.sven.hexwarriorproton.minefront.service.tick.TickThresholdCalculator;
 import cc.sven.hexwarriorproton.minefront.service.tick.TickerService;
 import cc.sven.hexwarriorproton.minefront.strategy.SetJFrameTitleStrategy;
 import jakarta.annotation.PostConstruct;
@@ -27,8 +27,12 @@ import java.util.concurrent.Executors;
 @RequiredArgsConstructor
 public class GameLoop extends Canvas implements Runnable {
 
+    // CONST
     @NonNull
     public static String GAMELOOP_THREAD_NAME = "GLoop";
+
+
+    // DEPENDENCIES
     @NonNull
     private final RendererProperties rendererProperties;
     @NonNull
@@ -36,23 +40,33 @@ public class GameLoop extends Canvas implements Runnable {
     @NonNull
     private final ProfilerProvider profilerProvider;
     @NonNull
-    private final TickCalculator tickCalculator;
+    private final TickThresholdCalculator tickThresholdCalculator;
     @NonNull
     private final TickerService tickerService;
     @NonNull
     private final ScreenComposer screenComposer;
     @NonNull
     private final GameTemplate game;
+
+
+    // IMAGE RENDERING
     @Nullable
     private BufferedImage bufferedImage;
     private int[] bufferedImagePixelRaster;
+
+
+    // EXECUTION THREADS
     @Nullable
     private Thread gameLoopThread;
     @Nullable
     private ExecutorService backBufferExecuter;
+    private boolean running = false;
+
+
+    // PROFILER
     @Nullable
     private SetJFrameTitleStrategy setJFrameTitleStrategy;
-    private boolean running = false;
+
 
     @PostConstruct
     public void postConstruct() {
@@ -69,6 +83,7 @@ public class GameLoop extends Canvas implements Runnable {
 
     }
 
+    // GAMELOOP RUNNABLE METHODS
     public synchronized void start(@NonNull final SetJFrameTitleStrategy setJFrameTitleStrategy) {
         this.setJFrameTitleStrategy = setJFrameTitleStrategy;
 
@@ -103,7 +118,7 @@ public class GameLoop extends Canvas implements Runnable {
 
         while (running) {
             loopProfiler.startNextMeasurement();
-            tickThresholdRatio += tickCalculator.calculateTickThresholdRatio(loopProfiler.getProfiledNanos());
+            tickThresholdRatio += tickThresholdCalculator.calculate(loopProfiler.getProfiledNanos());
 
             while (tickThresholdRatio >= 1.0) {
                 tickerService.tick();
@@ -114,7 +129,7 @@ public class GameLoop extends Canvas implements Runnable {
             this.composeGraphics();
             fpsCounter.countFrame();
 
-            loopProfiler.measure();
+            loopProfiler.measureLoop();
 
             if (fpsCounter.oneSecondPassed()) {
                 setJFrameTitleStrategy.execute(metaProperties.getName() + " | " + tpsCounter.profileTicksPerSecond() + " | " + fpsCounter.profileFramesPerSecond() + " | " + loopProfiler.stringifyResult());
@@ -122,6 +137,8 @@ public class GameLoop extends Canvas implements Runnable {
         }
     }
 
+
+    // CANVAS / IMAGE-BUFFER HANDLING
     private void composeGraphics() {
         if (rendererProperties.getComposer().isParallelizedBackBufferHandler()) {
             // @TODO -> das sind Strategies!
