@@ -7,7 +7,7 @@ import lombok.Data;
 @Builder
 public class PixelCoordinate {
 
-    private int x;
-    private int y;
+    private int withX;
+    private int heightY;
 
 }

@@ -1,7 +1,7 @@
 package cc.sven.hexwarriorproton.minefront.engine.graphics.renderer;
 
 import cc.sven.hexwarriorproton.minefront.engine.graphics.Bufferable;
-import cc.sven.hexwarriorproton.minefront.engine.graphics.Mergeable;
+import cc.sven.hexwarriorproton.minefront.engine.components.Mergeable;
 import cc.sven.hexwarriorproton.minefront.engine.graphics.Renderable;
 import cc.sven.hexwarriorproton.minefront.engine.graphics.Scanable;
 import cc.sven.hexwarriorproton.minefront.engine.graphics.buffer.PixelBuffer;

@@ -1,6 +1,6 @@
 package cc.sven.hexwarriorproton.minefront;
 
-import cc.sven.hexwarriorproton.minefront.engine.GameEngine;
+import cc.sven.hexwarriorproton.minefront.engine.GameLoop;
 import cc.sven.hexwarriorproton.minefront.property.MetaProperties;
 import cc.sven.hexwarriorproton.minefront.property.RendererProperties;
 import cc.sven.hexwarriorproton.minefront.property.TickProperties;
@@ -34,7 +34,7 @@ public class Application {
 
     @Bean
     public CommandLineRunner provideCommandLineRunnerBean(
-            @NonNull final GameEngine gameEngine,
+            @NonNull final GameLoop gameLoop,
             @NonNull final MetaProperties metaProperties,
             @NonNull final RendererProperties rendererProperties
     ) {
@@ -44,12 +44,12 @@ public class Application {
             frame.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosing(WindowEvent we) {
-                    gameEngine.stop();
+                    gameLoop.stop();
                 }
             });
             frame.setLocationByPlatform(true);
             frame.setSize(rendererProperties.getScaledWidth(), rendererProperties.getScaledHeight());
-            frame.add(gameEngine);
+            frame.add(gameLoop);
             frame.setVisible(true);
 
             final int verticalInset = frame.getInsets().top + frame.getInsets().bottom;
@@ -58,7 +58,7 @@ public class Application {
             frame.setResizable(false);
             frame.pack();
 
-            gameEngine.start(SetJFrameTitleStrategy.builder().frame(frame).build());
+            gameLoop.start(SetJFrameTitleStrategy.builder().frame(frame).build());
         };
     }
 

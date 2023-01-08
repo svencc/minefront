@@ -71,13 +71,18 @@ public class PixelBuffer implements Bufferable {
     }
 
     @Override
+    public int scanPixelAtIndex(int index) {
+        return pixelBuffer[index];
+    }
+
+    @Override
     public void bufferPixelAt(int x, int y, int newPixelValue) {
         pixelBuffer[x + y * dimension.getWidthX()] = newPixelValue;
     }
 
     @Override
-    public int scanPixelAtIndex(int index) {
-        return pixelBuffer[index];
+    public void bufferPixelAtIndex(int index, int newPixelValue) {
+        pixelBuffer[index] = newPixelValue;
     }
 
     public void clearBuffer() {
@@ -89,10 +94,11 @@ public class PixelBuffer implements Bufferable {
     }
 
     @Override
-    public void bufferPixelAtIndex(int index, int newPixelValue) {
-        pixelBuffer[index] = newPixelValue;
+    public int[] directBufferAccess() {
+        return pixelBuffer;
     }
 
+    @Override
     public int getBufferSize() {
         return pixelBuffer.length;
     }

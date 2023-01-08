@@ -2,7 +2,7 @@ package cc.sven.hexwarriorproton.minefront.engine.graphics.renderer;
 
 import cc.sven.hexwarriorproton.minefront.engine.graphics.Scanable;
 import cc.sven.hexwarriorproton.minefront.engine.graphics.buffer.PixelBuffer;
-import cc.sven.hexwarriorproton.minefront.engine.graphics.components.sprite.SpriteAtlas;
+import cc.sven.hexwarriorproton.minefront.engine.components.sprite.SpriteAtlas;
 import cc.sven.hexwarriorproton.minefront.engine.units.PixelDimension;
 import cc.sven.hexwarriorproton.minefront.service.argb.ARGBCalculatorProvider;
 import lombok.NonNull;

@@ -1,5 +1,6 @@
 package cc.sven.hexwarriorproton.minefront.engine.graphics;
 
+import cc.sven.hexwarriorproton.minefront.engine.components.Mergeable;
 import cc.sven.hexwarriorproton.minefront.engine.graphics.buffer.PixelBuffer;
 import lombok.NonNull;
 

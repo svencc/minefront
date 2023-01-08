@@ -14,4 +14,8 @@ public interface Bufferable extends Scanable {
 
     void fillBuffer(final int value);
 
+    int[] directBufferAccess();
+
+    int getBufferSize();
+
 }

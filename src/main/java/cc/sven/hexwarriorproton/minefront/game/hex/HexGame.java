@@ -2,16 +2,14 @@ package cc.sven.hexwarriorproton.minefront.game.hex;
 
 import cc.sven.hexwarriorproton.minefront.engine.GameTemplate;
 import cc.sven.hexwarriorproton.minefront.engine.graphics.ScreenComposer;
-import cc.sven.hexwarriorproton.minefront.engine.graphics.components.sprite.Sprite;
-import cc.sven.hexwarriorproton.minefront.engine.graphics.components.sprite.SpriteAtlas;
-import cc.sven.hexwarriorproton.minefront.game.hex.graphics.map.TestMergeable;
-import cc.sven.hexwarriorproton.minefront.property.RendererProperties;
+import cc.sven.hexwarriorproton.minefront.game.hex.graphics.HexMapMergeable;
+import cc.sven.hexwarriorproton.minefront.game.hex.level.HexMap;
+import cc.sven.hexwarriorproton.minefront.game.hex.level.HexMapConfiguration;
+import cc.sven.hexwarriorproton.minefront.game.hex.level.HexMapLayouter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-
-import java.io.IOException;
 
 @Component
 @Profile("hexgame")
@@ -19,24 +17,27 @@ import java.io.IOException;
 public class HexGame extends GameTemplate {
 
     @NonNull
-    private final RendererProperties rendererResolution;
+    private final HexMapLayouter hexMapLayouter;
     @NonNull
     private final ScreenComposer screenComposer;
     @NonNull
-    private final TestMergeable testMergeable;
+    private final HexMapMergeable hexMapMergeable;
 
     @Override
     public void init() {
-        try {
-            final SpriteAtlas spriteAtlas = new SpriteAtlas("/assets/hex62x32alpha.png");
-            final Sprite hexSprite = spriteAtlas.createSprite(spriteAtlas.getPixelBuffer().getDimension(), 0, 0);
-            testMergeable.setHexSprite(hexSprite);
-            screenComposer.getLayerPipeline().clear();
-            screenComposer.getLayerPipeline().add(testMergeable);
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(666);
-        }
+        final HexMap hexMap = generateExampleMap();
+        hexMapMergeable.setHexMap(hexMap);
+        screenComposer.getLayerPipeline().clear();
+        screenComposer.getLayerPipeline().add(hexMapMergeable);
+    }
+
+    private HexMap generateExampleMap() {
+        final HexMapConfiguration mapProperties = HexMapConfiguration.builder()
+                .gridHeight(17)
+                .gridWidth(15)
+                .build();
+
+        return hexMapLayouter.layout(mapProperties);
     }
 
     @Override
