@@ -21,7 +21,11 @@ public final class RenderProvider {
 
     public Renderable provide() {
         if (instance == null) {
-            instance = new SoftwareRenderer(rendererProperties, argbCalculatorProvider);
+            if (rendererProperties.isParallelizeRendering()) {
+                instance = new MultithreadedSoftwareRenderer(rendererProperties, argbCalculatorProvider);
+            } else {
+                instance = new SoftwareRenderer(rendererProperties, argbCalculatorProvider);
+            }
         }
 
         return instance;

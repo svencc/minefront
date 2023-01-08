@@ -6,7 +6,7 @@
 1. Object Pooling für PixelDimension?
    1. Warum? Constructor Zeit-Komplex
    2. Object-Pool in PixelDimension Builder einbauen?
-2. Renderer parallelisieren!
+2. Layer/Mergable parallelisieren / Random parallelisieren - pool
 3. Change 2d Software Renderer -> lwjgl OpenGl Renderer
 4. Provider instance creation threadsafe machen?
 
