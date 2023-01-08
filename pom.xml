@@ -2,27 +2,30 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.0.1</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+
     <groupId>cc.sven.hexwarriorproton</groupId>
     <artifactId>minefront</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>Minefront</name>
     <description>3D Renderer</description>
+
     <properties>
         <java.version>19</java.version>
 
         <!-- lwjgl -->
-        <lwjgl.version>3.3.1</lwjgl.version>
-        <joml.version>1.10.5</joml.version>
-        <lwjgl.natives>natives-windows</lwjgl.natives>
+<!--        <lwjgl.version>3.3.1</lwjgl.version>-->
+<!--        <joml.version>1.10.5</joml.version>-->
+<!--        <lwjgl.natives>natives-windows</lwjgl.natives>-->
         <!-- lwjgl -->
-
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -54,56 +57,56 @@
         <!-- lwjgl -->
         <!-- lwjgl -->
         <!-- lwjgl -->
-        <dependency>
-            <groupId>org.lwjgl</groupId>
-            <artifactId>lwjgl</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.lwjgl</groupId>
-            <artifactId>lwjgl-glfw</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.lwjgl</groupId>
-            <artifactId>lwjgl-openal</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.lwjgl</groupId>
-            <artifactId>lwjgl-opengl</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.lwjgl</groupId>
-            <artifactId>lwjgl-stb</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.lwjgl</groupId>
-            <artifactId>lwjgl</artifactId>
-            <classifier>${lwjgl.natives}</classifier>
-        </dependency>
-        <dependency>
-            <groupId>org.lwjgl</groupId>
-            <artifactId>lwjgl-glfw</artifactId>
-            <classifier>${lwjgl.natives}</classifier>
-        </dependency>
-        <dependency>
-            <groupId>org.lwjgl</groupId>
-            <artifactId>lwjgl-openal</artifactId>
-            <classifier>${lwjgl.natives}</classifier>
-        </dependency>
-        <dependency>
-            <groupId>org.lwjgl</groupId>
-            <artifactId>lwjgl-opengl</artifactId>
-            <classifier>${lwjgl.natives}</classifier>
-        </dependency>
-        <dependency>
-            <groupId>org.lwjgl</groupId>
-            <artifactId>lwjgl-stb</artifactId>
-            <classifier>${lwjgl.natives}</classifier>
-        </dependency>
-        <dependency>
-            <groupId>org.joml</groupId>
-            <artifactId>joml</artifactId>
-            <version>${joml.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.lwjgl</groupId>-->
+<!--            <artifactId>lwjgl</artifactId>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.lwjgl</groupId>-->
+<!--            <artifactId>lwjgl-glfw</artifactId>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.lwjgl</groupId>-->
+<!--            <artifactId>lwjgl-openal</artifactId>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.lwjgl</groupId>-->
+<!--            <artifactId>lwjgl-opengl</artifactId>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.lwjgl</groupId>-->
+<!--            <artifactId>lwjgl-stb</artifactId>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.lwjgl</groupId>-->
+<!--            <artifactId>lwjgl</artifactId>-->
+<!--            <classifier>${lwjgl.natives}</classifier>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.lwjgl</groupId>-->
+<!--            <artifactId>lwjgl-glfw</artifactId>-->
+<!--            <classifier>${lwjgl.natives}</classifier>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.lwjgl</groupId>-->
+<!--            <artifactId>lwjgl-openal</artifactId>-->
+<!--            <classifier>${lwjgl.natives}</classifier>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.lwjgl</groupId>-->
+<!--            <artifactId>lwjgl-opengl</artifactId>-->
+<!--            <classifier>${lwjgl.natives}</classifier>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.lwjgl</groupId>-->
+<!--            <artifactId>lwjgl-stb</artifactId>-->
+<!--            <classifier>${lwjgl.natives}</classifier>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.joml</groupId>-->
+<!--            <artifactId>joml</artifactId>-->
+<!--            <version>${joml.version}</version>-->
+<!--        </dependency>-->
         <!-- lwjgl -->
         <!-- lwjgl -->
         <!-- lwjgl -->
@@ -115,17 +118,17 @@
     <!-- lwjgl -->
     <!-- lwjgl -->
     <!-- lwjgl -->
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.lwjgl</groupId>
-                <artifactId>lwjgl-bom</artifactId>
-                <version>${lwjgl.version}</version>
-                <scope>import</scope>
-                <type>pom</type>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+<!--    <dependencyManagement>-->
+<!--        <dependencies>-->
+<!--            <dependency>-->
+<!--                <groupId>org.lwjgl</groupId>-->
+<!--                <artifactId>lwjgl-bom</artifactId>-->
+<!--                <version>${lwjgl.version}</version>-->
+<!--                <scope>import</scope>-->
+<!--                <type>pom</type>-->
+<!--            </dependency>-->
+<!--        </dependencies>-->
+<!--    </dependencyManagement>-->
     <!-- lwjgl -->
     <!-- lwjgl -->
     <!-- lwjgl -->

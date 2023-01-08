@@ -1,8 +1,8 @@
-package threeDeeTest;
-
-public class Main {
-    public static void main(String[] args) {
-        Window window = Window.get();
-        window.run();
-    }
-}
+//package threeDeeTest;
+//
+//public class Main {
+//    public static void main(String[] args) {
+//        Window window = Window.get();
+//        window.run();
+//    }
+//}

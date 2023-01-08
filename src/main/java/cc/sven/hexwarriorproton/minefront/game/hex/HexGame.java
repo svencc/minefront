@@ -32,8 +32,8 @@ public class HexGame extends GameTemplate {
 
     private HexMap generateExampleMap() {
         final HexMapConfiguration mapProperties = HexMapConfiguration.builder()
-                .gridHeight(17)
-                .gridWidth(15)
+                .gridHeight(170)
+                .gridWidth(150)
                 .build();
 
         return hexMapLayouter.layout(mapProperties);
