@@ -16,12 +16,12 @@ import java.util.concurrent.Executors;
 class MultithreadedSoftwareRenderer extends RendererTemplate {
 
     @Nullable
-    private ExecutorService executorService;
+    private ExecutorService multithreadedExecutorService;
 
     MultithreadedSoftwareRenderer(@NonNull final RendererProperties rendererProperties, @NonNull final ARGBCalculatorProvider argbCalculatorProvider) {
         super(rendererProperties, argbCalculatorProvider);
-        if (rendererProperties.isParallelizeRendering()) {
-            executorService = Executors.newFixedThreadPool(rendererProperties.getThreadPoolSize());
+        if (rendererProperties.isParallelizedRendering()) {
+            multithreadedExecutorService = Executors.newFixedThreadPool(rendererProperties.getThreadPoolSize());
         }
     }
 
@@ -36,7 +36,7 @@ class MultithreadedSoftwareRenderer extends RendererTemplate {
             }
 
             final int yFinal = y;
-            executorService.execute(() -> {
+            multithreadedExecutorService.execute(() -> {
                 try {
                     for (int x = 0; x < source.getDimension().getWidthX(); x++) {
                         final int copyToX = x + xOffset;

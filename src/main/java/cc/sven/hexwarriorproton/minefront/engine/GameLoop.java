@@ -3,7 +3,10 @@ package cc.sven.hexwarriorproton.minefront.engine;
 import cc.sven.hexwarriorproton.minefront.engine.graphics.ScreenComposer;
 import cc.sven.hexwarriorproton.minefront.property.MetaProperties;
 import cc.sven.hexwarriorproton.minefront.property.RendererProperties;
-import cc.sven.hexwarriorproton.minefront.service.profiler.*;
+import cc.sven.hexwarriorproton.minefront.service.profiler.FPSCounter;
+import cc.sven.hexwarriorproton.minefront.service.profiler.Profiler;
+import cc.sven.hexwarriorproton.minefront.service.profiler.ProfilerProvider;
+import cc.sven.hexwarriorproton.minefront.service.profiler.TPSCounter;
 import cc.sven.hexwarriorproton.minefront.service.tick.TickCalculator;
 import cc.sven.hexwarriorproton.minefront.service.tick.TickerService;
 import cc.sven.hexwarriorproton.minefront.strategy.SetJFrameTitleStrategy;
@@ -17,6 +20,8 @@ import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Component
 @RequiredArgsConstructor
@@ -31,10 +36,6 @@ public class GameLoop extends Canvas implements Runnable {
     @NonNull
     private final ProfilerProvider profilerProvider;
     @NonNull
-    private final FPSCounterProvider fpsCounterProvider;
-    @NonNull
-    private final TPSCounterProvider tpsCounterProvider;
-    @NonNull
     private final TickCalculator tickCalculator;
     @NonNull
     private final TickerService tickerService;
@@ -48,6 +49,8 @@ public class GameLoop extends Canvas implements Runnable {
     @Nullable
     private Thread gameLoopThread;
     @Nullable
+    private ExecutorService backBufferExecuter;
+    @Nullable
     private SetJFrameTitleStrategy setJFrameTitleStrategy;
     private boolean running = false;
 
@@ -59,6 +62,11 @@ public class GameLoop extends Canvas implements Runnable {
         setMinimumSize(canvasSize);
         setMaximumSize(canvasSize);
         setIgnoreRepaint(true);
+
+        if (rendererProperties.getComposer().isParallelizedBackBufferHandler()) {
+            backBufferExecuter = Executors.newFixedThreadPool(1);
+        }
+
     }
 
     public synchronized void start(@NonNull final SetJFrameTitleStrategy setJFrameTitleStrategy) {
@@ -88,8 +96,8 @@ public class GameLoop extends Canvas implements Runnable {
     public void run() {
         requestFocus();
         final Profiler loopProfiler = profilerProvider.provide("Loop");
-        final FPSCounter fpsCounter = fpsCounterProvider.provide();
-        final TPSCounter tpsCounter = tpsCounterProvider.provide();
+        final FPSCounter fpsCounter = profilerProvider.provideFPSCounter();
+        final TPSCounter tpsCounter = profilerProvider.provideTPSCounter();
         fpsCounter.startProfiling();
         double tickThresholdRatio = 0;
 
@@ -103,7 +111,7 @@ public class GameLoop extends Canvas implements Runnable {
                 tickThresholdRatio--;
             }
 
-            this.renderRasterToCanvas();
+            this.composeGraphics();
             fpsCounter.countFrame();
 
             loopProfiler.measure();
@@ -114,15 +122,47 @@ public class GameLoop extends Canvas implements Runnable {
         }
     }
 
-    private void renderRasterToCanvas() {
+    private void composeGraphics() {
+        if (rendererProperties.getComposer().isParallelizedBackBufferHandler()) {
+            // @TODO -> das sind Strategies!
+            composeGraphicsMultithreaded();
+        } else {
+            // @TODO -> das sind Strategies!
+            composeGraphicsSinglethreaded();
+        }
+    }
+
+    private void composeGraphicsMultithreaded() {
         final BufferStrategy bufferStrategy = this.getBufferStrategy();
-        if (bufferStrategy == null) {
+        if (bufferStrategy == null) { // @TODO Null check teurer als boolean check?
             createBufferStrategy(3);
             return;
         }
 
-        screenComposer.compose();
-        copyBufferFromComposedToCanvas();
+        // Show LAST image in composer buffer
+        final Graphics graphicsContext = bufferStrategy.getDrawGraphics();
+        graphicsContext.drawImage(bufferedImage, 0, 0, rendererProperties.getScaledWidth(), rendererProperties.getScaledHeight(), null);
+        graphicsContext.dispose();
+        bufferStrategy.show();
+
+        // Render NEXT frame in buffer
+        final int backBufferIndex = screenComposer.compose();
+
+        // Copy NEXT composer image to canvas buffer for showing up in NEXT iteration
+        backBufferExecuter.execute(() -> {
+            copyComposedBackBufferToCanvasFrontBuffer(backBufferIndex);
+        });
+    }
+
+    private void composeGraphicsSinglethreaded() {
+        final BufferStrategy bufferStrategy = this.getBufferStrategy();
+        if (bufferStrategy == null) { // @TODO Null check teurer als boolean check?
+            createBufferStrategy(3);
+            return;
+        }
+
+        final int backBufferIndex = screenComposer.compose();
+        copyComposedBackBufferToCanvasFrontBuffer(backBufferIndex);
 
         final Graphics graphicsContext = bufferStrategy.getDrawGraphics();
         graphicsContext.drawImage(bufferedImage, 0, 0, rendererProperties.getScaledWidth(), rendererProperties.getScaledHeight(), null);
@@ -130,11 +170,8 @@ public class GameLoop extends Canvas implements Runnable {
         bufferStrategy.show();
     }
 
-    private void copyBufferFromComposedToCanvas() {
-        System.arraycopy(screenComposer.getPixelBuffer().directBufferAccess(), 0, bufferedImagePixelRaster, 0, screenComposer.getPixelBuffer().getBufferSize() - 1);
-//        for (int i = 0; i < (rendererProperties.getWidth() * rendererProperties.getHeight()); i++) {
-//            bufferedImagePixelRaster[i] = screenComposer.getPixelBuffer().scanPixelAtIndex(i);
-//        }
+    private void copyComposedBackBufferToCanvasFrontBuffer(int backBufferIndex) {
+        System.arraycopy(screenComposer.getBackPixelBuffer(backBufferIndex).directBufferAccess(), 0, bufferedImagePixelRaster, 0, screenComposer.getBackPixelBuffer(backBufferIndex).getBufferSize() - 1);
     }
 
 }

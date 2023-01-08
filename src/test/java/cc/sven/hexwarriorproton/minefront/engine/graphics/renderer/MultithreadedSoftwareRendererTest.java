@@ -28,7 +28,7 @@ class MultithreadedSoftwareRendererTest {
 
     @BeforeEach
     void beforeEach() {
-        rendererProperties = RendererProperties.builder().parallelizeRendering(true).threadPoolSize(2).build();
+        rendererProperties = RendererProperties.builder().parallelizedRendering(true).threadPoolSize(2).build();
         argbCalculatorProvider = new ARGBCalculatorProvider();
         rendererToTest = new MultithreadedSoftwareRenderer(rendererProperties, argbCalculatorProvider);
     }

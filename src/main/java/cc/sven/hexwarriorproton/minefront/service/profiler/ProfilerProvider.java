@@ -11,4 +11,14 @@ public final class ProfilerProvider {
         return new Profiler(profilerName);
     }
 
+    @NonNull
+    public FPSCounter provideFPSCounter() {
+        return new FPSCounter();
+    }
+
+    @NonNull
+    public TPSCounter provideTPSCounter() {
+        return new TPSCounter();
+    }
+
 }

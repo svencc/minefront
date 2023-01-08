@@ -18,11 +18,9 @@ public class RendererProperties {
     private int width;
     private int height;
     private int scale;
-
-    @Builder.Default
-    private boolean parallelizeRendering = false;
-    @Builder.Default
-    private int threadPoolSize=8;
+    private boolean parallelizedRendering;
+    private int threadPoolSize;
+    private ComposerProperties composer;
 
     public int getScaledWidth() {
         return width;

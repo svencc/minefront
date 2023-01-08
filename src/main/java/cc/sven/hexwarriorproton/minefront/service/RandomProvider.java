@@ -1,22 +1,55 @@
+//package cc.sven.hexwarriorproton.minefront.service;
+//
+//import jakarta.annotation.PostConstruct;
+//import org.springframework.lang.Nullable;
+//import org.springframework.stereotype.Service;
+//
+//import java.util.Random;
+//
+//@Service
+//public final class RandomProvider {
+//
+//    @Nullable
+//    private Random instance;
+//
+//    public Random provide() {
+//        if (instance == null) {
+//            instance = new Random();
+//        }
+//
+//        return instance;
+//    }
+//
+//}
+
 package cc.sven.hexwarriorproton.minefront.service;
 
-import org.springframework.lang.Nullable;
-import org.springframework.stereotype.Service;
+        import jakarta.annotation.PostConstruct;
+        import org.springframework.lang.Nullable;
+        import org.springframework.stereotype.Service;
 
-import java.util.Random;
+        import java.util.Random;
 
 @Service
 public final class RandomProvider {
 
     @Nullable
-    private Random instance;
+    private Random[] instancePool;
+    private int poolSize = 10;
+    private int currentInstance = 0;
+
+    @PostConstruct
+    public void postConstruct() {
+        instancePool = new Random[poolSize];
+        for (int i = 0; i < poolSize; i++) {
+            instancePool[i] = new Random();
+        }
+    }
 
     public Random provide() {
-        if (instance == null) {
-            instance = new Random();
-        }
+        currentInstance = (currentInstance + 1) % 10;
 
-        return instance;
+        return instancePool[currentInstance];
     }
 
 }
