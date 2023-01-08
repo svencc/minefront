@@ -25,8 +25,7 @@ public class HexGame extends GameTemplate {
 
     @Override
     public void init() {
-        final HexMap hexMap = generateExampleMap();
-        hexMapMergeable.setHexMap(hexMap);
+        hexMapMergeable.setHexMap(generateExampleMap());
         screenComposer.getLayerPipeline().clear();
         screenComposer.getLayerPipeline().add(hexMapMergeable);
     }
