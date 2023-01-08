@@ -67,7 +67,7 @@ abstract class RendererTemplate implements Renderable {
 
         try {
             latch.await();
-        } catch (InterruptedException e) {
+        } catch (final InterruptedException e) {
             e.printStackTrace();
 //            System.exit(999);
         }
