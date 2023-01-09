@@ -32,21 +32,6 @@ public class ScreenComposer implements Composable {
         prefillBackBuffer();
     }
 
-    @Override
-    public int compose() {
-        nextBufferSegment();
-        currentPixelBuffer().clearBuffer();
-        // Todo parallelize rendering of layers.
-        // merge Buffers from top layer to last layer!
-        layerPipeline.forEach(layer -> {
-            layer.prepareBuffer();
-            layer.mergeBufferWith(ringPixelBuffer[currentPixelBuffer], 0, 0);
-            layer.disposeBuffer();
-        });
-
-        return currentPixelBuffer;
-    }
-
     private void prefillBackBuffer() {
         if (isBackBufferEmpty) {
             // pre-fill backBuffer -1
@@ -76,6 +61,21 @@ public class ScreenComposer implements Composable {
 
     private void nextBufferSegment() {
         currentPixelBuffer = (currentPixelBuffer + 1) % rendererProperties.getComposer().getBackBufferSize();
+    }
+
+    @Override
+    public int compose() {
+        nextBufferSegment();
+        currentPixelBuffer().clearBuffer();
+        // Todo parallelize rendering of layers.
+        // merge Buffers from top layer to last layer!
+        layerPipeline.forEach(layer -> {
+            layer.prepareBuffer();
+            layer.mergeBufferWith(ringPixelBuffer[currentPixelBuffer], 0, 0);
+            layer.disposeBuffer();
+        });
+
+        return currentPixelBuffer;
     }
 
     @NonNull

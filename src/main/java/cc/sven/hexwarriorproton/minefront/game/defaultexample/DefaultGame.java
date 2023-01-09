@@ -1,8 +1,8 @@
 package cc.sven.hexwarriorproton.minefront.game.defaultexample;
 
 import cc.sven.hexwarriorproton.minefront.engine.GameTemplate;
-import cc.sven.hexwarriorproton.minefront.engine.graphics.ScreenComposer;
 import cc.sven.hexwarriorproton.minefront.engine.components.mergeable.ScanableNoiseMergeable;
+import cc.sven.hexwarriorproton.minefront.engine.graphics.ScreenComposer;
 import cc.sven.hexwarriorproton.minefront.engine.graphics.renderer.RenderProvider;
 import cc.sven.hexwarriorproton.minefront.property.RendererProperties;
 import cc.sven.hexwarriorproton.minefront.service.RandomProvider;
@@ -34,6 +34,5 @@ public class DefaultGame extends GameTemplate {
     public void startGame() {
 
     }
-
 
 }

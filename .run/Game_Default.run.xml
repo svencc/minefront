@@ -1,0 +1,15 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Game:Default" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="cc.sven.hexwarriorproton.minefront.Application" />
+    <module name="minefront" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="cc.sven.hexwarriorproton.minefront.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

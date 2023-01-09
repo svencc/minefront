@@ -7,8 +7,8 @@ import java.awt.event.KeyListener;
 
 public class KeyboardInput implements KeyListener {
 
-    private boolean[] keys = new boolean[120];
     public boolean up, down, left, right;
+    private boolean[] keys = new boolean[120];
 
     public void update() {
         up = keys[KeyEvent.VK_W];
@@ -30,4 +30,5 @@ public class KeyboardInput implements KeyListener {
     public void keyReleased(@NonNull final KeyEvent e) {
         keys[e.getKeyCode()] = false;
     }
+    
 }

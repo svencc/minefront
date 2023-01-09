@@ -1,8 +1,8 @@
 package cc.sven.hexwarriorproton.minefront.engine.components.mergeable;
 
-import cc.sven.hexwarriorproton.minefront.engine.graphics.Bufferable;
 import cc.sven.hexwarriorproton.minefront.engine.components.HasPixelBuffer;
 import cc.sven.hexwarriorproton.minefront.engine.components.Mergeable;
+import cc.sven.hexwarriorproton.minefront.engine.graphics.Bufferable;
 import cc.sven.hexwarriorproton.minefront.engine.graphics.buffer.PixelBuffer;
 import cc.sven.hexwarriorproton.minefront.engine.graphics.renderer.RenderProvider;
 import cc.sven.hexwarriorproton.minefront.engine.units.PixelDimension;

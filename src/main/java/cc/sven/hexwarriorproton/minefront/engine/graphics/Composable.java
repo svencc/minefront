@@ -6,6 +6,7 @@ import lombok.NonNull;
 public interface Composable {
 
     int compose();
+
     @NonNull
     PixelBuffer getBackPixelBuffer(int index);
 
