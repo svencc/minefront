@@ -1,13 +1,24 @@
 package cc.sven.hexwarriorproton.minefront.engine.input;
 
+import cc.sven.hexwarriorproton.minefront.engine.observers.HasSubject;
+import cc.sven.hexwarriorproton.minefront.engine.observers.Subject;
+import cc.sven.hexwarriorproton.minefront.engine.observers.Subjective;
+import lombok.Getter;
 import lombok.NonNull;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class KeyboardInput implements KeyListener {
+public class KeyboardInput implements KeyListener, HasSubject {
 
-    public boolean up, down, left, right;
+    @Getter
+    @NonNull
+    private Subjective subject = new Subject();
+
+
+
+
+    private boolean up, down, left, right;
     private boolean[] keys = new boolean[120];
 
     public void update() {
@@ -30,5 +41,5 @@ public class KeyboardInput implements KeyListener {
     public void keyReleased(@NonNull final KeyEvent e) {
         keys[e.getKeyCode()] = false;
     }
-    
+
 }

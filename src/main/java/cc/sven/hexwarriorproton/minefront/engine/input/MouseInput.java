@@ -1,5 +1,8 @@
 package cc.sven.hexwarriorproton.minefront.engine.input;
 
+import cc.sven.hexwarriorproton.minefront.engine.observers.HasSubject;
+import cc.sven.hexwarriorproton.minefront.engine.observers.Subject;
+import cc.sven.hexwarriorproton.minefront.engine.observers.Subjective;
 import lombok.Getter;
 import lombok.NonNull;
 
@@ -10,8 +13,12 @@ import java.awt.event.MouseMotionListener;
 import static java.awt.event.MouseEvent.BUTTON1;
 import static java.awt.event.MouseEvent.BUTTON3;
 
-public class MouseInput implements MouseListener, MouseMotionListener {
+public class MouseInput implements MouseListener, MouseMotionListener, HasSubject {
 
+    @Getter
+    @NonNull
+    private Subjective subject = new Subject();
+    
     @Getter
     private int mouseX = -1;
     @Getter

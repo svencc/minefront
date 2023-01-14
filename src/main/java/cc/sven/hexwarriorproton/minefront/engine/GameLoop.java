@@ -1,8 +1,11 @@
 package cc.sven.hexwarriorproton.minefront.engine;
 
 import cc.sven.hexwarriorproton.minefront.engine.graphics.ScreenComposer;
+import cc.sven.hexwarriorproton.minefront.engine.input.KeyboardInput;
+import cc.sven.hexwarriorproton.minefront.engine.input.MouseInput;
 import cc.sven.hexwarriorproton.minefront.property.MetaProperties;
 import cc.sven.hexwarriorproton.minefront.property.RendererProperties;
+import cc.sven.hexwarriorproton.minefront.service.InputChannelService;
 import cc.sven.hexwarriorproton.minefront.service.profiler.FPSCounter;
 import cc.sven.hexwarriorproton.minefront.service.profiler.Profiler;
 import cc.sven.hexwarriorproton.minefront.service.profiler.ProfilerProvider;
@@ -27,7 +30,7 @@ import java.util.concurrent.Executors;
 @RequiredArgsConstructor
 public class GameLoop extends Canvas implements Runnable {
 
-    // CONST
+    // CONSTANTS
     @NonNull
     public static String GAMELOOP_THREAD_NAME = "GLoop";
 
@@ -47,6 +50,8 @@ public class GameLoop extends Canvas implements Runnable {
     private final ScreenComposer screenComposer;
     @NonNull
     private final GameTemplate game;
+    @NonNull
+    private final InputChannelService inputChannelService;
 
 
     // IMAGE RENDERING
@@ -63,13 +68,21 @@ public class GameLoop extends Canvas implements Runnable {
     private boolean running = false;
 
 
-    // PROFILER
     @Nullable
     private SetJFrameTitleStrategy setJFrameTitleStrategy;
 
 
+    // INPUT
+    @Nullable
+    private KeyboardInput keyboardInput;
+    @Nullable
+    private MouseInput mouseInput;
+
+
     @PostConstruct
     public void postConstruct() {
+
+        // CANVAS SIZE
         final Dimension canvasSize = new Dimension(rendererProperties.getScaledWidth(), rendererProperties.getScaledHeight());
         setSize(canvasSize);
         setPreferredSize(canvasSize);
@@ -77,9 +90,30 @@ public class GameLoop extends Canvas implements Runnable {
         setMaximumSize(canvasSize);
         setIgnoreRepaint(true);
 
+
+        // RENDER BACKBUFFERHANDLER
         if (rendererProperties.getComposer().isParallelizedBackBufferHandler()) {
             backBufferExecuter = Executors.newFixedThreadPool(1);
         }
+
+
+        // INPUT
+        inputChannelService.getSubject() // @TODO die beiden Inputs werden direkt verdrahtet mit dem service!
+
+        // @TODO AUSLAGERN IN INPUT PROVIDER
+        keyboardInput = new KeyboardInput();
+        mouseInput = new MouseInput();
+
+
+        addKeyListener(keyboardInput);
+        addMouseListener(mouseInput);
+        addMouseMotionListener(mouseInput);
+
+
+        // DISABLE MOUSE CURSOR BY DEFAULT
+        this.setCursor(this.getToolkit().createCustomCursor(
+                new BufferedImage(3, 3, BufferedImage.TYPE_INT_ARGB), new Point(0, 0),
+                "null"));
 
     }
 
