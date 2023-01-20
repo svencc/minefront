@@ -90,38 +90,33 @@ public class GameLoop extends Canvas implements Runnable {
         setMaximumSize(canvasSize);
         setIgnoreRepaint(true);
 
-
         // RENDER BACKBUFFERHANDLER
         if (rendererProperties.getComposer().isParallelizedBackBufferHandler()) {
             backBufferExecuter = Executors.newFixedThreadPool(1);
         }
 
-
         // INPUT
-        inputChannelService.getSubject() // @TODO die beiden Inputs werden direkt verdrahtet mit dem service!
+//        inputChannelService.getSubject() // @TODO die beiden Inputs werden direkt verdrahtet mit dem service!
 
         // @TODO AUSLAGERN IN INPUT PROVIDER
-        keyboardInput = new KeyboardInput();
-        mouseInput = new MouseInput();
-
-
+        // -> handler statt mit new erzeuge als component; über provider?
+        keyboardInput = new KeyboardInput(inputChannelService);
+        mouseInput = new MouseInput(inputChannelService);
         addKeyListener(keyboardInput);
         addMouseListener(mouseInput);
         addMouseMotionListener(mouseInput);
 
-
         // DISABLE MOUSE CURSOR BY DEFAULT
-        this.setCursor(this.getToolkit().createCustomCursor(
-                new BufferedImage(3, 3, BufferedImage.TYPE_INT_ARGB), new Point(0, 0),
-                "null"));
-
+//        this.setCursor(this.getToolkit().createCustomCursor(
+//                new BufferedImage(3, 3, BufferedImage.TYPE_INT_ARGB), new Point(0, 0),
+//                "null"));
     }
 
     // GAMELOOP RUNNABLE METHODS
     public synchronized void start(@NonNull final SetJFrameTitleStrategy setJFrameTitleStrategy) {
         this.setJFrameTitleStrategy = setJFrameTitleStrategy;
 
-        bufferedImage = new BufferedImage(rendererProperties.getWidth(), rendererProperties.getHeight(), BufferedImage.TYPE_INT_RGB);
+        bufferedImage = new BufferedImage(rendererProperties.getWidth(), rendererProperties.getHeight(), BufferedImage.TYPE_INT_RGB); // @TODO Initialisieren
         bufferedImagePixelRaster = ((DataBufferInt) bufferedImage.getRaster().getDataBuffer()).getData();
 
         running = true;

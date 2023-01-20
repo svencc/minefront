@@ -5,7 +5,6 @@ import cc.sven.hexwarriorproton.minefront.engine.graphics.Scanable;
 import cc.sven.hexwarriorproton.minefront.property.RendererProperties;
 import cc.sven.hexwarriorproton.minefront.service.argb.ARGBCalculatorProvider;
 import lombok.NonNull;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.CountDownLatch;
@@ -15,14 +14,12 @@ import java.util.concurrent.Executors;
 @Component
 class MultithreadedSoftwareRenderer extends RendererTemplate {
 
-    @Nullable
-    private ExecutorService multithreadedExecutorService;
+    @NonNull
+    private final ExecutorService multithreadedExecutorService;
 
     MultithreadedSoftwareRenderer(@NonNull final RendererProperties rendererProperties, @NonNull final ARGBCalculatorProvider argbCalculatorProvider) {
         super(rendererProperties, argbCalculatorProvider);
-        if (rendererProperties.isParallelizedRendering()) {
-            multithreadedExecutorService = Executors.newFixedThreadPool(rendererProperties.getThreadPoolSize());
-        }
+        multithreadedExecutorService = Executors.newFixedThreadPool(rendererProperties.getThreadPoolSize());
     }
 
     @Override

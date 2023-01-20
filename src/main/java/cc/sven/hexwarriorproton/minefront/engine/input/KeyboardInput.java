@@ -1,25 +1,20 @@
 package cc.sven.hexwarriorproton.minefront.engine.input;
 
-import cc.sven.hexwarriorproton.minefront.engine.observers.HasSubject;
-import cc.sven.hexwarriorproton.minefront.engine.observers.Subject;
-import cc.sven.hexwarriorproton.minefront.engine.observers.Subjective;
-import lombok.Getter;
+import cc.sven.hexwarriorproton.minefront.service.InputChannelService;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class KeyboardInput implements KeyListener, HasSubject {
+@RequiredArgsConstructor
+public class KeyboardInput implements KeyListener {
 
-    @Getter
     @NonNull
-    private Subjective subject = new Subject();
-
-
-
-
+    private final InputChannelService inputChannelService;
     private boolean up, down, left, right;
-    private boolean[] keys = new boolean[120];
+    private boolean[] keys = new boolean[999];
+
 
     public void update() {
         up = keys[KeyEvent.VK_W];
